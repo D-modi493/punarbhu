@@ -1,0 +1,880 @@
+"""
+Multi-language Knowledge base for Punarbhu website
+Contains accurate information in English, Hindi, and Marathi
+"""
+import re
+import unicodedata
+
+# ====================================================================
+# ENGLISH KNOWLEDGE BASE
+# ====================================================================
+Punarbhu_KNOWLEDGE_EN = """
+=== Punarbhu - OFFICIAL INFORMATION ===
+
+Website Name: Punarbhu (पुनर्भू  )
+Official Website URL: https://punarbhu.safevaults.in
+
+=== OFFICE INFORMATION ===
+Office Name: Buldhana Collector Office
+Location: Buldhana, Maharashtra, India
+
+Office Hours:
+- Monday to Friday: 10:00 AM to 5:30 PM
+- Saturday: 10:00 AM to 2:00 PM
+- Sunday: Closed
+- Public Holidays: Closed
+
+=== ABOUT Punarbhu ===
+Punarbhu is a land records management system for Buldhana District.
+It provides digital access to land records, property information, and related government services.
+
+=== SERVICES PROVIDED ===
+1. Land Records Viewing
+2. Property Registration Information
+3. Land Ownership Verification
+4. Certificate Services (7/12 Extract, Property Card)
+5. Online Application Submission
+6. Land Maps and Survey Information
+
+=== CONTACT INFORMATION ===
+Office: Buldhana Collector Office
+District: Buldhana
+State: Maharashtra
+Country: India
+Website: https://punarbhu.safevaults.in
+"""
+
+# ====================================================================
+# HINDI KNOWLEDGE BASE
+# ====================================================================
+Punarbhu_KNOWLEDGE_HI = """
+=== पुनर्भू   - आधिकारिक जानकारी ===
+
+वेबसाइट का नाम: पुनर्भू  
+आधिकारिक वेबसाइट URL: https://punarbhu.safevaults.in
+
+=== कार्यालय की जानकारी ===
+कार्यालय का नाम: बुलढाणा जिलाधिकारी कार्यालय
+स्थान: बुलढाणा, महाराष्ट्र, भारत
+
+कार्यालय समय:
+- सोमवार से शुक्रवार: सुबह 10:00 बजे से शाम 5:30 बजे तक
+- शनिवार: सुबह 10:00 बजे से दोपहर 2:00 बजे तक
+- रविवार: बंद
+- सार्वजनिक अवकाश: बंद
+
+=== पुनर्भू   के बारे में ===
+पुनर्भू   बुलढाणा जिले के लिए भूमि अभिलेख प्रबंधन  है।
+यह भूमि अभिलेख, संपत्ति की जानकारी और संबंधित सरकारी सेवाओं तक डिजिटल पहुंच प्रदान करती है।
+
+=== प्रदान की जाने वाली सेवाएं ===
+1. भूमि अभिलेख देखना
+2. संपत्ति पंजीकरण की जानकारी
+3. भूमि स्वामित्व सत्यापन
+4. प्रमाणपत्र सेवाएं (7/12 उद्धरण, संपत्ति कार्ड)
+5. ऑनलाइन आवेदन जमा करना
+6. भूमि मानचित्र और सर्वेक्षण जानकारी
+
+=== संपर्क जानकारी ===
+कार्यालय: बुलढाणा जिलाधिकारी कार्यालय
+जिला: बुलढाणा
+राज्य: महाराष्ट्र
+देश: भारत
+वेबसाइट: https://punarbhu.safevaults.in
+"""
+
+# ====================================================================
+# MARATHI KNOWLEDGE BASE
+# ====================================================================
+Punarbhu_KNOWLEDGE_MR = """
+=== पुनर्भू   - अधिकृत माहिती ===
+
+संकेतस्थळाचे नाव: पुनर्भू  
+अधिकृत संकेतस्थळ URL: https://punarbhu.safevaults.in
+
+=== कार्यालयाची माहिती ===
+कार्यालयाचे नाव: बुलढाणा जिल्हाधिकारी कार्यालय
+स्थान: बुलढाणा, महाराष्ट्र, भारत
+
+कार्यालयाचे वेळ:
+- सोमवार ते शुक्रवार: सकाळी 10:00 ते संध्याकाळी 5:30
+- शनिवार: सकाळी 10:00 ते दुपारी 2:00
+- रविवार: बंद
+- सार्वजनिक सुट्ट्या: बंद
+
+=== पुनर्भू  बद्दल ===
+पुनर्भू   बुलढाणा जिल्ह्यासाठी जमीन नोंदी व्यवस्थापन  आहे।
+ही जमीन नोंदी, मालमत्ता माहिती आणि संबंधित सरकारी सेवांमध्ये डिजिटल प्रवेश प्रदान करते।
+
+=== प्रदान केलेल्या सेवा ===
+1. जमीन नोंदी पाहणे
+2. मालमत्ता नोंदणी माहिती
+3. जमीन मालकी पडताळणी
+4. प्रमाणपत्र सेवा (7/12 उतारा, मालमत्ता कार्ड)
+5. ऑनलाइन अर्ज सादर करणे
+6. जमीन नकाशे आणि सर्वेक्षण माहिती
+
+=== संपर्क माहिती ===
+कार्यालय: बुलढाणा जिल्हाधिकारी कार्यालय
+जिल्हा: बुलढाणा
+राज्य: महाराष्ट्र
+देश: भारत
+संकेतस्थळ: https://punarbhu.safevaults.in
+"""
+
+# ====================================================================
+# LANGUAGE MAPPING
+# ====================================================================
+KNOWLEDGE_BASES = {
+    'en': Punarbhu_KNOWLEDGE_EN,
+    'hi': Punarbhu_KNOWLEDGE_HI,
+    'mr': Punarbhu_KNOWLEDGE_MR
+}
+
+# ====================================================================
+# RESPONSE KEYS MAP
+# ====================================================================
+RESPONSE_KEYS_MAP = {
+    # 'office_hours_responses':{
+    #      'en': (
+    #         "Office Hours:\n"
+    #         "- Monday to Friday: 10:00 AM to 5:30 PM\n"
+    #         "- Saturday: 10:00 AM to 2:00 PM\n"   
+    #         "- Sunday: Closed\n"
+    #         "- Public Holidays: Closed\n"
+    #      ),
+
+    #      'hi': ("कार्यालय समय:\n"
+    #             "- सोमवार से शुक्रवार: सुबह 10:00 बजे से शाम 5:30 बजे तक\n"
+    #             "- शनिवार: सुबह 10:00 बजे से दोपहर 2:00 बजे तक\n"
+    #             "- रविवार: बंद\n"
+    #             "- सार्वजनिक अवकाश: बंद\n"),
+
+    #      'mr': ("कार्यालयाचे वेळ:\n"
+    #             "- सोमवार ते शुक्रवार: सकाळी 10:00 ते संध्याकाळी 5:30\n"
+    #             "- शनिवार: सकाळी 10:00 ते दुपारी 2:00\n"
+    #             "- रविवार: बंद\n"
+    #             "- सार्वजनिक सुट्ट्या: बंद\n")
+    # },
+
+    'create_project': {
+        'en': ("There are two way to create project..\n"
+               "Login with Samanvay Officer.\n"
+               "Method 1: Click on Add New Project button on Dashboard and fill it form. and on this page select category as well.\n"
+               "Method 2: On Sidebar - Create/Edit Project -> Click on New Project button fill the form and select category.\n"
+            ),
+
+        'hi': ("प्रोजेक्ट(प्रकल्प) बनाने के दो तरीके हैं...\n"
+               "समन्वय ऑफिसर से लॉग इन करें।\n"
+               "तरीका 1: डैशबोर्ड पर नविन प्रकल्प बटन पर क्लिक करें और फॉर्म भरें। साथ ही, इस पेज पर श्रेणी का चयन करें।\n"
+               "तरीका 2: साइडबार - प्रकल्प व्यवस्थापन  -> नविन प्रकल्प बटन पर क्लिक करें, फॉर्म भरें और श्रेणी का चयन करें।\n"
+            ),
+        'mr': ("प्रोजेक्ट(प्रकल्प) तयार करण्याचे दोन मार्ग आहेत..\n"
+               "समन्वय ऑफिसर सोबत लॉगिन करा.\n"
+               "पद्धत १: डॅशबोर्डवरील नवीन प्रकल्प बटणावर क्लिक करा आणि तो फॉर्म भरा. आणि या पृष्ठावर श्रेणी देखील निवडा.\n"
+               "पद्धत २: साइडबारवर - प्रकल्प व्यवस्थापन -> नवीन प्रकल्प बटणावर क्लिक करा फॉर्म भरा आणि श्रेणी निवडा.\n"
+            )
+    },
+
+    'category_of_project_creation' : {
+        'en': (
+            "There are three categories for project creation:\n"
+            "1) General\n"
+            "2) Highway\n"
+            "3) Railway"
+        ),
+        
+        'hi': (
+            "प्रोजेक्ट(प्रकल्प) बनाने के लिए तीन category हैं:\n"
+            "1) General(सामान्य)\n"
+            "2) Highway(राजमार्ग)\n"
+            "3) Railway(रेलवे)"
+        ),
+
+        'mr': (  # ← FIXED: Changed from 'en' to 'mr'
+            "प्रोजेक्ट(प्रकल्प) तयार करण्यासाठी तीन category आहेत:\n"
+            "1) General(सामान्य)\n"
+            "2) Highway(महामार्ग)\n"
+            "3) Railway(रेल्वे)"
+        )
+    },
+
+    'change_project' : {
+        'en': ("On dashboard page click on Change Project then select project and proposal."),
+        'hi': ("डैशबोर्ड पेज पर 'प्रकल्प बदला' पर क्लिक करें, फिर प्रोजेक्ट और प्रस्ताव का चयन करें।"),
+        'mr': ("डॅशबोर्ड पेजवर प्रकल्प जोडा वर क्लिक करा आणि नंतर प्रकल्प आणि प्रपोजल निवडा.")
+    },
+
+    # 'summary_check' : {
+    #     'en' : ("On dashboard page click on Summary then check and download current status of all land acquistion(Punarbhu) cases of project"),
+    #     'hi' : ("डैशबोर्ड पेज पर 'सारांश' पर क्लिक करें, फिर परियोजना के सभी भूमि अधिग्रहण(पुनर्भू ) मामलों की वर्तमान स्थिति जांचें और डाउनलोड करें।"),
+    #     'mr' : ("डॅशबोर्ड पेजवर सारांश वर क्लिक करा आणि नंतर प्रकल्पाच्या सर्व जमीन अधिग्रहण(पुनर्भू ) प्रकरणांची सद्यस्थिती तपासा आणि डाउनलोड करा.")
+    # },
+
+    
+    # "land_acquisition_status" : {
+    #     'en': ("On dashboard page click on blue summary button which is right side of Add Project and the find or search project and in Land acquistion cloumn check status:\n"
+    #            "if symbol is ✔️ so land acquisition process is complete\n"
+    #            "if symbol is ❌ so land acquisition process is incomplete"),
+    #     'hi': ("डैशबोर्ड पेज पर, 'प्रकल्प जोड़ा' के दाईं ओर स्थित नीले 'Summary' बटन पर क्लिक करें और 'प्रोजेक्ट खोजें' या 'Land acquistion' कॉलम में 'स्थिति' जांचें:\n"
+    #            "यदि चिह्न ✔️ है, तो भूमि अधिग्रहण प्रक्रिया पूरी हो चुकी है\n"
+    #            "यदि चिह्न ❌ है, तो भूमि अधिग्रहण प्रक्रिया अधूरी है"),
+    #     'mr': ("डॅशबोर्ड पेजवर, प्रकल्प जोड़ा आणि शोधा किंवा शोधा या बटणाच्या उजव्या बाजूला असलेल्या निळ्या Summary बटणावर क्लिक करा आणि Land acquistion क्लाउममध्ये स्थिती तपासा:\n"
+    #            "जर चिन्ह ✔️ असेल तर जमीन अधिग्रहण प्रक्रिया पूर्ण झाली आहे\n"
+    #            "जर चिन्ह ❌ असेल तर जमीन अधिग्रहण प्रक्रिया अपूर्ण आहे")
+    # },
+
+    # "advance_payment_status" : {
+    #     'en': ("On dashboard page click on blue summary button which is right side of Add Project and the find or search project and in ADV_Payment cloumn check status:\n"
+    #            "if symbol is ✔️ so advance payment process is complete\n"
+    #            "if symbol is ❌ so advance payment process is incomplete"),
+    #     'hi': ("डैशबोर्ड पेज पर, 'प्रकल्प जोड़ा' के दाईं ओर स्थित नीले 'Summary' बटन पर क्लिक करें और 'प्रोजेक्ट खोजें' या 'ADV_Payment' कॉलम में 'स्थिति' जांचें:\n"
+    #            "यदि चिह्न ✔️ है, तो advance payment प्रक्रिया पूरी हो चुकी है\n"
+    #            "यदि चिह्न ❌ है, तो advance payment प्रक्रिया अधूरी है"),
+    #     'mr': ("डॅशबोर्ड पेजवर, प्रकल्प जोड़ा आणि शोधा किंवा शोधा या बटणाच्या उजव्या बाजूला असलेल्या निळ्या Summary बटणावर क्लिक करा आणि ADV_Payment क्लाउममध्ये स्थिती तपासा:\n"
+    #            "जर चिन्ह ✔️ असेल तर advance payment प्रक्रिया पूर्ण झाली आहे\n"
+    #            "जर चिन्ह ❌ असेल तर advance payment प्रक्रिया अपूर्ण आहे")
+    # },
+
+    'edit_project' : {
+        'en': ("Samanvay Officer and Project Incharge Officer can do edit project.Go to Create/Edit Project and click on Edit button."),
+        'hi': ("समन्वय ऑफिसर और प्रोजेक्ट इंचार्ज ऑफिसर प्रोजेक्ट में बदलाव कर सकते हैं। प्रकल्प व्यवस्थापन में जाएं और संपादित बटन पर क्लिक करें।"),
+        'mr': ("समन्वय ऑफिसर आणि प्रोजेक्ट इंचार्ज ऑफिसर प्रकल्प संपादित करू शकतात.प्रकल्प व्यवस्थापन विभागात जा आणि संपादन करा बटणावर क्लिक करा.")
+    },
+
+    'create_proposal' : {
+        'en' : ("Login with Project Incharge Officer.Go to Create/Edit Proposal on Sidebar, and top of the page you can see Add Proposal and fill the form."),
+        'hi' : ("प्रोजेक्ट इंचार्ज ऑफिसर के रूप में लॉग इन करें। साइडबार में प्रस्ताव व्यवस्थापन पर जाएं, और पेज के ऊपरी भाग में आपको प्रस्ताव जोड़े(बनाएं) दिखाई देगा, जहां आप फॉर्म भर सकते हैं।"),
+        'mr' : ("प्रोजेक्ट इन्चार्ज ऑफिसरकडे लॉगिन करा.साइडबारवरील पुनर्भू  प्रस्ताव  वर जा आणि पेजच्या वरच्या बाजूला तुम्हाला प्रस्ताव तयार करा दिसेल आणि फॉर्म भरा.")
+    },
+
+    'edit_proposal' : {
+        'en' : ("Login with Project Incharge Officer.Go to Create/Edit Proposal on sidebar, and in Action column you can see edit button so click on it."),
+        'hi' : ("प्रोजेक्ट इंचार्ज ऑफिसर के रूप में लॉगिन करें। साइडबार में प्रस्ताव व्यवस्थापन पर जाएं, और एक्शन कॉलम में आपको एडिट बटन दिखाई देगा, उस पर क्लिक करें।"),
+        'mr' : ("प्रोजेक्ट इन्चार्ज ऑफिसरसह लॉगिन करा. साइडबारवरील पुनर्भू  प्रस्ताव वर जा आणि अ‍ॅक्शन कॉलममध्ये तुम्हाला एडिट बटण दिसेल, म्हणून त्यावर क्लिक करा.")
+    },
+
+    'check_print_and_download_proposal' : {
+        'en' : ("Samanvay Officer and Project Incharge Officer can check proposal(नमुना क).Go to Create/Edit Proposal and click on Action button."),
+        'hi' : ("समन्वय ऑफिसर और प्रोजेक्ट इंचार्ज ऑफिसर प्रस्ताव(नमुना क) की जांच कर सकते हैं। प्रस्ताव व्यवस्थापन पर जाएं और कार्य बटन पर क्लिक करें।"),
+        'mr' : ("समन्वय ऑफिसर आणि प्रोजेक्ट इंचार्ज ऑफिसर प्रस्ताव (नमुना क) तपासू शकतात. पुनर्भू  प्रस्ताव जा आणि क्रिया बटणावर क्लिक करा.") 
+    },
+
+    'add_landholding' : {
+        'en' : ("Login with Project Incharge Officer.Go to Land Holder's Detail on sidebar, and top of the page you can see Add Landholding button so click on it."),
+        'hi' : ("प्रोजेक्ट इंचार्ज ऑफिसर के रूप में लॉगिन करें। साइडबार में जमीनधारकांची संपादन पर जाएं, और पृष्ठ के शीर्ष पर आपको जमीन मालिकी जोड़ा बटन दिखाई देगा, उस पर क्लिक करें।"),
+        'mr' : ("प्रोजेक्ट इन्चार्ज ऑफिसरसह लॉगिन करा. साइडबारवरील भूधारकाची माहिती वर जा आणि  आणि पृष्ठाच्या वर तुम्हाला नवीन भूधारक समाविष्ट करा बटण दिसेल, म्हणून त्यावर क्लिक करा.")
+    },
+
+    'check_land_holding_records' : {
+        'en' : ("Samanvay Officer and Project Incharge Officer can check All Landholding Records.Go to Land Holder's Detail and click on All Records button so you can see all records."),
+        'hi' : ("समन्वय ऑफिसर और प्रोजेक्ट इंचार्ज ऑफिसर सभी भूमि स्वामित्व अभिलेखों की जांच कर सकते हैं। जमीनधारकांची संपादन पर जाएं और सभी अभिलेख देखने के लिए सभी रिकॉर्ड बटन पर क्लिक करें।"),
+        'mr' : ("समन्वय ऑफिसर आणि प्रोजेक्ट इंचार्ज ऑफिसर सर्व जमीन मालकी नोंदी तपासू शकतात. भूधारकाची माहिती वर जा आणि  आणि सर्व नोंदी बटणावर क्लिक करा जेणेकरून तुम्हाला सर्व नोंदी दिसतील.")
+    },
+
+    'edit_or_delete_records' : {
+        'en' : ("Login with Project Incharge Officer.Go to Land Holder's Detail on sidebar, and in action column you can see the Edit and delete button so if you need to edit records so click on edit and if you need to delete records so click on delete. "),
+        'hi' : ("प्रोजेक्ट इंचार्ज ऑफिसर के रूप में लॉग इन करें। साइडबार में जमीनधारकांची संपादन पर जाएं, और एक्शन कॉलम में आपको एडिट और डिलीट बटन दिखाई देंगे। यदि आपको रिकॉर्ड एडिट करना हैं तो एडिट पर क्लिक करें और यदि आपको रिकॉर्ड डिलीट करना हैं तो डिलीट पर क्लिक करें।"),
+        'mr' : ("प्रोजेक्ट इन्चार्ज ऑफिसरसह लॉगिन करा. साइडबारवरील भूधारकाची माहिती वर जा आणि  जा आणि एकशन कॉलममध्ये तुम्हाला एडिट आणि डिलीट बटण दिसेल, म्हणून जर तुम्हाला रेकॉर्ड एडिट करायचा असेल तर एडिट वर क्लिक करा आणि जर तुम्हाला रेकॉर्ड डिलीट करायचा असेल तर डिलीट वर क्लिक करा.")
+    },
+
+    'land_acuistion_report' : {
+        'en' : ("Samanvay Officer,LAO,DSLR and Project Incharge Officer can check and download Land Acquisition report.Go to Land Holder's Detail and click on Report so report will open and click on download button for download report."),
+        'hi' : ("समन्वय ऑफिसर,LAO,DSLR और प्रोजेक्ट इंचार्ज ऑफिसर भूमि अधिग्रहण रिपोर्ट देख और डाउनलोड कर सकते हैं। जमीनधारकांची संपादन पर जाएं और रिपोर्ट पर क्लिक करें, जिससे रिपोर्ट खुल जाएगी। रिपोर्ट डाउनलोड करने के लिए डाउनलोड बटन पर क्लिक करें।"),
+        'mr' : ("समन्वय ऑफिसर,LAO,DSLR आणि प्रोजेक्ट इंचार्ज ऑफिसर पुनर्भू  अहवाल तपासू आणि डाउनलोड करू शकतात. भूधारकाची माहिती वर जा आणि  आणि अहवाल वर क्लिक करा म्हणजे अहवाल उघडेल आणि डाउनलोड अहवालासाठी डाउनलोड बटणावर क्लिक करा.")
+    },
+
+    'appendix_1' : {
+        'en' : ("Samanvay Officer,LAO,DSLR and Project Incharge Officer can check and downlod Appendix 1 and upload signature in its.Go to Land Holder's Detail and click on Appendix 1 so Appendix 1 will open."),
+        'hi' : ("समन्वय ऑफिसर,LAO,DSLR और प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट १  की जांच और डाउनलोड कर सकते हैं और उस पर हस्ताक्षर अपलोड कर सकते हैं। जमीनधारकांची संपादन पर जाएं और परिशिष्ट १ पर क्लिक करें, जिससे परिशिष्ट १ खुल जाएगा।"),
+        'mr' : ("समन्वय ऑफिसर,LAO,DSLR आणि प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट १ तपासू शकतात आणि डाउनलोड करू शकतात आणि त्यात स्वाक्षरी अपलोड करू शकतात. भूधारकाची माहिती वर जा आणि  आणि परिशिष्ट १ वर क्लिक करा म्हणजे परिशिष्ट १ उघडेल.")
+    },
+
+    'appendix_2' : {
+        'en' : ("Samanvay Officer,LAO,DSLR and Project Incharge Officer can check and downlod Appendix 2 and upload signature in its.Go to Land Holder's Detail and click on Appendix 2 so Appendix 2 will open."),
+        'hi' : ("समन्वय ऑफिसर,LAO,DSLR और प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट २ की जांच और डाउनलोड कर सकते हैं और उस पर हस्ताक्षर अपलोड कर सकते हैं। जमीनधारकांची संपादन पर जाएं और परिशिष्ट २ पर क्लिक करें, जिससे परिशिष्ट २ खुल जाएगा।"),
+        'mr' : ("समन्वय ऑफिसर,LAO,DSLR आणि प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट २ तपासू शकतात आणि डाउनलोड करू शकतात आणि त्यात स्वाक्षरी अपलोड करू शकतात. भूधारकाची माहिती वर जा आणि  आणि परिशिष्ट २ वर क्लिक करा म्हणजे परिशिष्ट २ उघडेल.")
+    },
+
+    'appendix_3' : {
+        'en' : ("Samanvay Officer,LAO,DSLR and Project Incharge Officer can check and downlod Appendix 3 and upload signature in its.Go to Land Holder's Detail and click on Appendix 3 so Appendix 3 will open."),
+        'hi' : ("समन्वय ऑफिसर,LAO,DSLR और प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट ३ की जांच और डाउनलोड कर सकते हैं और उस पर हस्ताक्षर अपलोड कर सकते हैं। जमीनधारकांची संपादन पर जाएं और परिशिष्ट ३ पर क्लिक करें, जिससे परिशिष्ट ३ खुल जाएगा।"),
+        'mr' : ("समन्वय ऑफिसर,LAO,DSLR आणि प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट ३ तपासू शकतात आणि डाउनलोड करू शकतात आणि त्यात स्वाक्षरी अपलोड करू शकतात. भूधारकाची माहिती वर जा आणि  आणि परिशिष्ट ३ वर क्लिक करा म्हणजे परिशिष्ट ३ उघडेल.")
+    },
+
+    'appendix_4' : {
+        'en' : ("Samanvay Officer,LAO,DSLR and Project Incharge Officer can check and downlod Appendix 4 and upload signature in its.Go to Land Holder's Detail and click on Appendix 4 so Appendix 4 will open."),
+        'hi' : ("समन्वय ऑफिसर,LAO,DSLR और प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट ४  की जांच और डाउनलोड कर सकते हैं और उस पर हस्ताक्षर अपलोड कर सकते हैं। जमीनधारकांची संपादन पर जाएं और परिशिष्ट ४ पर क्लिक करें, जिससे परिशिष्ट ४ खुल जाएगा।"),
+        'mr' : ("समन्वय ऑफिसर,LAO,DSLR आणि प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट ४  तपासू शकतात आणि डाउनलोड करू शकतात आणि त्यात स्वाक्षरी अपलोड करू शकतात. भूधारकाची माहिती वर जा आणि  आणि परिशिष्ट ४ वर क्लिक करा म्हणजे परिशिष्ट ४ उघडेल.")
+    },
+
+    'appendix_5' : {
+        'en' : ("Samanvay Officer,LAO,DSLR and Project Incharge Officer can check and downlod Appendix 5 and upload signature in its.Go to Land Holder's Detail and click on Appendix 5 so Appendix 5 will open."),
+        'hi' : ("समन्वय ऑफिसर,LAO,DSLR और प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट ५ की जांच और डाउनलोड कर सकते हैं और उस पर हस्ताक्षर अपलोड कर सकते हैं। जमीनधारकांची संपादन पर जाएं और परिशिष्ट ५ पर क्लिक करें, जिससे परिशिष्ट ५ खुल जाएगा।"),
+        'mr' : ("समन्वय ऑफिसर,LAO,DSLR आणि प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट ५ तपासू शकतात आणि डाउनलोड करू शकतात आणि त्यात स्वाक्षरी अपलोड करू शकतात. भूधारकाची माहिती वर जा आणि  आणि परिशिष्ट ५ वर क्लिक करा म्हणजे परिशिष्ट ५ उघडेल.")
+    },
+
+    'appendix_6' : {
+        'en' : ("Samanvay Officer,LAO,DSLR and Project Incharge Officer can check and downlod Appendix 6 and upload signature in its.Go to Land Holder's Detail and click on Appendix 6 so Appendix 6 will open."),
+        'hi' : ("समन्वय ऑफिसर,LAO,DSLR और प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट ६ की जांच और डाउनलोड कर सकते हैं और उस पर हस्ताक्षर अपलोड कर सकते हैं। जमीनधारकांची संपादन पर जाएं और परिशिष्ट ६ पर क्लिक करें, जिससे परिशिष्ट ६ खुल जाएगा।"),
+        'mr' : ("समन्वय ऑफिसर,LAO,DSLR आणि प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट ६ तपासू शकतात आणि डाउनलोड करू शकतात आणि त्यात स्वाक्षरी अपलोड करू शकतात. भूधारकाची माहिती वर जा आणि  आणि परिशिष्ट ६ वर क्लिक करा म्हणजे परिशिष्ट ६ उघडेल.")
+    },
+
+    'appendix_7' : {
+        'en' : ("Samanvay Officer,LAO,DSLR and Project Incharge Officer can check and downlod Appendix 7 and upload signature in its.Go to Land Holder's Detail and click on Appendix 7 so Appendix 7 will open."),
+        'hi' : ("समन्वय ऑफिसर,LAO,DSLR और प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट ७ की जांच और डाउनलोड कर सकते हैं और उस पर हस्ताक्षर अपलोड कर सकते हैं। जमीनधारकांची संपादन पर जाएं और परिशिष्ट ७ पर क्लिक करें, जिससे परिशिष्ट ७ खुल जाएगा।"),
+        'mr' : ("समन्वय ऑफिसर,LAO,DSLR आणि प्रोजेक्ट इंचार्ज ऑफिसर परिशिष्ट ७ तपासू शकतात आणि डाउनलोड करू शकतात आणि त्यात स्वाक्षरी अपलोड करू शकतात. भूधारकाची माहिती वर जा आणि  आणि परिशिष्ट ७ वर क्लिक करा म्हणजे परिशिष्ट ७ उघडेल.")
+    },
+
+    'other_land_proposal_certificates' : {
+        'en' : ("Samanvay Officer,LAO and Project Incharge Officer can check and download other land proposal certficates.Go to Land Holder's Detail and click on other certificate and select your certficate in listview so certificate will open in bottom and you can download it."),
+        'hi' : ("समन्वय ऑफिसर,LAO और प्रोजेक्ट इंचार्ज ऑफिसर अन्य भूमि प्रस्ताव प्रमाणपत्रों की जांच और डाउनलोड कर सकते हैं। जमीनधारकांची संपादन पर जाएं और अन्य प्रमाणपत्र पर क्लिक करें। सूची दृश्य में अपना प्रमाणपत्र चुनें, जिससे प्रमाणपत्र नीचे खुल जाएगा और आप इसे डाउनलोड कर सकते हैं।"),
+        'mr' : ("समन्वय ऑफिसर,LAO आणि प्रोजेक्ट इंचार्ज ऑफिसर इतर जमीन प्रस्ताव प्रमाणपत्रे तपासू आणि डाउनलोड करू शकतात. भूधारकाची माहिती वर जा आणि इतर प्रमाणपत्रांवर क्लिक करा. लिस्टव्ह्यूमध्ये तुमचे प्रमाणपत्र निवडा म्हणजे प्रमाणपत्र तळाशी उघडेल आणि तुम्ही ते डाउनलोड करू शकता.")
+    },
+
+    'send_land_records_to_samanvay_officer' : {
+        'en' : ("Login with Project Incharge Officer.Go to Land Holder's Detail on sidebar,and top of the page you can see Send to Samanvay Officer button so click on it."),
+        'hi' : ("प्रोजेक्ट इंचार्ज ऑफिसर के रूप में लॉगिन करें। साइडबार में जमीनधारकांची संपादन पर जाएं, और पृष्ठ के शीर्ष पर आपको समन्वय अधिकारी को भेजें बटन दिखाई देगा, उस पर क्लिक करें।"),
+        'mr' : ("प्रोजेक्ट इन्चार्ज ऑफिसरसह लॉगिन करा. साइडबारवरील भूधारकाची माहिती वर जा आणि पृष्ठाच्या वर तुम्हाला समन्वय अधिकाऱ्यांना पाठवा बटण दिसेल, म्हणून त्यावर क्लिक करा.")
+    },
+
+    'send_land_records_to_respected_collector' : {
+        'en' : ("Login with Samanvay Officer.Go to Land Holder's Detail on sidebar,and top of the page you can see Send to Respected.Collector button so click on it."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइडबार में जमीनधारकांची संपादन पर जाएं, और पृष्ठ के शीर्ष पर आपको कलेक्टर को भेजें बटन दिखाई देगा, उस पर क्लिक करें।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा. साइडबारवरील भूधारकाची माहिती वर जा आणि पृष्ठाच्या वर तुम्हाला मां.जिल्हाधिकारी यांच्याकडे पाठवा बटण दिसेल, म्हणून त्यावर क्लिक करा.")
+    },
+
+    'assign_dro' : {
+        'en' : ("Samanvay Officer or LAO can Assign DRO.Go to Publication Prelimiary Notification on sidebar,and top of the page you can see Assign DRO button so click on it and choose file for Assign DRO."),
+        'hi' : ("समन्वय अधिकारी या LAO डीआरओ को नियुक्त कर सकते हैं। साइडबार में प्राथमिक अधिसूचना पर जाएं, और पृष्ठ के शीर्ष पर आपको Assign DRO बटन दिखाई देगा, उस पर क्लिक करें और DRO असाइन करने के लिए फ़ाइल चुनें।"),
+        'mr' : ("समन्वय अधिकारी किंवा LAO DRO नियुक्त करू शकता.साइडबारमधील प्रारंभिक सूचना वर जा आणि पृष्ठाच्या वरच्या बाजूला तुम्हाला Assign DRO बटण दिसेल, त्यावर क्लिक करा आणि DRO असाइन करण्यासाठी फाइल निवडा.")
+    },
+
+    'Preliminary_notification_of_section_11' : {
+        'en' : ("Samanvay Officer or LAO can see Preliminary Notification(section-11).Go to Publication Prelimiary Notification on sidebar,and top of the page you can see Priliminary notification(Section-11) button so click on it and you can see and download Preliminary notification."),
+        'hi' : ("समन्वय अधिकारी या LAO प्रारंभिक अधिसूचना (धारा-11) देख सकते हैं। साइडबार में प्राथमिक अधिसूचना पर जाएं, और पृष्ठ के शीर्ष पर आपको प्रारंभिक अधिसूचना (धारा-11) बटन दिखाई देगा, उस पर क्लिक करें और आप प्रारंभिक अधिसूचना देख और डाउनलोड कर सकते हैं।"),
+        'mr' : ("समन्वय अधिकारी किंवा LAO प्राथमिक सूचना (कलम-11) पाहू शकतात. साइडबारमधील प्रारंभिक सूचना वर जा आणि पृष्ठाच्या वरच्या बाजूला तुम्हाला प्रारंभिक अधिसूचना बटण दिसेल, त्यावर क्लिक करा आणि तुम्ही प्रारंभिक अधिसूचना पाहू आणि डाउनलोड करू शकता.")
+    },
+
+    'send_preliminary_notification_to_tehsildar' : {
+        'en' : ("Login with LAO.Go to Publication Prelimiary Notification on sidebar,and top of the page you can see Send to Tehsildar button so click on it and choose file and send."),
+        'hi' : ("LAO से लॉग इन करें। साइडबार में प्राथमिक अधिसूचना पर जाएं, और पृष्ठ के शीर्ष पर आपको तहसीलदार को भेजे बटन दिखाई देगा, उस पर क्लिक करें और फ़ाइल चुनें और भेजें।"),
+        'mr' : ("LAO सह लॉग इन करा.साइडबारमधील प्रारंभिक सूचना वर जा आणि पृष्ठाच्या वरच्या बाजूला तुम्हाला तहसीलदार यांना पाठवा बटण दिसेल, त्यावर क्लिक करा आणि फाइल निवडा आणि पाठवा.")
+    },
+    
+    'publish_publication_preliminary_notification' : {
+        'en' : ("Login with LAO.Go to Publication Prelimiary Notification on sidebar,and top of the page you can see Publication Preliminary Notification button so click on it and you can publish notification."),
+        'hi' : ("LAO से लॉग इन करें। साइडबार में प्राथमिक अधिसूचना पर जाएं, और पृष्ठ के शीर्ष पर आपको प्रकाशन प्रारंभिक अधिसूचना बटन दिखाई देगा, उस पर क्लिक करें और आप नोटिफिकेशन प्रकाशित कर सकते हैं।"),
+        'mr' : ("LAO सह लॉग इन करा.साइडबारमधील प्रारंभिक सूचना वर जा आणि पृष्ठाच्या वरच्या बाजूला तुम्हाला प्रारंभिक अधिसूचना प्रसिद्धी बटण दिसेल, त्यावर क्लिक करा आणि तुम्ही सूचना प्रकाशित करू शकता.")
+    },
+    
+    'send_preliminary_notification_to_dslr' : {
+        'en' : ("Login with LAO.Go to Publication Prelimiary Notification on sidebar,and top of the page you can see Send to DSLR button so click on it and choose file and send."),
+        'hi' : ("LAO से लॉग इन करें। साइडबार में प्राथमिक अधिसूचना पर जाएं, और पृष्ठ के शीर्ष पर आपको DSLR को भेजे बटन दिखाई देगा, उस पर क्लिक करें और फ़ाइल चुनें और भेजें।"),
+        'mr' : ("LAO सह लॉग इन करा.साइडबारमधील प्रारंभिक सूचना वर जा आणि पृष्ठाच्या वरच्या बाजूला तुम्हाला DSLR यांना पाठवा बटण दिसेल, त्यावर क्लिक करा आणि फाइल निवडा आणि पाठवा.")
+    },
+
+    'send_section_11_notification_to_Respected_collector' : {
+        'en' : ("Login with Samanvay Officer.Go to Publication Prelimiary Notification on sidebar,and top of the page you can see Priliminary notification(Section-11) button so click on it and after click on Send to Respected.Collector for send notification to collector."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइडबार में प्राथमिक अधिसूचना पर जाएं, और पृष्ठ के शीर्ष पर आपको प्रारंभिक अधिसूचना (धारा-11) बटन दिखाई देगा, उस पर क्लिक करें और कलेक्टर को सूचना भेजने के लिए कलेक्टर को भेजें पर क्लिक करें।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉग इन करा. साइडबारमधील प्रारंभिक सूचना वर जा आणि पृष्ठाच्या वरच्या बाजूला तुम्हाला प्रारंभिक अधिसूचना बटण दिसेल, त्यावर क्लिक करा आणि नंतर कलेक्टरला सूचना पाठवण्यासाठी मां.जिल्हाधिकारी यांच्याकडे पाठवा वर क्लिक करा.")
+    },
+
+    'send_section_11_notification_to_samanvay_officer' : {
+        'en' : ("Login with LAO.Go to Publication Prelimiary Notification on sidebar,and top of the page you can see Priliminary notification(Section-11) button so click on it and after click on Send to Samanvay Officer for send notification to samanvay."),
+        'hi' : ("LAO से लॉग इन करें। साइडबार में प्राथमिक अधिसूचना पर जाएं, और पृष्ठ के शीर्ष पर आपको प्रारंभिक अधिसूचना (धारा-11) बटन दिखाई देगा, उस पर क्लिक करें और समन्वय अधिकारी को सूचना भेजने के लिए समन्वय अधिकारी को भेजे पर क्लिक करें।"),
+        'mr' : ("LAO सह लॉग इन करा. साइडबारमधील प्रारंभिक सूचना वर जा आणि पृष्ठाच्या वरच्या बाजूला तुम्हाला प्रारंभिक अधिसूचना बटण दिसेल, त्यावर क्लिक करा आणि नंतर समन्वयला सूचना पाठवण्यासाठी समन्वय अधकन्यांना पाठवा वर क्लिक करा.")
+    },
+
+    'published_proposal_details' :  {
+        'en' : ("Login with Samanvay Officer.Go to Publication Prelimiary Notification on sidebar,and click on view details in proposal Details so Proposal Details will open with publication information."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइडबार में प्राथमिक अधिसूचना पर जाएं, और प्रस्ताव विवरण में विवरण देखें पर क्लिक करें, जिससे प्रकाशन संबंधी जानकारी के साथ प्रस्ताव विवरण खुल जाएगा।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉग इन करा. साइडबारमधील प्रारंभिक सूचना वर जा आणि पुनर्भू  प्रकरण तपशील मध्ये तपशील पहा वर क्लिक करा म्हणजे  पुनर्भू  प्रकरण तपशील प्रकाशन माहितीसह उघडेल.")
+    },
+
+    'fund_request_recieved' : {
+        'en' : ("Samanvay Officer,LAO and Project Incharge can check Fund Request/Recieved information.Go to Fund Request/Recieved on sidebar,and check details of Funds required for the proclamation of Section 19 and Funds required for final award"),
+        'hi' : ("समन्वय ऑफिसर,LAO और प्रोजेक्ट इंचार्ज ऑफिसर निधि अनुरोध/प्राप्ति संबंधी जानकारी देख सकते हैं। साइडबार में Fund Request/Recieved अनुभाग पर जाएं और धारा 19 की घोषणा के लिए आवश्यक निधियों और अंतिम आवंटन के लिए आवश्यक निधियों का विवरण देखें।"),
+        'mr' : ("समन्वय ऑफिसर,LAO आणि प्रोजेक्ट इंचार्ज ऑफिसर निधी विनंती/प्राप्त माहिती तपासू शकतात. साइडबारवरील निधीची विनंती वर जा आणि कलम १९ च्या घोषणेसाठी आवश्यक असलेल्या निधीची आणि अंतिम निवाड्यासाठी आवश्यक असलेल्या निधीची माहिती तपासा.")
+    },
+
+    'send_funding_requirement_for_the_proclamation_of_section_19' : {
+        'en' : ("Login with LAO officer.Go to Fund Request/Recieved on sidebar,and click on Send to ProjectIncharge in the Funds required for the proclamation of Section 19."),
+        'hi' : ("LAO से लॉग इन करें। साइडबार में Fund Request/Recieved अनुभाग पर जाएं और धारा 19 की घोषणा के लिए आवश्यक निधियों में प्रोजेक्ट इंचार्ज को भेजे पर क्लिक करें।"),
+        'mr' : ("LAO सह लॉग इन करा.साइडबारमधील Fund Request/Recieved अनुभाग वर जा आणि कलम 19 ची घोषणा करिता आवश्यक निधी मागणी मध्ये प्रोजेक्ट इन्चार्ज पाठवा वर क्लिक करा.")
+    },
+
+    'send_funding_requirement_for_the_final_award' : {
+        'en' : ("Login with LAO officer.Go to Fund Request/Recieved on sidebar,and click on Send to ProjectIncharge in the Funds required for final award."),
+        'hi' : ("LAO से लॉग इन करें। साइडबार में Fund Request/Recieved अनुभाग पर जाएं और अंतिम पुरस्कार के लिए आवश्यक धनराशि में प्रोजेक्ट इंचार्ज को भेजे पर क्लिक करें।"),
+        'mr' : ("LAO सह लॉग इन करा.साइडबारमधील Fund Request/Recieved अनुभाग वर जा आणि अंतिमनिवाडा करिता आवश्यक निधी मागणी मध्ये प्रोजेक्ट इन्चार्ज पाठवा वर क्लिक करा.")
+    },
+
+    'JMR_list' : {
+        'en' : ("Samanvay Officer,Project Incharge,LAO,DSLR,DRO and Surveyor can check and see Joint Measurement List.Go to JMR on sidebar Joint Maesurment List(JMR List) will open so you can check and download it."),
+        'hi' : ("समन्वय ऑफिसर,प्रोजेक्ट इंचार्ज,LAO,DSLR,DRO और सर्वेयर संयुक्त मापन सूची देख सकते हैं। साइडबार में संयुक्त मापन विवरण पर जाएं, संयुक्त मापन सूची (जेएमआर सूची) खुल जाएगी, जिसे आप देख और डाउनलोड कर सकते हैं।"),
+        'mr' : ("समन्वय ऑफिसर,प्रोजेक्ट इंचार्ज,LAO,DSLR,DRO आणि सर्वेयर संयुक्त मोजणी तपासू शकतात आणि पाहू शकतात. साइडबारवरील संयुक्त मोजणी तपशील वर जा संयुक्त मोजणी(JMR यादी) उघडेल जेणेकरून तुम्ही ती तपासू आणि डाउनलोड करू शकता.")
+    },
+
+    'JMR_List_assign_to_surveyor' : {
+        'en' : ("Login with DSLR officer.Go to JMR on sidebar,and click on Assign to Surveyor."),
+        'hi' : ("DSLR ऑफिसर से लॉग इन करें। साइडबार में संयुक्त मापन विवरण पर जाएं, और सर्वेयर को असाइन करें पर क्लिक करें।"),
+        'mr' : ("DSLR ऑफिसरसह लॉगिन करा.साइडबारवरील संयुक्त मोजणी तपशील वर जा, आणि भूकरमापक नियुक्त करा वर क्लिक करा.")
+    },
+
+    'verify_JMR_list_and_re-send_back_to_dslr' : {
+        'en' : ("Login with Surveyor. Go to JMR on sidebar, click on Verify JMR, and then click on Send to DSLR."),
+        'hi' : ("सर्वेयर से लॉग इन करें। साइडबार में संयुक्त मापन विवरण पर जाएं, JMR सत्यापित करें पर क्लिक करें और फिर DSLR को भेजें पर क्लिक करें।"),
+        'mr' : ("सर्वेअर सह लॉग इन करा. साइडबारवरील संयुक्त मोजणी तपशील वर जा, JMR सत्यापित करा वर क्लिक करा आणि नंतर DSLR ला पाठवा वर क्लिक करा.")
+    },
+
+    'advance_payment_distribution' : {
+        'en' : ("Samanvay Officer and LAO can check Advance Payment Distribution.Go to Advance payment distrubution on sidebar so you will see Avance payment distribution record and you can download it."),
+        'hi' : ("समन्वय अधिकारी और LAO अग्रिम भुगतान वितरण की जांच कर सकते हैं। साइडबार में अग्रिम भुगतान वितरण पर जाएं, जहां आपको अग्रिम भुगतान वितरण रिकॉर्ड दिखाई देगा और आप इसे डाउनलोड कर सकते हैं।"),
+        'mr' : ("समन्व्य अधिकारी आणि LAO आगाऊ पैसे वाटप तपासू शकतात. साइडबारवरील आगाऊ मोबदला वाटप विभागात जा म्हणजे तुम्हाला आगाऊ मोबदला वाटप रेकॉर्ड दिसेल आणि तुम्ही ते डाउनलोड करू शकता.")
+    },
+
+    'raise_objection' : {
+        'en' : ("Login with LAO.Go to Objection List on side bar,and click on Raise Objection so General Objection Form will open."),
+        'hi' : ("LAO से लॉग इन करें। साइड बार पर हरकती यादी पर जाएं और हरकत नोंदवा पर क्लिक करें, जिससे सामान्य हरकत फॉर्म खुल जाएगा।"),
+        'mr' : ("LAO सह लॉगिन करा.साइडबारवरील कलम 15 कार्यवाही वर जा आणि हरकत नोंदवा वर क्लिक करा म्हणजे हरकतीचा तपशील उघडेल.")
+    },
+
+    'section_15_notice' : {
+        'en' : ("Samanvay Officer and LAO can check, edit and print section 15 notice.Go to Objection List on side bar,and click on Section 15 Notice in Objection Management System so section 15 notice will open and you can download it."),
+        'hi' : ("समन्वय ऑफिसर और LAO धारा 15 नोटिस की जांच, संपादन और प्रिंट कर सकते हैं। साइड बार पर हरकती यादी पर जाएं और आक्षेप व्यवस्थापन  में धारा 15 नोटिस पर क्लिक करें, जिससे धारा 15 नोटिस खुल जाएगा और आप इसे डाउनलोड कर सकते हैं।"),
+        'mr' : ("समन्वय ऑफिसर आणि LAO कलम १५ नोटीस तपासू, संपादित करू आणि प्रिंट करू शकतात.साइडबारवरील कलम 15 कार्यवाही वर जा आणि आक्षेप व्यवस्थापन मधील कलम १५ नोटीस वर क्लिक करा म्हणजे कलम १५ नोटीस उघडेल आणि तुम्ही ती डाउनलोड करू शकता.")
+    },
+
+    'section_15' : {
+        'en' : ("Login with Samanvay Officer.Go to Objection List on side bar,and click on Section 15 in Objection Management System so section 15 will open and you can download it."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर हरकती यादी पर जाएं और आक्षेप व्यवस्थापन  में धारा 15 पर क्लिक करें, जिससे धारा 15 खुल जाएगा और आप इसे डाउनलोड कर सकते हैं।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील कलम 15 कार्यवाही वर जा आणि आक्षेप व्यवस्थापन मधील कलम १५ वर क्लिक करा म्हणजे कलम १५ उघडेल आणि तुम्ही ती डाउनलोड करू शकता.")
+    },
+
+    'send_section_15_recognition_to_collector' : {
+        'en' : ("Login with Samanvay Officer.Go to Objection List on side bar,and click on Send to Respected.Collector and upload approved section 15 file and send it to respected collector."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर हरकती यादी पर जाएं और कलेक्टर को भेजे पर क्लिक करें और अनुमोदित धारा 15 फाइल अपलोड करें और इसे आदरणीय कलेक्टर को भेज दें।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील कलम 15 कार्यवाही वर जा आणि मा.जिल्हाधिकारी यांच्याकडे पाठवा वर क्लिक करा आणि मंजूर कलम १५ फाइल अपलोड करा आणि ती आदरणीय कलेक्टरकडे पाठवा.")
+    },
+
+    'send_section_15_recognition_to_samanvay_officer' : {
+        'en' : ("Login with LAO.Go to Objection List on side bar,and click on Send to Samanvay Officer and upload approved section 15 file and send it to Respected Samanvay Officer."),
+        'hi' : ("LAO से लॉग इन करें। साइड बार पर हरकती यादी पर जाएं और समन्वय अधिकारी को भेजें पर क्लिक करें और अनुमोदित धारा 15 फाइल अपलोड करें और इसे आदरणीय समन्वय अधिकारी को भेज दें।"),
+        'mr' : ("LAO सह लॉगिन करा.साइडबारवरील कलम 15 कार्यवाही वर जा आणि समन्वय अधिकाऱ्यांना पाठवा वर क्लिक करा आणि मंजूर कलम १५ फाइल अपलोड करा आणि ती आदरणीय समन्व्य अधिकारीकडे पाठवा.")
+    },
+
+    'download_list_of_those_who_filed_objection' : {
+        'en' : ("Login with Samanvay Officer.Go to Objection List on side bar,and click on Export so List of those who filed objections to the initial notification under Section 11(1) will open for download"),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर हरकती यादी पर जाएं और निर्यात पर क्लिक करें, जिससे धारा 11(1) के तहत प्रारंभिक अधिसूचना पर आपत्ति दर्ज कराने वालों की सूची डाउनलोड के लिए खुल जाएगी।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील कलम 15 कार्यवाही वर जा आणि निर्यात वर क्लिक करा म्हणजे कलम 11(1) खालील प्रारंभिक अधिसूचनेवर हरकत दाखल करणाऱ्यांची यादी डाउनलोडसाठी उघडेल.")
+    },
+
+    'check_objection_details' : {
+        'en' : ("Login with Samanvay Officer.Go to Objection List on side bar,and click on view actions button in action column on your objection."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर हरकती यादी पर जाएं और अपनी आपत्ति पर क्रिया कॉलम में क्रिया देखें बटन पर क्लिक करें।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील कलम 15 कार्यवाही वर जा आणि तुमच्या आक्षेपावरील क्रिया कॉलममधील क्रिया पहा बटणावर क्लिक करा.")
+    },
+
+    # 'extend_the_time_period_for_declaration_under_section_19' : {
+    #     'en' : ("Login with Samanvay Officer.Go to Extend the time period for declaration under Section 19 on side bar,and click on extend button for extend date and click on prieview for check document of extended time period"),
+    #     'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर धारा 19 की घोषणा के लिए अवधि बढ़ाना पर जाएं और तिथि बढ़ाने के लिए एक्सटेंड बटन पर क्लिक करें और विस्तारित समय अवधि के दस्तावेज़ की जांच करने के लिए प्रीव्यू पर क्लिक करें।"),
+    #     'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील कलम 19 ची घोषणा करीता मुदत वाढवणे वर जा आणि वाढवलेल्या तारखेसाठी विस्तार बटणावर क्लिक करा आणि वाढवलेल्या कालावधीचे दस्तऐवज तपासण्यासाठी प्रीव्ह्यू वर क्लिक करा.")
+    # },
+
+    'send_to_samanvay_for_section_19_time_extension' : {
+        'en' : ("Login with LAO.Go to Section 19 time Extension on side bar,and click on send to samanvay for extend date."),
+        'hi' : ("LAO से लॉग इन करें। साइड बार पर धारा 19 की घोषणा के लिए अवधि बढ़ाना पर जाएं और तारीख बढ़ाने के लिए समन्वय विभाग को भेजे पर क्लिक करें।"),
+        'mr' : ("LAO सह लॉगिन करा.साइडबारवरील कलम 19 ची घोषणा करीता मुदत वाढवणे वर जा आणि दिनांक वाढविण्यासाठी समन्वय विभागाकडे पाठवा वर क्लिक करा.")
+    },
+
+    'send_to_collector_for_section_19_time_extension' : {
+        'en' : ("Login with Samanvay officer.Go to Section 19 time Extension on side bar,and click on send to collector for extend date."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर धारा 19 की घोषणा के लिए अवधि बढ़ाना पर जाएं और तारीख बढ़ाने के लिए कलेक्टर विभाग को भेजे पर क्लिक करें।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील कलम 19 ची घोषणा करीता मुदत वाढवणे वर जा आणि दिनांक वाढविण्यासाठी कलेक्टर विभागाकडे पाठवा वर क्लिक करा.")
+    },
+
+    # 'check_and_download_Section_19_document' : {
+    #     'en' : ("Login with Samanvay officer.Go to Declaration of Article 19 on side bar and you can check and download section 19 document."),
+    #     'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर धारा 19 की घोषणा पर जाएं और आप धारा 19 के दस्तावेज़ को देख और डाउनलोड कर सकते हैं।"),
+    #     'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील कलम 19 ची घोषणा वर जा आणि तुम्ही कलम 19 दस्तऐवज तपासू आणि डाउनलोड करू शकता. ")
+    # },
+
+    'check_and_download_Section_19_document' : {
+        'en' : ("Samanvay Officer and LAO can check and download section 19 document. Go to Declaration of Article 19 on side bar and you can check and download section 19 document."),
+        'hi' : ("समन्वय ऑफिसर और LAO धारा 19 के दस्तावेज़ की जांच और डाउनलोड कर सकते हैं। साइड बार पर धारा 19 की घोषणा पर जाएं और आप धारा 19 के दस्तावेज़ को देख और डाउनलोड कर सकते हैं।"),
+        'mr' : ("समन्वय ऑफिसर आणि LAO कलम १९ दस्तऐवज तपासू आणि डाउनलोड करू शकतात.साइडबारवरील कलम 19 ची घोषणा वर जा आणि तुम्ही कलम 19 दस्तऐवज तपासू आणि डाउनलोड करू शकता. ")
+    },
+
+    'edit_section_19_document' : {
+        'en' : ("Login with LAO.Go to Declaration of Article 19 on side bar and click on Edit button for edit section 19 document."),
+        'hi' : ("LAO से लॉग इन करें। साइड बार पर धारा 19 की घोषणा पर जाएं और सेक्शन 19 दस्तावेज़ को संपादित करने के लिए संपादित करें बटन पर क्लिक करें।"),
+        'mr' : ("LAO सह लॉगिन करा.साइडबारवरील कलम 19 ची घोषणा वर जा आणि कलम 19 दस्तऐवज संपादित करण्यासाठी संपादित करा बटणावर क्लिक करा.")
+    },
+
+    'send_section_19_to_samanvay_officer' : {
+        'en' : ("Login with LAO.Go to Declaration of Article 19 on side bar and click on Send to Samanvay Officer."),
+        'hi' : ("LAO से लॉग इन करें। साइड बार पर धारा 19 की घोषणा पर जाएं और समन्वय अधिकारी को भेजे पर क्लिक करें।"),
+        'mr' : ("LAO सह लॉगिन करा.साइडबारवरील कलम 19 ची घोषणा वर जा आणि समन्वय अधिकायांना पाठवा वर क्लिक करा.") 
+    },
+
+    'send_section_19_to_Respected_collector' : {
+        'en' : ("Login with Samanvay officer.Go to Declaration of Article 19 on side bar and click on Send to Respected.Collector."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर धारा 19 की घोषणा पर जाएं और कलेक्टर को भेजे पर क्लिक करें।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील कलम 19 ची घोषणा वर जा आणि मां.जिल्हाधिकारी यांच्याकडे पाठवा बटणावर क्लिक करा.")
+    },
+
+    'check_and_download_section_21_1' : {
+        'en' : ("Samanvay officer and LAO can check and download section 21(1) document.Go to Section 21(1) on side bar and click on section 21(1) so you can check or download section 21(1) document"),
+        'hi' : ("समन्वय ऑफिसर और LAO धारा 21(1) दस्तावेज़ की जाँच और डाउनलोड कर सकते हैं। साइड बार पर शपत पात्र पर जाएं और धारा 21(1) पर क्लिक करें ताकि आप धारा 21(1) दस्तावेज़ की जाँच या डाउनलोड कर सकें।"),
+        'mr' : ("समन्वय ऑफिसर आणि LAO कलम 21(1) दस्तऐवज तपासू आणि डाउनलोड करू शकतात.साइडबारवरील जाहिरनामा वर जा आणि कलम 21(1) वर क्लिक करा जेणेकरून तुम्ही कलम 21(1) दस्तऐवज तपासू किंवा डाउनलोड करू शकाल. ")
+    },
+
+    'edit_section_21_1_document' : {
+        'en' :("Login with LAO.Go to section 21(1) on side bar and click on section 21(1) and click on Edit button for edit section 21(1) document."),
+        'hi' : ("LAO से लॉग इन करें। साइड बार पर धारा 21(1) पर जाएं और धारा 21(1) पर क्लिक करें फिर संपादित करें बटन पर क्लिक करें।"),
+        'mr' : ("LAO सह लॉगिन करा.साईडबारवरील जाहिरनामा वर जा आणि सेक्शन 21(1) वर क्लिक करा आणि सेक्शन 21(1) डॉक्युमेंट संपादन करण्यासाठी संपादन करा बटणावर क्लिक करा.")
+    },
+
+    'check_and_download_section_21_1_4' : {
+        'en' : ("Samanvay officer and LAO can check and download section 21(1)(4) document.Go to Section 21(1) on side bar and click on section 21(1),(4) so you can check or download section 21(1),(4) document"),
+        'hi' : ("समन्वय ऑफिसर और LAO धारा 21(1)(4) दस्तावेज़ की जाँच और डाउनलोड कर सकते हैं। साइड बार पर शपत पात्र पर जाएं और धारा 21(1),(4) पर क्लिक करें ताकि आप धारा 21(1),(4) दस्तावेज़ की जाँच या डाउनलोड कर सकें।"),
+        'mr' : ("समन्वय ऑफिसर आणि LAO कलम 21(1)(4) दस्तऐवज तपासू आणि डाउनलोड करू शकतात.साइडबारवरील जाहिरनामा वर जा आणि कलम 21(1),(4) वर क्लिक करा जेणेकरून तुम्ही कलम 21(1),(4) दस्तऐवज तपासू किंवा डाउनलोड करू शकाल.")
+    },
+
+    'edit_section_21_1_4_document' : {
+        'en' :  ("Login with LAO.Go to section 21(1) on side bar and click on section21(1),(4) and click on Edit button for edit section 21(1)(4) document."),
+        'hi' :  ("LAO से लॉग इन करें। साइड बार पर शपत पात्र पर जाएं और सेक्शन 21(1),(4) पर क्लिक करें और सेक्शन 21(1)(4) दस्तावेज़ को संपादित करने के लिए संपादित करें बटन पर क्लिक करें।"),
+        'mr' :  ("LAO सह लॉगिन करा.साईडबारवरील जाहिरनामा वर जा आणि कलम 21(1),(4) दस्तऐवज संपादित करण्यासाठी कलम 21(1)(4) वर क्लिक करा आणि संपादन बटणावर क्लिक करा.")
+    },
+
+    'details_of_claims_under_section_21' : {
+        'en' : ("Samanvay Officer and LAO can check and download details of claims filed under Section 21. Go to Section 21(1) on side bar and click on Details of claims filed under Section 21 to check or download the document."),
+        'hi' : ("समन्वय ऑफिसर और LAO धारा 21 के तहत दायर दावों का विवरण जांच और डाउनलोड कर सकते हैं। साइडबार में धारा 21(1) पर जाएं और 'धारा 21 के तहत दायर दावों का विवरण' पर क्लिक करें ताकि आप दस्तावेज़ देख या डाउनलोड कर सकें।"),
+        'mr' : ("समन्वय अधिकारी आणि LAO कलम २१नुसार दाखल दाव्यांचा तपशील तपासू आणि डाउनलोड करू शकतात. साइडबारवरील कलम 21(1) वर जा आणि 'कलम २१नुसार दाखल दाव्यांचा तपशील' वर क्लिक करा म्हणजे तुम्ही दस्तऐवज पाहू किंवा डाउनलोड करू शकता.")
+    },
+
+    'add_claim_under_section_21' : {
+        'en' : ("Login with LAO.Go to Section 21(1) on side bar and click on Details of claims field under Section 21 and click on Add New Claim button"),
+        'hi' : ("LAO से लॉग इन करें। साइड बार पर शपत पात्र पर जाएं और धारा 21 के तहत दायर दावों का विवरण पर क्लिक करें और नया दावा जोड़ें बटन पर क्लिक करें।"),
+        'mr' : ("LAO सह लॉगिन करा.साईडबारवरील  जाहिरनामा वर जा आणि कलम २१नुसार दाखल दाव्यांचा तपशील वर क्लिक करा आणि नवीन दावा जोडा बटणावर क्लिक करा.")
+    },
+
+    'section_21_claim_details' : {
+        'en' : ("Login with Samanvay officer.Go to Section 21(1) on side bar and click on Details of claims filed under Section 21 and go on your claim detail in table click on preview icon which placed in proceeding column."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर शपत पात्र पर जाएं और धारा 21 के तहत दायर दावों का विवरण पर क्लिक करें और टेबल में अपने दावे के विवरण पर जाएं और कार्यवाही कॉलम में स्थित पूर्वावलोकन आइकन पर क्लिक करें।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील जाहिरनामा वर जा आणि कलम २१नुसार दाखल दाव्यांचा तपशील वर क्लिक करा आणि टेबलमधील तुमच्या दाव्याच्या तपशीलावर जा आणि कारवाई कॉलममध्ये असलेल्या प्रिव्ह्यू आयकॉनवर क्लिक करा.")
+    },
+
+    'market_value_of_the_bail' : {
+        'en' : ("Samanvay Officer and LAO can check and download market value land. Go to Market value of land on side bar and click on Levy so Market Value of the bail will open with market price chart and you can check and download it"),
+        'hi' : ("समन्वय अधिकारी और LAO बाजार मूल्य भूमि की जांच कर सकते हैं और डाउनलोड कर सकते हैं। साइडबार में 'भूमि का बाजार मूल्य' पर जाएं और 'हेक्टेयर दर निर्धारण' पर क्लिक करें, जिससे बाजार मूल्य चार्ट के साथ जमानत का बाजार मूल्य खुल जाएगा और आप इसे देख और डाउनलोड कर सकते हैं।"),
+        'mr' : ("समन्वय अधिकारी आणि LAO जमीनचे बाजारमूल्य तपासू आणि डाउनलोड करू शकतात. साइडबारमध्ये 'जमिनीचे बाजारमूल्य' वर जा आणि 'हेक्टरी दर निश्चिती' वर क्लिक करा म्हणजे बाजारभाव चार्टसह तारणाचे बाजारभाव उघडतील आणि तुम्ही ते पाहू आणि डाउनलोड करू शकता.")
+    },
+
+    'direct_purchase_market_value_of_land' : {
+        'en' : ("Samanvay Officer and LAO can check and download market value land. Go to Market value of land on side bar and click on Direct Purchase so direct purchase records will open and you can download it."),
+        'hi' : ("समन्वय अधिकारी और LAO बाजार मूल्य भूमि की जांच कर सकते हैं और डाउनलोड कर सकते हैं। साइडबार में 'भूमि का बाजार मूल्य' पर जाएं और 'थेट खरेदी' पर क्लिक करें, जिससे थेट खरेदी नोंद खुलेंगी और आप उन्हें डाउनलोड कर सकते हैं।"),
+        'mr' : ("समन्वय अधिकारी आणि LAO जमीनचे बाजारमूल्य तपासू आणि डाउनलोड करू शकतात. साइडबारमधील 'जमिनीचे बाजारमूल्य' वर जा आणि 'खरेदी विक्री तक्ता' वर क्लिक करा, म्हणजे खरेदी विक्री तक्ता नोंदी उघडतील आणि तुम्ही त्या डाउनलोड करू शकता.")
+    },
+
+    'add_direct_purchase_record_market_value_of_land' : {
+        'en' : ("Login with LAO. Go to Market value of land on side bar and click on Direct Purchase and click on Add Direct Purchase Record button to add a direct purchase record."),
+        'hi' : ("LAO से लॉग इन करें। साइडबार में 'भूमि का बाजार मूल्य' पर जाएं और 'थेट खरेदी' पर क्लिक करें, फिर 'थेट खरेदी नोंद जोडा' बटन पर क्लिक करके नया रिकॉर्ड जोड़ें।"),
+        'mr' : ("LAO सह लॉग इन करा. साइडबारमधील 'जमिनीचे बाजारमूल्य' वर जा आणि 'खरेदी विक्री तक्ता' वर क्लिक करा, नंतर 'खरेदी विक्री नोंद जोडा' बटणावर क्लिक करून नवीन नोंद जोडा.")
+    },
+
+    'edit_proposal_direct_purchase_info_market_value_of_land' : {
+        'en' : ("Login with LAO. Go to Market value of land on side bar and click on Direct Purchase and click on Edit Proposal Direct Purchase Info button to edit direct purchase info in proposal."),
+        'hi' : ("LAO से लॉग इन करें। साइडबार में 'भूमि का बाजार मूल्य' पर जाएं और 'थेट खरेदी' पर क्लिक करें, फिर 'खरीद और बिक्री की जानकारी संपादित करें' बटन पर क्लिक करके प्रस्ताव में थेट खरेदी की जानकारी संपादित करें।"),
+        'mr' : ("LAO सह लॉग इन करा. साइडबारमधील 'जमिनीचे बाजारमूल्य' वर जा आणि 'खरेदी विक्री तक्ता' वर क्लिक करा,नंतर 'खरेदी विक्री माहिती संपादित करा' बटणावर क्लिक करून प्रस्ताव मध्ये खरेदीची माहिती संपादित करा.")
+    },
+
+    'section_93' : {
+        'en' : ("In section_93 samanvay officer and LAO can check or edit in Area and Name of the landowner in landholding which added by project inharge:\n "
+                "1) Login with Samanvay officer.Go to Section 93 on side bar"),
+        'hi' : ("धारा 93 के अंतर्गत समन्वय अधिकारी और LAO परियोजना प्रभारी द्वारा जोड़ी गई भूमि जोत में भूस्वामी के क्षेत्र और नाम की जाँच या संपादन कर सकता है:\n"
+                "1)समन्वय ऑफिसर से लॉग इन करें। साइड बार पर धारा 93 पर जाएं"),
+        'mr' : ("कलम 93 मध्ये समन्व्य अधिकारी आणि LAO प्रकल्प अधिग्रहणाने जोडलेल्या जमीन मालकाचे क्षेत्रफळ आणि नाव तपासू किंवा संपादित करू शकतात:\n"
+                "1)समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील कलम 93 वर जा")
+    },
+
+    'final_award_time_extention': {
+        'en' : ("samanvay officer and lao can see Proposal details with extend date.Go to Final Award time extention so Proposal Details will open with extended date."),
+        'hi' : ("समन्वय ऑफिसर और LAO प्रस्ताव विवरण विस्तारित तिथि के साथ देख सकते हैं। साइड बार पर धारा अंतिम-पुरस्कार की घोषणा के लिए अवधि बढ़ाना पर जाएं इसलिए प्रस्ताव विवरण विस्तारित तिथि के साथ उपलब्ध होगा।"),
+        'mr' : ("समन्वय ऑफिसर आणि LAO विस्तारित तारखेसह प्रस्तावाचे तपशील पाहू शकतात. साइडबारवरील कलम अंतिम निवाडा ची घोषणा करीता मुदत वाढवणे वर जा त्यामुळे पुनर्भू  प्रकरण तपशील वाढीव तारखेसह उघडतील.")
+    },
+
+    'final_award_time_extention_test': {
+        'en' : ("samanvay officer and lao can see Proposal details with extend date.Go to Final Award time extention so Proposal Details will open with extended date."),
+        'hi' : ("समन्वय ऑफिसर और LAO प्रस्ताव विवरण विस्तारित तिथि के साथ देख सकते हैं। साइड बार पर धारा अंतिम-पुरस्कार की घोषणा के लिए अवधि बढ़ाना पर जाएं इसलिए प्रस्ताव विवरण विस्तारित तिथि के साथ उपलब्ध होगा।"),
+        'mr' : ("समन्वय ऑफिसर आणि LAO विस्तारित तारखेसह प्रस्तावाचे तपशील पाहू शकतात. साइडबारवरील कलम अंतिम निवाडा ची घोषणा करीता मुदत वाढवणे वर जा त्यामुळे पुनर्भू  प्रकरण तपशील वाढीव तारखेसह उघडतील.")
+    },
+
+    'send_to_collector_for_extend_date' : {
+        'en' : ("Login with Samanvay officer.Go to Final Award time extention and click on Send To Collector For Extend Date."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर धारा अंतिम-पुरस्कार की घोषणा के लिए अवधि बढ़ाना पर जाएं और तारीख बढ़ाने के लिए कलेक्टर विभाग को भेजें पर क्लिक करें।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील कलम अंतिम निवाडा ची घोषणा करीता मुदत वाढवणे वर जा आणि दिनांक वाढविण्यासाठी जिल्हाधिकारी विभागाकडे पाठवा वर क्लिक करा.")
+    },
+
+    'send_to_samanvay_for_extend_date' : {
+        'en' : ("Login with LAO.Go to Final Award time extension and click on Send To Samanvay For Extend Date."),
+        'hi' : ("LAO से लॉग इन करें। साइड बार पर धारा अंतिम-पुरस्कार की घोषणा के लिए अवधि बढ़ाना पर जाएं और तारीख बढ़ाने के लिए समन्वय विभाग को भेजें पर क्लिक करें।"),
+        'mr' : ("LAO सह लॉगिन करा.साइडबारवरील कलम अंतिम निवाडा ची घोषणा करीता मुदत वाढवणे वर जा आणि दिनांक वाढविण्यासाठी समन्वय विभागाकडे पाठवा वर क्लिक करा.")
+    },
+
+    'draft_award_record' : {
+        'en' : ("Samanvay Officer and LAO can download Draft Award Record. Go to Draft Award so record will open and you can download it."),
+        'hi' : ("समन्वय अधिकारी और LAO प्रारूप निवडा को डाउनलोड कर सकते हैं। साइड बार पर प्रारूप निवडा पर जाएं और आप इसे डाउनलोड कर सकते हैं।"),
+        'mr' : ("समन्वय अधिकारी आणि LAO प्रारूप निवडा डाउनलोड करू शकतात. साइडबारवरील प्रारूप निवडा वर जा आणि तुम्ही ते डाउनलोड करू शकता.")
+    },
+
+    'draft_award_compensation_amount' : {
+        'en' : ("Samanvay officer and LAO can download the Compensation Amount and also upload signature in it. Go to Draft Award and click on Compensation Amount."),
+        'hi' : ("समन्वय अधिकारी और LAO मुआवजे की राशि डाउनलोड कर सकते हैं और उसमें हस्ताक्षर भी अपलोड कर सकते हैं। प्रारूप निवडा पर जाएं और मुआवजे की राशि पर क्लिक करें।"),
+        'mr' : ("समन्वय अधिकारी आणि LAO भरपाई रक्कम डाउनलोड करू शकतात आणि त्यात स्वाक्षरी अपलोडही करू शकतात. प्रारूप निवडा वर जा आणि भरपाई प्रपत्र-ईवर क्लिक करा.")
+    },
+
+    'draft_award_upload_signature' : {
+        'en' : ("Samanvay officer and LAO can upload signature in Draft Award. Go to Draft Award and click on upload signature."),
+        'hi' : ("समन्वय अधिकारी और LAO प्रारूप निवडा में हस्ताक्षर अपलोड कर सकते हैं। प्रारूप निवडा पर जाएं और upload signature पर क्लिक करें।"),
+        'mr' : ("समन्वय अधिकारी आणि LAO प्रारूप निवडा मध्ये स्वाक्षरी अपलोड करू शकतात. प्रारूप निवडा वर जा आणि upload signature वर क्लिक करा")
+    },
+
+    'draft_award_section_23' : {
+        'en' : ("Samanvay officer and LAO can download section 23, upload signature in section 23, and edit or send it to the Respected Collector. Go to Draft Award and click on प्रारूप निवडा (section 23):\n"
+            "1) you can download it \n"
+            "2) you can upload signature in section 23\n"
+            "3) you can edit and Send to Respected.Collector"),
+        'hi' : ("समन्वय अधिकारी और LAO खंड 23 डाउनलोड कर सकते हैं, खंड 23 में हस्ताक्षर अपलोड कर सकते हैं और इसे संपादित करके आदरणीय कलेक्टर को भेज सकते हैं। प्रारूप निवडा पर जाएं और प्रारूप निवडा (खंड 23) पर क्लिक करें:\n"
+            "1) आप इसे डाउनलोड कर सकते।\n"
+            "2) आप खंड 23 में हस्ताक्षर अपलोड कर सकते हैं।\n"
+            "3) आप इसे संपादित करके आदरणीय कलेक्टर को भेज सकते हैं।"),
+        'mr' : ("समन्वय अधिकारी आणि LAO कलम 23 डाउनलोड करू शकतात, कलम 23 मध्ये स्वाक्षरी अपलोड करू शकतात आणि ते संपादित करून आदरणीय जिल्हाधिकारी यांना पाठवू शकतात. प्रारूप निवडा वर जा आणि प्रारूप निवडा (कलम 23) वर क्लिक करा:\n"
+            "१) तुम्ही ते डाउनलोड करू शकता \n"
+            "२) तुम्ही कलम २३ मध्ये स्वाक्षरी अपलोड करू शकता\n"
+            "३) तुम्ही ते संपादित करू शकता आणि आदरणीय जिल्हाधिकारी यांना पाठवू शकता")
+    },
+
+    'final_reward_record' : {
+        'en' : ("Login with Samanvay officer.Go to Final Reward so record will open and you can download it."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर अंतिम पुरस्कार पर जाएं और आप इसे डाउनलोड कर सकते हैं।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील अंतिम पुरस्कार वर जा आणि तुम्ही ते डाउनलोड करू शकता.")
+    },
+
+    'final_reward_compensation_amount' : {
+        'en' : ("Login with LAO.Go to Final Reward and click on Compensation Amount so amount detail will open and you can donload it and also upload signature"),
+        'hi' : ("LAO से लॉग इन करें। साइड बार पर अंतिम पुरस्कार पर जाएं और मुआवजे की राशि पर क्लिक करें, जिससे राशि का विवरण खुल जाएगा और आप उसे डाउनलोड कर सकते हैं और upload signature भी कर सकते हैं।"),
+        'mr' : ("LAO सह लॉगिन करा.साइडबारवरील अंतिम पुरस्कार वर जा आणि भरपाई प्रपत्र-ईवर क्लिक करा म्हणजे प्रपत्र-ईचा तपशील उघडेल आणि तुम्ही तो डाउनलोड करू शकता आणि upload signature करू शकता.")
+    },
+
+    'final_award_upload_signature' : {
+        'en' : ("Login with Samanvay officer.Go to Final Award and click on upload signature"),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर अंतिम पुरस्कार पर जाएं और upload signature पर क्लिक करें।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील अंतिम पुरस्कार वर जा आणि upload signature वर क्लिक करा")
+    },
+
+    'final_award_section_23' : {
+        'en' : ("Samanvay Officer and LAO can download अंतिम निवडा(section 23) and also upload signature in it.Go to Draft Award and click on अंतिम निवडा(section 23):\n"
+                "1) you can download it \n"
+                "2) you can upload signature in section 23"),
+        'hi' : ("समन्वय ऑफिसर और LAO अंतिम निवादा (section 23) डाउनलोड कर सकते हैं और उसमें हस्ताक्षर भी अपलोड कर सकते हैं। साइड बार पर अंतिम पुरस्कार पर जाएं और अंतिम निवडा(section 23) पर क्लिक करें:\n"
+                "1) आप इसे डाउनलोड कर सकते।\n"
+                "2) आप खंड 23 में हस्ताक्षर अपलोड कर सकते हैं।"),
+        'mr' : ("समन्व्य ऑफिसर आणि LAO अंतिम निवडा (section २३) डाउनलोड करू शकतात आणि त्यात स्वाक्षरी अपलोड करू शकतात.साइडबारवरील अंतिम पुरस्कार वर जा अंतिम निवडा(section 23) वर क्लिक करा:\n"
+                "१) तुम्ही ते डाउनलोड करू शकता \n"
+                "२) तुम्ही कलम २३ मध्ये स्वाक्षरी अपलोड करू शकता")
+    },
+
+    'final_award_view_kjp_document' : {
+        'en' : ("Samanvay Officer and LAO can view KJP document in Final Award. Go to Final Award and click on view KJP document to view it."),
+        'hi' : ("समन्वय ऑफिसर और LAO अंतिम पुरस्कार में KJP document देख सकते हैं। साइड बार पर अंतिम पुरस्कार पर जाएं और view KJP document पर क्लिक करें।"),
+        'mr' : ("समन्व्य ऑफिसर आणि LAO अंतिम पुरस्कार मध्ये KJP document पाहायल शकतात.साइडबारवरील अंतिम पुरस्कार वर जा आणि view KJP document वर क्लिक करा.")
+    },
+
+    'after_finalreward_section_37_2' : {
+        'en' : ("Samanvay officer and LAO can check and download section 37(2) document. Go to After FinalReward and click on section 37(2) and check or download it."),
+        'hi' : ("समन्वय ऑफिसर और LAO धारा 37(2) के दस्तावेज़ को चेक या डाउनलोड कर सकते हैं। साइड बार पर निवाडा पश्यात कामकाज पर जाएं और धारा 37(2) पर क्लिक करें।"),
+        'mr' : ("समन्वय ऑफिसरसह LAO कलम 37(2)चे दस्तऐवज पहा किंवा डाउनलोड करू शकतो.साइडबारवरील निवाडा पश्यात कामकाज वर जा आणि कलम 37(2)वर क्लिक करा.")
+    },
+    
+    'after_finalreward_kabja_pauti' : {
+        'en' : ("Login with Samanvay officer.Go to After FinalReward and click on Kabja Pauti so KJP Records will open."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर निवाडा पश्यात कामकाज पर जाएं और कब्जा पावती पर क्लिक करें जिससे KJP Records खुल जाएगा।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील निवाडा पश्यात कामकाज वर जा आणि कब्जा पावती वर क्लिक करा तर KJP Records उघडतील.")
+    },
+
+    'after_finalreward_form_C' : {
+        'en' : ("Login with Samanvay officer.Go to After FinalReward and click on Form C and download it"),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर निवाडा पश्यात कामकाज पर जाएं और फॉर्म सी पर क्लिक करें और इसे डाउनलोड करें।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील निवाडा पश्यात कामकाज वर जा आणि फॉर्म सी वर क्लिक करा आणि ते डाउनलोड करा.")
+    },
+
+    'after_finalreward_land_acquisition_certificate' : {
+        'en' : ("Login with Samanvay officer.Go to After FinalReward and click on Land acquisition certificate and download it."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर निवाडा पश्यात कामकाज पर जाएं भूमि अधिग्रहण प्रमाणपत्र पर क्लिक करें और इसे डाउनलोड करें।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील निवाडा पश्यात कामकाज वर जा आणि जमीन अधिग्रहण प्रमाणपत्रावर क्लिक करा आणि ते डाउनलोड करा.")
+    },
+
+    'payment_download_bank_reciept' : {
+        'en' : ("Login with Samanvay officer.Go to Payment and click on Download Bank Reciept."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर पेमेंट पर जाएं और डाउनलोड बैंक रसीद पर क्लिक करें।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील पेमेंट वर जा आणि बँक पावती डाउनलोड करा वर क्लिक करा.")
+    },
+
+    'project_affected_person' : {
+        'en' : ("Login with Samanvay officer.Go to Project Affected Person so PAP details will open and you can download pdf of that details."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर प्रकल्पग्रस्त व्यक्ती पर जाएं तो PAP विवरण खुल जाएगा और आप उस विवरण की पीडीएफ फाइल डाउनलोड कर सकते हैं।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील प्रकल्पग्रस्त व्यक्ती वर जा म्हणजे PAP तपशील उघडतील आणि तुम्ही त्या तपशीलांची पीडीएफ डाउनलोड करू शकता.")
+    },
+
+    'search_records' : {
+        'en' : ("Login with Samanvay officer.Go to Search Records on side bar and you can Search across all projects and proposals."),
+        'hi' : ("समन्वय ऑफिसर से लॉग इन करें। साइड बार पर रेकॉर्ड शोधा पर जाएं और आप सभी परियोजनाओं और प्रस्तावों में खोज कर सकते हैं।"),
+        'mr' : ("समन्वय ऑफिसरसह लॉगिन करा.साइडबारवरील रेकॉर्ड शोधा वर जा आणि तुम्ही सर्व प्रकल्प आणि प्रस्तावांमध्ये शोधू शकता.")
+    },
+
+    'namuna_a' : {
+        'en' : ("Login with Project Incharge officer.Go to Namuna A on side bar: \n"
+                "1) click on नोंद जोडा for add rehabilitation record \n"
+                "2) you can send it to DRO \n"
+                "3) click on भूखंडवाटपाची चिठ्ठी  for get Plot Allotment Letter"),
+        'hi' : ("प्रोजेक्ट इंचार्ज ऑफिसर से लॉग इन करें। साइड बार पर नमूना ए पर जाएं:\n"
+                "1) पुनर्वसन रिकॉर्ड जोड़ने के लिए नोंद जोडा पर क्लिक करें \n"
+                "2) आप इसे DRO को भेज सकते हैं \n"
+                "3) प्लॉट आवंटन पत्र प्राप्त करने के लिए भूखंडवाटपाची चिठ्ठी पर क्लिक करें"),
+        'mr' : ("प्रोजेक्ट इंचार्ज ऑफिसरसह लॉगिन करा.साइडबारवरील नमुना अ वर जा: \n"
+                "1) पुनर्वसन रेकॉर्ड जोडण्यासाठी 'नोंद जोडा' वर क्लिक करा \n"
+                "2) तुम्ही ते DRO ला पाठवू शकता \n"
+                "3) भूखंड वाटप पत्र मिळविण्यासाठी भूखंड वाटप पत्रावर क्लिक करा")
+    }
+}   
+
+# INTENT_SENTENCES_MAP = {
+#     "office_hours_responses": {
+#         'en' : ("What are the office hours"),
+#         'hi' : ("कार्यालय का समय क्या है"),
+#         'mr' : ("कार्यालयाचे वेळ काय आहेत")
+#     },
+    
+#     "create_project": {
+#         "en": "How to create a new project in the system",
+#         "hi": "सिस्टम में नया प्रोजेक्ट कैसे बनाएं",
+#         "mr": "सिस्टममध्ये नवीन प्रकल्प कसा तयार करायचा"
+#     },
+
+#     "change_project": {
+#         "en": "How to change or switch an existing project",
+#         "hi": "मौजूदा प्रोजेक्ट कैसे बदलें",
+#         "mr": "विद्यमान प्रकल्प कसा बदलायचा"
+#     },
+
+#     "summary_check": {
+#         "en": "How to check project summary or download summary report",
+#         "hi": "परियोजना का सारांश कैसे देखें या डाउनलोड करें",
+#         "mr": "प्रकल्पाचा सारांश कसा तपासायचा किंवा डाउनलोड करायचा"
+#     },
+
+#     "land_acquisistion_status": {
+#         "en": "How to check land acquisition status",
+#         "hi": "भूमि अधिग्रहण की स्थिति कैसे जांचें",
+#         "mr": "जमीन अधिग्रहणाची स्थिती कशी तपासायची",
+#     },
+
+#     "advance_payment_status": {
+#         "en": "How to check advance payment status",
+#         "hi": "एडवांस भुगतान की स्थिति कैसे जांचें"
+#               "एडवांस पेमेंट की स्थिति कैसे जांचें",
+#         "mr": "अॅडव्हान्स पेमेंटची स्थिती कशी तपासायची"
+#     },
+
+#     "edit_project": {
+#         "en": "How to edit or update an existing project",
+#         "hi": "मौजूदा प्रोजेक्ट को कैसे संपादित या अपडेट करें",
+#         "mr": "विद्यमान प्रकल्प कसा संपादित किंवा अपडेट करायचा"
+#     },
+
+#     "create_proposal": {
+#         "en": "How to create or add a new proposal",
+#         "hi": "नया प्रस्ताव कैसे बनाएं",
+#         "mr": "नवीन प्रस्ताव कसा तयार करायचा"
+#     }
+# }
+
+# ====================================================================
+# BUILD RESPONSE WITH DUMMY LINK
+# ====================================================================
+
+# def build_response_with_link(response_key, language):
+#     """
+#     Returns response text + dummy link based on response_key
+#     Example:
+#         response_key = "create_project"
+#         -> https://create_project.com
+#     """
+
+#     if response_key not in RESPONSE_KEYS_MAP:
+#         return None
+
+#     response_text = RESPONSE_KEYS_MAP[response_key].get(language)
+
+#     if not response_text:
+#         return None
+
+#     # Generate dummy link automatically
+#     clean_key = response_key.lower()
+#     link = f"https://{clean_key}.com"
+
+#     return {
+#         "text": response_text,
+#         "link": link
+#     }
+
+
+def get_knowledge_base(language: str = 'en') -> str:
+    """Get knowledge base for specified language"""
+    return KNOWLEDGE_BASES.get(language, Punarbhu_KNOWLEDGE_EN)
+
+def get_response_by_key(answer_key: str, language: str = 'en') -> str:
+    """Get response by key in specified language"""
+    if answer_key not in RESPONSE_KEYS_MAP:
+        return None
+    return RESPONSE_KEYS_MAP[answer_key].get(language, RESPONSE_KEYS_MAP[answer_key]['en'])
+
+def search_knowledge(query: str, language: str = 'en') -> str:
+    """
+    Search for relevant knowledge based on the query.
+    Returns only relevant snippets, not the entire knowledge base.
+    """
+    if not query:
+        if language == 'hi':
+            return "पुनर्भू   - बुलढाणा जिलाधिकारी कार्यालय की आधिकारिक भूमि अभिलेख ।"
+        elif language == 'mr':
+            return "पुनर्भू   - बुलढाणा जिल्हाधिकारी कार्यालयाची अधिकृत जमीन नोंदी ."
+        else:
+            return "Punarbhu - Official land records system of Buldhana Collector Office."
+            
+    # Normalize query
+    def _normalize_query(q: str) -> str:
+        if not q:
+            return ""
+        s = unicodedata.normalize('NFKC', q)
+        s = s.lower()
+        s = re.sub(r"[^\w\s\u0900-\u097F]", " ", s)
+        return re.sub(r"\s+", " ", s).strip()
+
+    query = _normalize_query(query)
+
+    # Return minimal context
+    if language == 'hi':
+        return """पुनर्भू  - बुलढाणा जिलाधिकारी कार्यालय
+    संपर्क: https://punarbhu.safevaults.in
+    कार्यालय समय: सोमवार-शुक्रवार 10:00-17:30"""
+    elif language == 'mr':
+        return """पुनर्भू  - बुलढाणा जिल्हाधिकारी कार्यालय
+    संपर्क: https://punarbhu.safevaults.in
+    कार्यालय वेळ: सोमवार-शुक्रवार 10:00-17:30"""
+    else:
+        return """Punarbhu - Buldhana Collector Office
+    Contact: https://punarbhu.safevaults.in
+    Office Hours: Monday-Friday 10:00-17:30"""

@@ -1,0 +1,4 @@
+PORT=3001
+PYTHON_PATH=C:\Users\Admin\bhusampadan-backend\venv\Scripts\python.exe
+PY_SERVER=C:\Users\Admin\bhusampadan-backend\src\api\server.py
+CHATBOT_BRIDGE=C:\Users\Admin\bhusampadan-backend\chatbot_bridge.py

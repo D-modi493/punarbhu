@@ -1,0 +1,274 @@
+require("dotenv").config();
+
+const express = require("express");
+const cors = require("cors");
+const { spawn } = require("child_process");
+const path = require("path");
+
+const app = express();
+app.use(cors());
+app.use(express.json({ limit: "1mb" }));
+
+/* ======================================================
+   CONFIG
+====================================================== */
+
+const PORT = process.env.PORT || 3001;
+const PROJECT_ROOT = __dirname;
+
+// Python chatbot service details
+const PYTHON_PATH = "python";
+const CHATBOT_SCRIPT = path.join(PROJECT_ROOT, "src/api/server.py");
+
+// Internal chatbot URL (runs in background)
+const CHATBOT_URL = "http://127.0.0.1:11434";
+
+let chatbotProcess = null;
+let isChatbotReady = false;
+
+/* ======================================================
+   START PYTHON CHATBOT SERVICE
+====================================================== */
+
+function startChatbotService() {
+  return new Promise((resolve, reject) => {
+    console.log("🚀 Starting Bhusampadan chatbot service...");
+
+    chatbotProcess = spawn(PYTHON_PATH, [CHATBOT_SCRIPT], {
+      cwd: path.dirname(CHATBOT_SCRIPT),
+      env: { ...process.env, PYTHONIOENCODING: "utf-8" }
+    });
+
+    chatbotProcess.stdout.on("data", (data) => {
+      const output = data.toString();
+      console.log(`[Chatbot] ${output}`);
+      
+      // Check if chatbot is ready
+      if (output.includes("Bhusampadan Chatbot service started") || 
+          output.includes("Running on")) {
+        isChatbotReady = true;
+        console.log("✅ Chatbot service is ready");
+        resolve();
+      }
+    });
+
+    chatbotProcess.stderr.on("data", (data) => {
+      console.error(`[Chatbot Error] ${data.toString()}`);
+    });
+
+    chatbotProcess.on("error", (error) => {
+      console.error("❌ Failed to start chatbot:", error.message);
+      reject(error);
+    });
+
+    chatbotProcess.on("close", (code) => {
+      console.log(`⚠️ Chatbot process exited with code ${code}`);
+      isChatbotReady = false;
+    });
+
+    // Timeout after 30 seconds
+    setTimeout(() => {
+      if (!isChatbotReady) {
+        console.log("⏰ Chatbot taking longer than expected, but continuing...");
+        resolve();
+      }
+    }, 30000);
+  });
+}
+
+/* ======================================================
+   WAIT FOR CHATBOT TO BE READY
+====================================================== */
+
+async function waitForChatbot(maxRetries = 20) {
+  const axios = require("axios");
+  
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      await axios.get(`${CHATBOT_URL}/health`, { timeout: 2000 });
+      console.log("✅ Chatbot is responding");
+      return true;
+    } catch (err) {
+      console.log(`⏳ Waiting for chatbot... (${i + 1}/${maxRetries})`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+  }
+  
+  console.warn("⚠️ Chatbot may not be ready, but server will continue");
+  return false;
+}
+
+/* ======================================================
+   CHAT API - UNIFIED ENDPOINT
+====================================================== */
+
+app.post("/api/chat", async (req, res) => {
+  const axios = require("axios");
+  
+  try {
+    const { messages = [], language = "en" } = req.body;
+
+    if (!messages.length) {
+      return res.status(400).json({ error: "Messages required" });
+    }
+
+    // Check if chatbot is ready
+    if (!isChatbotReady) {
+      return res.status(503).json({
+        error: "Chatbot service is starting up",
+        message: "Please wait a moment and try again"
+      });
+    }
+
+    // Forward request directly to Python chatbot
+    const response = await axios.post(
+      `${CHATBOT_URL}/api/chat`,
+      { messages, language },
+      { timeout: 15000 }
+    );
+
+    res.json(response.data);
+
+  } catch (err) {
+    console.error("❌ Chat error:", err.message);
+    
+    if (err.code === "ECONNREFUSED") {
+      return res.status(503).json({
+        error: "Chatbot service unavailable",
+        message: "The chatbot service is not responding. Please try again."
+      });
+    }
+
+    res.status(500).json({
+      error: "Chatbot error",
+      details: err.message
+    });
+  }
+});
+
+/* ======================================================
+   GET RESPONSE BY KEY
+====================================================== */
+
+app.post("/api/get_response_by_key", async (req, res) => {
+  const axios = require("axios");
+  
+  try {
+    const response = await axios.post(
+      `${CHATBOT_URL}/api/get_response_by_key`,
+      req.body,
+      { timeout: 5000 }
+    );
+    res.json(response.data);
+  } catch (err) {
+    console.error("❌ Get response error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/* ======================================================
+   TEXT-TO-SPEECH
+====================================================== */
+
+app.post("/api/tts", async (req, res) => {
+  const axios = require("axios");
+  
+  try {
+    const response = await axios.post(
+      `${CHATBOT_URL}/api/tts`,
+      req.body,
+      { 
+        timeout: 10000,
+        responseType: "stream"
+      }
+    );
+    
+    res.setHeader("Content-Type", "audio/mpeg");
+    response.data.pipe(res);
+  } catch (err) {
+    console.error("❌ TTS error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/* ======================================================
+   HEALTH CHECK
+====================================================== */
+
+app.get("/health", async (req, res) => {
+  const axios = require("axios");
+  
+  let chatbotStatus = "unavailable";
+  
+  try {
+    await axios.get(`${CHATBOT_URL}/health`, { timeout: 2000 });
+    chatbotStatus = "ok";
+  } catch (err) {
+    chatbotStatus = "unavailable";
+  }
+  
+  res.json({
+    status: "ok",
+    service: "bhusampadan-backend",
+    chatbot: chatbotStatus,
+    port: PORT
+  });
+});
+
+/* ======================================================
+   GRACEFUL SHUTDOWN
+====================================================== */
+
+function cleanup() {
+  console.log("\n🛑 Shutting down gracefully...");
+  
+  if (chatbotProcess) {
+    chatbotProcess.kill();
+    console.log("✅ Chatbot process terminated");
+  }
+  
+  process.exit(0);
+}
+
+process.on("SIGINT", cleanup);
+process.on("SIGTERM", cleanup);
+
+/* ======================================================
+   START EVERYTHING
+====================================================== */
+
+async function startServer() {
+  try {
+    // Start chatbot service
+    await startChatbotService();
+    
+    // Wait for chatbot to be ready
+    await waitForChatbot();
+    
+    // Start Express server
+    app.listen(PORT, () => {
+      console.log(`
+╔════════════════════════════════════════════════════╗
+║                                                    ║
+║   🚀 Bhusampadan Backend Server                    ║
+║                                                    ║
+║   ✅ Server running on: http://localhost:${PORT}      ║
+║   ✅ All services unified under one URL            ║
+║                                                    ║
+║   📡 Endpoints:                                    ║
+║      POST /api/chat                                ║
+║      POST /api/get_response_by_key                 ║
+║      POST /api/tts                                 ║
+║      GET  /health                                  ║
+║                                                    ║
+╚════════════════════════════════════════════════════╝
+      `);
+    });
+    
+  } catch (err) {
+    console.error("❌ Failed to start server:", err.message);
+    process.exit(1);
+  }
+}
+
+startServer();
