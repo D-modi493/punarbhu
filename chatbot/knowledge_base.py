@@ -773,24 +773,6 @@ RESPONSE_KEYS_MAP_SAMANVAY_OFFICER = {
         'hi' : 'प्रस्ताव प्रबंधन में जाएं और Landholding पर क्लिक करें:\n 1) अधिग्रहित की जाने वाली भूमि का विवरण देखने के लिए, जैसे:\n -भूमि अधिग्रहण अधिकारी नियुक्ति डाउनलोड करें \n -सभी दस्तावेज़ (नमुना "क": भूसंपादन प्रस्ताव) \n -सम्मानित कलेक्टर को भेजें\n -Project Incharge को वापस भेजें',
         'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा:\n 1) संपादनासाठी प्रस्तावित जमिनीचा तपशील पाहा, जैसे:\n -भूसंपादन अधिकारी नियुक्ती पत्र डाउनलोड करा \n -सर्व दस्तावेज (नमुना "क": भूसंपादन प्रस्ताव) \n - मा.जिल्हाधिकारी यांच्याकडे पाठवा\n -Project Incharge परत पाठवा',
     },
-
-    # 'proposal_print' : {
-    #     'en' : 'Go to Create/Edit Proposal and click on action button on selected proposal no and click on Print button.',
-    #     'hi' : 'प्रस्ताव प्रबंधन में जाएं और चयनित प्रस्ताव संख्या पर कार्य बटन पर क्लिक करें और Print बटन पर क्लिक करें।',
-    #     'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि निवडलेल्या प्रस्ताव क्रमांक वर क्रिया बटणावर क्लिक करा आणि Print बटणावर क्लिक करा.'
-    # },
-
-    # 'proposal_view_signed_pdf' : {
-    #     'en' : 'Go to Create/Edit Proposal and click on action button on selected proposal no and click on View Signed PDF button.',
-    #     'hi' : 'प्रस्ताव प्रबंधन में जाएं और चयनित प्रस्ताव संख्या पर कार्य बटन पर क्लिक करें और View Signed PDF बटन पर क्लिक करें।',
-    #     'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि निवडलेल्या प्रस्ताव क्रमांक वर क्रिया बटणावर क्लिक करा आणि View Signed PDF बटणावर क्लिक करा.'
-    # },
-
-    # 'proposal_document_preview' : {
-    #     'en' : 'Go to Create/Edit Proposal and click on action button on selected proposal no and click on view button to preview documents.',
-    #     'hi' : 'प्रस्ताव प्रबंधन में जाएं और चयनित प्रस्ताव संख्या पर कार्य बटन पर क्लिक करें और दस्तावेज़ पूर्वावलोकन के लिए View बटन पर क्लिक करें।',
-    #     'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि निवडलेल्या प्रस्ताव क्रमांक वर क्रिया बटणावर क्लिक करा आणि दस्तावेज समीक्षा करण्यासाठी View बटणावर क्लिक करा.'
-    # }
 }
 
 # ====================================================================
@@ -806,7 +788,11 @@ RESPONSE_KEYS_MAP_LAO = {
 # Keys accessible by Project Incharge Officer
 # ====================================================================
 RESPONSE_KEYS_MAP_PROJECT_INCHARGE = {
-    
+    'edit_project': {
+        'en': 'Go to Create/Edit Project and click on Edit button.',
+        'hi': 'प्रकल्प व्यवस्थापन में जाएं और संपादित बटन पर क्लिक करें।',
+        'mr': 'प्रकल्प व्यवस्थापन विभागात जा आणि संपादन करा बटणावर क्लिक करा.',
+    },
 }
 
 # ====================================================================
@@ -814,11 +800,7 @@ RESPONSE_KEYS_MAP_PROJECT_INCHARGE = {
 # Keys accessible by Surveyor
 # ====================================================================
 RESPONSE_KEYS_MAP_SURVEYOR = {
-    'proposal_landholding': {
-        'en': 'Go to Create/Edit Proposal and click on Landholding to view land parcel details and survey records assigned to you.',
-        'hi': 'भूसंपादन प्रस्ताव में जाएं और Landholding पर क्लिक करें जिससे आपको सौंपे गए भूखंड विवरण और सर्वेक्षण रिकॉर्ड दिखेंगे।',
-        'mr': 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा, तुम्हाला नियुक्त केलेले जमीन तपशील आणि सर्वेक्षण नोंदी दिसतील.',
-    },
+    
 }
 
 # ====================================================================
@@ -826,21 +808,7 @@ RESPONSE_KEYS_MAP_SURVEYOR = {
 # Keys accessible by DSLR Officer
 # ====================================================================
 RESPONSE_KEYS_MAP_DSLR = {
-    'proposal_landholding': {
-        'en': 'Go to Create/Edit Proposal and click on Landholding to view and verify land records, download Appendices, and upload DSLR signatures.',
-        'hi': 'भूसंपादन प्रस्ताव में जाएं और Landholding पर क्लिक करें। भूमि अभिलेख देखें व सत्यापित करें, परिशिष्ट डाउनलोड करें और DSLR हस्ताक्षर अपलोड करें।',
-        'mr': 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा. जमीन नोंदी पाहा व सत्यापित करा, परिशिष्टे डाउनलोड करा आणि DSLR स्वाक्षरी अपलोड करा.',
-    },
-    'create_project': {
-        'en': 'DSLR Officers can view projects. Go to Create/Edit Project on the Sidebar to view project details.',
-        'hi': 'DSLR अधिकारी प्रोजेक्ट देख सकते हैं। साइडबार पर प्रकल्प व्यवस्थापन में जाएं और प्रोजेक्ट विवरण देखें।',
-        'mr': 'DSLR अधिकारी प्रकल्प पाहू शकतात. साइडबारवरील प्रकल्प व्यवस्थापन मध्ये जा आणि प्रकल्पाचे तपशील पाहा.',
-    },
-    'edit_project': {
-        'en': 'DSLR Officers can view project details. Go to Create/Edit Project on Sidebar and use the View button to review records.',
-        'hi': 'DSLR अधिकारी प्रोजेक्ट विवरण देख सकते हैं। साइडबार पर प्रकल्प व्यवस्थापन में जाएं और रिकॉर्ड देखने के लिए View बटन का उपयोग करें।',
-        'mr': 'DSLR अधिकारी प्रकल्पाचे तपशील पाहू शकतात. साइडबारवरील प्रकल्प व्यवस्थापन मध्ये जा आणि नोंदी पाहण्यासाठी View बटण वापरा.',
-    },
+    
 }
 
 # ====================================================================
@@ -848,16 +816,7 @@ RESPONSE_KEYS_MAP_DSLR = {
 # Keys accessible by Tehsildar
 # ====================================================================
 RESPONSE_KEYS_MAP_TEHSILDAR = {
-    'proposal_landholding': {
-        'en': 'Go to Create/Edit Proposal and click on Landholding to review land acquisition details and preliminary notification documents sent to Tehsildar.',
-        'hi': 'भूसंपादन प्रस्ताव में जाएं और Landholding पर क्लिक करें। भूमि अधिग्रहण विवरण और तहसीलदार को भेजे गए प्रारंभिक अधिसूचना दस्तावेज़ देखें।',
-        'mr': 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा. जमीन अधिग्रहणाचे तपशील आणि तहसीलदारांना पाठवलेले प्राथमिक सूचना दस्तऐवज पाहा.',
-    },
-    'create_project': {
-        'en': 'Tehsildar can view project details. Go to Create/Edit Project on the Sidebar to review project and proposal information.',
-        'hi': 'तहसीलदार प्रोजेक्ट विवरण देख सकते हैं। साइडबार पर प्रकल्प व्यवस्थापन में जाएं और प्रोजेक्ट तथा प्रस्ताव जानकारी देखें।',
-        'mr': 'तहसीलदार प्रकल्पाचे तपशील पाहू शकतात. साइडबारवरील प्रकल्प व्यवस्थापन मध्ये जा आणि प्रकल्प व प्रस्ताव माहिती पाहा.',
-    },
+    
 }
 
 # ====================================================================
