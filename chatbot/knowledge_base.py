@@ -756,7 +756,7 @@ KNOWLEDGE_BASES = {
 # Keys accessible by Samanvay Officer
 # ====================================================================
 RESPONSE_KEYS_MAP_SAMANVAY_OFFICER = {
-    'dashboard_change_proect' : {
+    'dashboard_change_project' : {
         'en' : 'on dashboard click on change project.',
         'hi' : 'डॅशबोर्ड पर प्रकल्प बदला पर क्लिक करें।',
         'mr' : 'डॅशबोर्डवरील प्रकल्प बदलावर क्लिक करा.'
@@ -792,6 +792,17 @@ RESPONSE_KEYS_MAP_SAMANVAY_OFFICER = {
 # Keys accessible by LAO
 # ====================================================================
 RESPONSE_KEYS_MAP_LAO = {
+    'dashboard_change_project' : {
+        'en' : 'on dashboard click on change project.',
+        'hi' : 'डॅशबोर्ड पर प्रकल्प बदला पर क्लिक करें।',
+        'mr' : 'डॅशबोर्डवरील प्रकल्प बदलावर क्लिक करा.'
+    },
+
+    'dashboard_all_document' : {
+        'en' : 'on dashboard click on All Document so you can see all pdf documents you can view and download all as zip',
+        'hi' : 'डॅशबोर्ड पर All Document पर क्लिक करें ताकि आप सभी पीडीएफ दस्तावेज़ देख सकें और उन्हें ज़िप फ़ाइल के रूप में डाउनलोड कर सकें।',
+        'mr' : 'डॅशबोर्डवरील All Document वर क्लिक करा जेणेकरून तुम्हाला सर्व पीडीएफ डॉक्युमेंट्स दिसतील आणि तुम्ही ते सर्व झिप म्हणून पाहू आणि डाउनलोड करू शकाल.'
+    },
     
 }
 
@@ -800,6 +811,18 @@ RESPONSE_KEYS_MAP_LAO = {
 # Keys accessible by Project Incharge Officer
 # ====================================================================
 RESPONSE_KEYS_MAP_PROJECT_INCHARGE = {
+    'dashboard_change_project' : {
+        'en' : 'on dashboard click on change project.',
+        'hi' : 'डॅशबोर्ड पर प्रकल्प बदला पर क्लिक करें।',
+        'mr' : 'डॅशबोर्डवरील प्रकल्प बदलावर क्लिक करा.'
+    },
+
+    'dashboard_all_document' : {
+        'en' : 'on dashboard click on All Document so you can see all pdf documents you can view and download all as zip',
+        'hi' : 'डॅशबोर्ड पर All Document पर क्लिक करें ताकि आप सभी पीडीएफ दस्तावेज़ देख सकें और उन्हें ज़िप फ़ाइल के रूप में डाउनलोड कर सकें।',
+        'mr' : 'डॅशबोर्डवरील All Document वर क्लिक करा जेणेकरून तुम्हाला सर्व पीडीएफ डॉक्युमेंट्स दिसतील आणि तुम्ही ते सर्व झिप म्हणून पाहू आणि डाउनलोड करू शकाल.'
+    },
+
     'edit_project': {
         'en': 'Go to Create/Edit Project and click on Edit button.',
         'hi': 'प्रकल्प व्यवस्थापन में जाएं और संपादित बटन पर क्लिक करें।',
@@ -812,6 +835,17 @@ RESPONSE_KEYS_MAP_PROJECT_INCHARGE = {
 # Keys accessible by Surveyor
 # ====================================================================
 RESPONSE_KEYS_MAP_SURVEYOR = {
+    'dashboard_change_project' : {
+        'en' : 'on dashboard click on change project.',
+        'hi' : 'डॅशबोर्ड पर प्रकल्प बदला पर क्लिक करें।',
+        'mr' : 'डॅशबोर्डवरील प्रकल्प बदलावर क्लिक करा.'
+    },
+
+    'dashboard_all_document' : {
+        'en' : 'on dashboard click on All Document so you can see all pdf documents you can view and download all as zip',
+        'hi' : 'डॅशबोर्ड पर All Document पर क्लिक करें ताकि आप सभी पीडीएफ दस्तावेज़ देख सकें और उन्हें ज़िप फ़ाइल के रूप में डाउनलोड कर सकें।',
+        'mr' : 'डॅशबोर्डवरील All Document वर क्लिक करा जेणेकरून तुम्हाला सर्व पीडीएफ डॉक्युमेंट्स दिसतील आणि तुम्ही ते सर्व झिप म्हणून पाहू आणि डाउनलोड करू शकाल.'
+    },
     
 }
 
@@ -820,6 +854,17 @@ RESPONSE_KEYS_MAP_SURVEYOR = {
 # Keys accessible by DSLR Officer
 # ====================================================================
 RESPONSE_KEYS_MAP_DSLR = {
+    'dashboard_change_project' : {
+        'en' : 'on dashboard click on change project.',
+        'hi' : 'डॅशबोर्ड पर प्रकल्प बदला पर क्लिक करें।',
+        'mr' : 'डॅशबोर्डवरील प्रकल्प बदलावर क्लिक करा.'
+    },
+
+    'dashboard_all_document' : {
+        'en' : 'on dashboard click on All Document so you can see all pdf documents you can view and download all as zip',
+        'hi' : 'डॅशबोर्ड पर All Document पर क्लिक करें ताकि आप सभी पीडीएफ दस्तावेज़ देख सकें और उन्हें ज़िप फ़ाइल के रूप में डाउनलोड कर सकें।',
+        'mr' : 'डॅशबोर्डवरील All Document वर क्लिक करा जेणेकरून तुम्हाला सर्व पीडीएफ डॉक्युमेंट्स दिसतील आणि तुम्ही ते सर्व झिप म्हणून पाहू आणि डाउनलोड करू शकाल.'
+    },
     
 }
 
@@ -828,6 +873,17 @@ RESPONSE_KEYS_MAP_DSLR = {
 # Keys accessible by Tehsildar
 # ====================================================================
 RESPONSE_KEYS_MAP_TEHSILDAR = {
+    'dashboard_change_project' : {
+        'en' : 'on dashboard click on change project.',
+        'hi' : 'डॅशबोर्ड पर प्रकल्प बदला पर क्लिक करें।',
+        'mr' : 'डॅशबोर्डवरील प्रकल्प बदलावर क्लिक करा.'
+    },
+
+    'dashboard_all_document' : {
+        'en' : 'on dashboard click on All Document so you can see all pdf documents you can view and download all as zip',
+        'hi' : 'डॅशबोर्ड पर All Document पर क्लिक करें ताकि आप सभी पीडीएफ दस्तावेज़ देख सकें और उन्हें ज़िप फ़ाइल के रूप में डाउनलोड कर सकें।',
+        'mr' : 'डॅशबोर्डवरील All Document वर क्लिक करा जेणेकरून तुम्हाला सर्व पीडीएफ डॉक्युमेंट्स दिसतील आणि तुम्ही ते सर्व झिप म्हणून पाहू आणि डाउनलोड करू शकाल.'
+    },
     
 }
 
@@ -836,6 +892,17 @@ RESPONSE_KEYS_MAP_TEHSILDAR = {
 # Keys accessible by DRO Officer
 # ====================================================================
 RESPONSE_KEYS_MAP_DRO = {
+    'dashboard_change_project' : {
+        'en' : 'on dashboard click on change project.',
+        'hi' : 'डॅशबोर्ड पर प्रकल्प बदला पर क्लिक करें।',
+        'mr' : 'डॅशबोर्डवरील प्रकल्प बदलावर क्लिक करा.'
+    },
+
+    'dashboard_all_document' : {
+        'en' : 'on dashboard click on All Document so you can see all pdf documents you can view and download all as zip',
+        'hi' : 'डॅशबोर्ड पर All Document पर क्लिक करें ताकि आप सभी पीडीएफ दस्तावेज़ देख सकें और उन्हें ज़िप फ़ाइल के रूप में डाउनलोड कर सकें।',
+        'mr' : 'डॅशबोर्डवरील All Document वर क्लिक करा जेणेकरून तुम्हाला सर्व पीडीएफ डॉक्युमेंट्स दिसतील आणि तुम्ही ते सर्व झिप म्हणून पाहू आणि डाउनलोड करू शकाल.'
+    },
     
 }
 
@@ -844,6 +911,18 @@ RESPONSE_KEYS_MAP_DRO = {
 # Keys accessible by Collector
 # ====================================================================
 RESPONSE_KEYS_MAP_COLLECTOR = {
+    'dashboard_change_project' : {
+        'en' : 'on dashboard click on change project.',
+        'hi' : 'डॅशबोर्ड पर प्रकल्प बदला पर क्लिक करें।',
+        'mr' : 'डॅशबोर्डवरील प्रकल्प बदलावर क्लिक करा.'
+    },
+
+    'dashboard_all_document' : {
+        'en' : 'on dashboard click on All Document so you can see all pdf documents you can view and download all as zip',
+        'hi' : 'डॅशबोर्ड पर All Document पर क्लिक करें ताकि आप सभी पीडीएफ दस्तावेज़ देख सकें और उन्हें ज़िप फ़ाइल के रूप में डाउनलोड कर सकें।',
+        'mr' : 'डॅशबोर्डवरील All Document वर क्लिक करा जेणेकरून तुम्हाला सर्व पीडीएफ डॉक्युमेंट्स दिसतील आणि तुम्ही ते सर्व झिप म्हणून पाहू आणि डाउनलोड करू शकाल.'
+    },
+    
     'create_project': {
         'en': 'On Sidebar go to Create/Edit Project -> Click on New Project button fill the form and select category.\n',
         'hi': 'साइडबार पर प्रकल्प व्यवस्थापन  -> नविन प्रकल्प बटन पर क्लिक करें, फॉर्म भरें और श्रेणी का चयन करें।\n',

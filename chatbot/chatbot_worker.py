@@ -105,6 +105,84 @@ class BhusampadanChatbot:
 
         # Enhanced intent profiles - COPY FROM YOUR server.py lines 54-1467
         self.intent_profiles = {
+            "dashboard_change_project": {
+                "en": [
+                    "how to change project",
+                    "change project",
+                    "switch project",
+                    "select another project",
+                    "change current project",
+                    "how to switch project",
+                    "update selected project",
+                    "choose different project",
+                    "project change option",
+                    "change active project"
+                ],
+                "hi": [
+                    "प्रोजेक्ट कैसे बदलें",
+                    "प्रोजेक्ट बदलना है",
+                    "प्रोजेक्ट स्विच करना",
+                    "दूसरा प्रोजेक्ट चुनना",
+                    "वर्तमान प्रोजेक्ट बदलना",
+                    "चयनित प्रोजेक्ट बदलें",
+                    "प्रोजेक्ट बदलने का विकल्प",
+                    "नया प्रोजेक्ट चुनें",
+                    "सक्रिय प्रोजेक्ट बदलना",
+                    "प्रोजेक्ट अपडेट कैसे करें"
+                ],
+                "mr": [
+                    "प्रकल्प कसा बदलावा",
+                    "प्रकल्प बदलायचा आहे",
+                    "प्रकल्प स्विच करणे",
+                    "दुसरा प्रकल्प निवडणे",
+                    "सध्याचा प्रकल्प बदलणे",
+                    "निवडलेला प्रकल्प बदला",
+                    "प्रकल्प बदलण्याचा पर्याय",
+                    "नवीन प्रकल्प निवडा",
+                    "सक्रिय प्रकल्प बदलणे",
+                    "प्रकल्प अपडेट कसा करावा"
+                ]
+            },
+
+            "dashboard_all_document": {
+                "en": [
+                    "view all documents",
+                    "show all documents",
+                    "see all pdf documents",
+                    "open all documents",
+                    "access all documents",
+                    "download all documents",
+                    "download all documents as zip",
+                    "view document list",
+                    "see all files",
+                    "all document option"
+                ],
+                "hi": [
+                    "सभी दस्तावेज़ देखें",
+                    "सभी पीडीएफ दस्तावेज़ दिखाएं",
+                    "सभी डॉक्यूमेंट खोलें",
+                    "सभी दस्तावेज़ डाउनलोड करें",
+                    "सभी दस्तावेज़ ज़िप में डाउनलोड करें",
+                    "डॉक्यूमेंट सूची देखें",
+                    "सभी फाइल देखें",
+                    "ऑल डॉक्यूमेंट विकल्प",
+                    "सभी दस्तावेज़ एक्सेस करें",
+                    "सभी पीडीएफ देखें"
+                ],
+                "mr": [
+                    "सर्व दस्तऐवज पाहा",
+                    "सर्व पीडीएफ डॉक्युमेंट्स पाहा",
+                    "सर्व डॉक्युमेंट उघडा",
+                    "सर्व दस्तऐवज डाउनलोड करा",
+                    "सर्व दस्तऐवज झिपमध्ये डाउनलोड करा",
+                    "डॉक्युमेंट यादी पाहा",
+                    "सर्व फाईल्स पाहा",
+                    "ऑल डॉक्युमेंट पर्याय",
+                    "सर्व कागदपत्रे एक्सेस करा",
+                    "सर्व पीडीएफ पाहा"
+                ]
+            },
+
             "create_project": {
                 "en": [
                     "create new project in project management system",
@@ -189,54 +267,6 @@ class BhusampadanChatbot:
                     "भूसंपादन प्रस्ताव जमीन नोंद",
                     "भूसंपादन भूधारक एंट्री",
                     "भूसंपादन प्रस्ताव जमीन माहिती"
-                ]
-            },
-
-            "dashboard_change_project": {
-                "en": [
-                    "how to change project on dashboard",
-                    "switch project in dashboard",
-                    "change selected project in dashboard",
-                    "select different project from dashboard",
-                    "change current project on dashboard"
-                ],
-                "hi": [
-                    "डैशबोर्ड पर प्रोजेक्ट कैसे बदलें",
-                    "डैशबोर्ड में प्रोजेक्ट स्विच करना",
-                    "डैशबोर्ड में चयनित प्रोजेक्ट बदलना",
-                    "डैशबोर्ड से अलग प्रोजेक्ट चुनना",
-                    "डैशबोर्ड पर वर्तमान प्रोजेक्ट बदलें"
-                ],
-                "mr": [
-                    "डॅशबोर्डवर प्रकल्प कसा बदलावा",
-                    "डॅशबोर्डमध्ये प्रकल्प स्विच करणे",
-                    "डॅशबोर्डमध्ये निवडलेला प्रकल्प बदलणे",
-                    "डॅशबोर्डवरून वेगळा प्रकल्प निवडणे",
-                    "डॅशबोर्डवरील सध्याचा प्रकल्प बदलणे"
-                ]
-            },
-
-            "dashboard_all_document": {
-                "en": [
-                    "view all documents on dashboard",
-                    "how to see all documents in dashboard",
-                    "all documents list in dashboard",
-                    "access all documents from dashboard",
-                    "show all documents on dashboard"
-                ],
-                "hi": [
-                    "डैशबोर्ड पर सभी दस्तावेज़ देखें",
-                    "डैशबोर्ड में सभी दस्तावेज़ कैसे देखें",
-                    "डैशबोर्ड में सभी दस्तावेज़ों की सूची",
-                    "डैशबोर्ड से सभी दस्तावेज़ एक्सेस करें",
-                    "डैशबोर्ड पर सभी दस्तावेज़ दिखाएं"
-                ],
-                "mr": [
-                    "डॅशबोर्डवर सर्व कागदपत्रे पाहा",
-                    "डॅशबोर्डमध्ये सर्व कागदपत्रे कशी पाहावीत",
-                    "डॅशबोर्डमध्ये सर्व कागदपत्रांची यादी",
-                    "डॅशबोर्डवरून सर्व कागदपत्रे उघडणे",
-                    "डॅशबोर्डवर सर्व दस्तऐवज दाखवा"
                 ]
             }
         }
