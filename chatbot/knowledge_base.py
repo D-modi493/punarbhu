@@ -809,6 +809,74 @@ RESPONSE_KEYS_MAP_PROJECT_INCHARGE = {
     
 }
 
+# ====================================================================
+# RESPONSE KEYS MAP - SURVEYOR
+# Keys accessible by Surveyor
+# ====================================================================
+RESPONSE_KEYS_MAP_SURVEYOR = {
+    'proposal_landholding': {
+        'en': 'Go to Create/Edit Proposal and click on Landholding to view land parcel details and survey records assigned to you.',
+        'hi': 'भूसंपादन प्रस्ताव में जाएं और Landholding पर क्लिक करें जिससे आपको सौंपे गए भूखंड विवरण और सर्वेक्षण रिकॉर्ड दिखेंगे।',
+        'mr': 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा, तुम्हाला नियुक्त केलेले जमीन तपशील आणि सर्वेक्षण नोंदी दिसतील.',
+    },
+}
+
+# ====================================================================
+# RESPONSE KEYS MAP - DSLR
+# Keys accessible by DSLR Officer
+# ====================================================================
+RESPONSE_KEYS_MAP_DSLR = {
+    'proposal_landholding': {
+        'en': 'Go to Create/Edit Proposal and click on Landholding to view and verify land records, download Appendices, and upload DSLR signatures.',
+        'hi': 'भूसंपादन प्रस्ताव में जाएं और Landholding पर क्लिक करें। भूमि अभिलेख देखें व सत्यापित करें, परिशिष्ट डाउनलोड करें और DSLR हस्ताक्षर अपलोड करें।',
+        'mr': 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा. जमीन नोंदी पाहा व सत्यापित करा, परिशिष्टे डाउनलोड करा आणि DSLR स्वाक्षरी अपलोड करा.',
+    },
+    'create_project': {
+        'en': 'DSLR Officers can view projects. Go to Create/Edit Project on the Sidebar to view project details.',
+        'hi': 'DSLR अधिकारी प्रोजेक्ट देख सकते हैं। साइडबार पर प्रकल्प व्यवस्थापन में जाएं और प्रोजेक्ट विवरण देखें।',
+        'mr': 'DSLR अधिकारी प्रकल्प पाहू शकतात. साइडबारवरील प्रकल्प व्यवस्थापन मध्ये जा आणि प्रकल्पाचे तपशील पाहा.',
+    },
+    'edit_project': {
+        'en': 'DSLR Officers can view project details. Go to Create/Edit Project on Sidebar and use the View button to review records.',
+        'hi': 'DSLR अधिकारी प्रोजेक्ट विवरण देख सकते हैं। साइडबार पर प्रकल्प व्यवस्थापन में जाएं और रिकॉर्ड देखने के लिए View बटन का उपयोग करें।',
+        'mr': 'DSLR अधिकारी प्रकल्पाचे तपशील पाहू शकतात. साइडबारवरील प्रकल्प व्यवस्थापन मध्ये जा आणि नोंदी पाहण्यासाठी View बटण वापरा.',
+    },
+}
+
+# ====================================================================
+# RESPONSE KEYS MAP - TEHSILDAR
+# Keys accessible by Tehsildar
+# ====================================================================
+RESPONSE_KEYS_MAP_TEHSILDAR = {
+    'proposal_landholding': {
+        'en': 'Go to Create/Edit Proposal and click on Landholding to review land acquisition details and preliminary notification documents sent to Tehsildar.',
+        'hi': 'भूसंपादन प्रस्ताव में जाएं और Landholding पर क्लिक करें। भूमि अधिग्रहण विवरण और तहसीलदार को भेजे गए प्रारंभिक अधिसूचना दस्तावेज़ देखें।',
+        'mr': 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा. जमीन अधिग्रहणाचे तपशील आणि तहसीलदारांना पाठवलेले प्राथमिक सूचना दस्तऐवज पाहा.',
+    },
+    'create_project': {
+        'en': 'Tehsildar can view project details. Go to Create/Edit Project on the Sidebar to review project and proposal information.',
+        'hi': 'तहसीलदार प्रोजेक्ट विवरण देख सकते हैं। साइडबार पर प्रकल्प व्यवस्थापन में जाएं और प्रोजेक्ट तथा प्रस्ताव जानकारी देखें।',
+        'mr': 'तहसीलदार प्रकल्पाचे तपशील पाहू शकतात. साइडबारवरील प्रकल्प व्यवस्थापन मध्ये जा आणि प्रकल्प व प्रस्ताव माहिती पाहा.',
+    },
+}
+
+# ====================================================================
+# RESPONSE KEYS MAP - DRO
+# Keys accessible by DRO Officer
+# ====================================================================
+RESPONSE_KEYS_MAP_DRO = {
+    'proposal_landholding': {
+        'en': 'Go to Create/Edit Proposal and click on Landholding to review rehabilitation records (Namuna A) and documents sent to DRO for approval.',
+        'hi': 'भूसंपादन प्रस्ताव में जाएं और Landholding पर क्लिक करें। DRO को अनुमोदन के लिए भेजे गए पुनर्वसन रिकॉर्ड (नमुना अ) और दस्तावेज़ देखें।',
+        'mr': 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा. DRO कडे मंजुरीसाठी पाठवलेले पुनर्वसन नोंदी (नमुना अ) आणि दस्तऐवज पाहा.',
+    },
+    'create_project': {
+        'en': 'DRO Officer can view project and proposal details. Go to Create/Edit Project on the Sidebar to review assigned project information.',
+        'hi': 'DRO अधिकारी प्रोजेक्ट और प्रस्ताव विवरण देख सकते हैं। साइडबार पर प्रकल्प व्यवस्थापन में जाएं और सौंपे गए प्रोजेक्ट की जानकारी देखें।',
+        'mr': 'DRO अधिकारी प्रकल्प आणि प्रस्तावाचे तपशील पाहू शकतात. साइडबारवरील प्रकल्प व्यवस्थापन मध्ये जा आणि नियुक्त प्रकल्पाची माहिती पाहा.',
+    },
+}
+
 # INTENT_SENTENCES_MAP = {
 #     "office_hours_responses": {
 #         'en' : ("What are the office hours"),
@@ -897,13 +965,18 @@ def get_knowledge_base(language: str = 'en') -> str:
 def get_response_by_key(answer_key: str, language: str = 'en', role: str = None) -> str:
     """
     Get response by key in specified language.
-    Optionally filter by role. Supported roles: 'samanvay_officer', 'lao', 'project_incharge'.
+    Optionally filter by role. Supported roles: 'samanvay_officer', 'lao', 'project_incharge',
+    'surveyor', 'dslr', 'tehsildar', 'dro'.
     Falls back to searching all role maps if key is not found in the given role map.
     """
     ROLE_MAP = {
         'samanvay_officer': RESPONSE_KEYS_MAP_SAMANVAY_OFFICER,
         'lao': RESPONSE_KEYS_MAP_LAO,
         'project_incharge': RESPONSE_KEYS_MAP_PROJECT_INCHARGE,
+        'surveyor': RESPONSE_KEYS_MAP_SURVEYOR,
+        'dslr': RESPONSE_KEYS_MAP_DSLR,
+        'tehsildar': RESPONSE_KEYS_MAP_TEHSILDAR,
+        'dro': RESPONSE_KEYS_MAP_DRO,
     }
     if role and role in ROLE_MAP:
         role_map = ROLE_MAP[role]
@@ -920,12 +993,17 @@ def get_response_by_key_for_role(answer_key: str, role: str, language: str = 'en
     """
     Get response by key strictly for a specific role and language.
     Returns None if the key is not accessible for the given role.
-    Supported roles: 'samanvay_officer', 'lao', 'project_incharge'
+    Supported roles: 'samanvay_officer', 'lao', 'project_incharge',
+    'surveyor', 'dslr', 'tehsildar', 'dro'
     """
     ROLE_MAP = {
         'samanvay_officer': RESPONSE_KEYS_MAP_SAMANVAY_OFFICER,
         'lao': RESPONSE_KEYS_MAP_LAO,
         'project_incharge': RESPONSE_KEYS_MAP_PROJECT_INCHARGE,
+        'surveyor': RESPONSE_KEYS_MAP_SURVEYOR,
+        'dslr': RESPONSE_KEYS_MAP_DSLR,
+        'tehsildar': RESPONSE_KEYS_MAP_TEHSILDAR,
+        'dro': RESPONSE_KEYS_MAP_DRO,
     }
     role_map = ROLE_MAP.get(role)
     if role_map is None or answer_key not in role_map:

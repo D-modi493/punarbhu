@@ -27,6 +27,10 @@ from knowledge_base import (
     RESPONSE_KEYS_MAP_SAMANVAY_OFFICER,
     RESPONSE_KEYS_MAP_LAO,
     RESPONSE_KEYS_MAP_PROJECT_INCHARGE,
+    RESPONSE_KEYS_MAP_SURVEYOR,
+    RESPONSE_KEYS_MAP_DSLR,
+    RESPONSE_KEYS_MAP_TEHSILDAR,
+    RESPONSE_KEYS_MAP_DRO,
     get_knowledge_base,
     get_response_by_key,
     # build_response_with_link
@@ -34,9 +38,13 @@ from knowledge_base import (
 
 # Role → response map lookup
 ROLE_RESPONSE_MAPS = {
-    "samanvay":        RESPONSE_KEYS_MAP_SAMANVAY_OFFICER,
-    "lao":             RESPONSE_KEYS_MAP_LAO,
+    "samanvay":         RESPONSE_KEYS_MAP_SAMANVAY_OFFICER,
+    "lao":              RESPONSE_KEYS_MAP_LAO,
     "project_incharge": RESPONSE_KEYS_MAP_PROJECT_INCHARGE,
+    "surveyor":         RESPONSE_KEYS_MAP_SURVEYOR,
+    "dslr":             RESPONSE_KEYS_MAP_DSLR,
+    "tehsildar":        RESPONSE_KEYS_MAP_TEHSILDAR,
+    "dro":              RESPONSE_KEYS_MAP_DRO,
 }
 
 # from sentence_transformers import SentenceTransformer, util
@@ -65,6 +73,10 @@ class BhusampadanChatbot:
             "samanvay":         "Samanvay Officer",
             "lao":              "LAO Officer",
             "project_incharge": "Project Incharge",
+            "surveyor":         "Surveyor",
+            "dslr":             "DSLR Officer",
+            "tehsildar":        "Tehsildar",
+            "dro":              "DRO Officer",
         }
 
         # Load model from local folder — no internet, no HuggingFace cache needed
@@ -174,6 +186,10 @@ class BhusampadanChatbot:
             "samanvay":         set(RESPONSE_KEYS_MAP_SAMANVAY_OFFICER.keys()),
             "lao":              set(RESPONSE_KEYS_MAP_LAO.keys()),
             "project_incharge": set(RESPONSE_KEYS_MAP_PROJECT_INCHARGE.keys()),
+            "surveyor":         set(RESPONSE_KEYS_MAP_SURVEYOR.keys()),
+            "dslr":             set(RESPONSE_KEYS_MAP_DSLR.keys()),
+            "tehsildar":        set(RESPONSE_KEYS_MAP_TEHSILDAR.keys()),
+            "dro":              set(RESPONSE_KEYS_MAP_DRO.keys()),
         }
 
         all_texts = []
