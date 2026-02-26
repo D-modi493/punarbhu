@@ -31,6 +31,7 @@ from knowledge_base import (
     RESPONSE_KEYS_MAP_DSLR,
     RESPONSE_KEYS_MAP_TEHSILDAR,
     RESPONSE_KEYS_MAP_DRO,
+    RESPONSE_KEYS_MAP_COLLECTOR,
     get_knowledge_base,
     get_response_by_key,
     # build_response_with_link
@@ -45,6 +46,7 @@ ROLE_RESPONSE_MAPS = {
     "dslr":             RESPONSE_KEYS_MAP_DSLR,
     "tehsildar":        RESPONSE_KEYS_MAP_TEHSILDAR,
     "dro":              RESPONSE_KEYS_MAP_DRO,
+    "collector":        RESPONSE_KEYS_MAP_COLLECTOR,
 }
 
 # from sentence_transformers import SentenceTransformer, util
@@ -62,12 +64,12 @@ class BhusampadanChatbot:
             "mr": get_knowledge_base("mr")
         }
 
-        # fallback is now built dynamically per role — see get_fallback()
         self._fallback_templates = {
             "en": "Sorry, I can answer only questions related to {role}.",
             "hi": "माफ़ करें, मैं केवल {role} से संबंधित प्रश्नों के उत्तर दे सकता हूँ।",
             "mr": "माफ करा, मी फक्त {role} प्रणालीशी संबंधित प्रश्नांची उत्तरे देऊ शकतो."
         }
+
         # Human-readable role labels for the fallback message
         self._role_labels = {
             "samanvay":         "Samanvay Officer",
@@ -77,6 +79,19 @@ class BhusampadanChatbot:
             "dslr":             "DSLR Officer",
             "tehsildar":        "Tehsildar",
             "dro":              "DRO Officer",
+            "collector":        "Collector",
+        }
+
+        # ROLE → allowed intent keys
+        self.role_allowed_keys = {
+            "samanvay":         set(RESPONSE_KEYS_MAP_SAMANVAY_OFFICER.keys()),
+            "lao":              set(RESPONSE_KEYS_MAP_LAO.keys()),
+            "project_incharge": set(RESPONSE_KEYS_MAP_PROJECT_INCHARGE.keys()),
+            "surveyor":         set(RESPONSE_KEYS_MAP_SURVEYOR.keys()),
+            "dslr":             set(RESPONSE_KEYS_MAP_DSLR.keys()),
+            "tehsildar":        set(RESPONSE_KEYS_MAP_TEHSILDAR.keys()),
+            "dro":              set(RESPONSE_KEYS_MAP_DRO.keys()),
+            "collector":        set(RESPONSE_KEYS_MAP_COLLECTOR.keys()),
         }
 
         # Load model from local folder — no internet, no HuggingFace cache needed
@@ -175,21 +190,55 @@ class BhusampadanChatbot:
                     "भूसंपादन भूधारक एंट्री",
                     "भूसंपादन प्रस्ताव जमीन माहिती"
                 ]
-            }
-        }
+            },
 
-        # --------------------------------------------------
-        # ROLE → allowed intent keys
-        # Maps each role to the set of keys in its response map
-        # --------------------------------------------------
-        self.role_allowed_keys = {
-            "samanvay":         set(RESPONSE_KEYS_MAP_SAMANVAY_OFFICER.keys()),
-            "lao":              set(RESPONSE_KEYS_MAP_LAO.keys()),
-            "project_incharge": set(RESPONSE_KEYS_MAP_PROJECT_INCHARGE.keys()),
-            "surveyor":         set(RESPONSE_KEYS_MAP_SURVEYOR.keys()),
-            "dslr":             set(RESPONSE_KEYS_MAP_DSLR.keys()),
-            "tehsildar":        set(RESPONSE_KEYS_MAP_TEHSILDAR.keys()),
-            "dro":              set(RESPONSE_KEYS_MAP_DRO.keys()),
+            "dashboard_change_project": {
+                "en": [
+                    "how to change project on dashboard",
+                    "switch project in dashboard",
+                    "change selected project in dashboard",
+                    "select different project from dashboard",
+                    "change current project on dashboard"
+                ],
+                "hi": [
+                    "डैशबोर्ड पर प्रोजेक्ट कैसे बदलें",
+                    "डैशबोर्ड में प्रोजेक्ट स्विच करना",
+                    "डैशबोर्ड में चयनित प्रोजेक्ट बदलना",
+                    "डैशबोर्ड से अलग प्रोजेक्ट चुनना",
+                    "डैशबोर्ड पर वर्तमान प्रोजेक्ट बदलें"
+                ],
+                "mr": [
+                    "डॅशबोर्डवर प्रकल्प कसा बदलावा",
+                    "डॅशबोर्डमध्ये प्रकल्प स्विच करणे",
+                    "डॅशबोर्डमध्ये निवडलेला प्रकल्प बदलणे",
+                    "डॅशबोर्डवरून वेगळा प्रकल्प निवडणे",
+                    "डॅशबोर्डवरील सध्याचा प्रकल्प बदलणे"
+                ]
+            },
+
+            "dashboard_all_document": {
+                "en": [
+                    "view all documents on dashboard",
+                    "how to see all documents in dashboard",
+                    "all documents list in dashboard",
+                    "access all documents from dashboard",
+                    "show all documents on dashboard"
+                ],
+                "hi": [
+                    "डैशबोर्ड पर सभी दस्तावेज़ देखें",
+                    "डैशबोर्ड में सभी दस्तावेज़ कैसे देखें",
+                    "डैशबोर्ड में सभी दस्तावेज़ों की सूची",
+                    "डैशबोर्ड से सभी दस्तावेज़ एक्सेस करें",
+                    "डैशबोर्ड पर सभी दस्तावेज़ दिखाएं"
+                ],
+                "mr": [
+                    "डॅशबोर्डवर सर्व कागदपत्रे पाहा",
+                    "डॅशबोर्डमध्ये सर्व कागदपत्रे कशी पाहावीत",
+                    "डॅशबोर्डमध्ये सर्व कागदपत्रांची यादी",
+                    "डॅशबोर्डवरून सर्व कागदपत्रे उघडणे",
+                    "डॅशबोर्डवर सर्व दस्तऐवज दाखवा"
+                ]
+            }
         }
 
         all_texts = []
@@ -213,12 +262,6 @@ class BhusampadanChatbot:
                     for text in texts
                 ]
 
-    def get_fallback(self, language: str, role: str = None) -> str:
-        """Return a role-aware fallback message."""
-        role_label = self._role_labels.get(role, "Punarbhu") if role else "Punarbhu"
-        template = self._fallback_templates.get(language, self._fallback_templates["en"])
-        return template.format(role=role_label)
-
     def normalize(self, text: str) -> str:
         if not text:
             return ""
@@ -238,7 +281,7 @@ class BhusampadanChatbot:
             text = text.replace(w, "")
         return re.sub(r"\s+", " ", text).strip()
 
-    def detect_intent(self, cleaned: str, lang: str, allowed_keys: set = None):
+    def detect_intent(self, cleaned: str, lang: str, allowed_keys=None):
         # q_emb = self.embedder.encode(cleaned, convert_to_tensor=True)
         q_emb = self.embedder.encode(cleaned)
         best_key = None
@@ -289,6 +332,12 @@ class BhusampadanChatbot:
         ]
         return any(m in text for m in markers)
 
+    def get_fallback(self, language: str, role: str = None) -> str:
+        """Return a role-aware fallback message."""
+        role_label = self._role_labels.get(role, "Punarbhu") if role else "Punarbhu"
+        template = self._fallback_templates.get(language, self._fallback_templates["en"])
+        return template.format(role=role_label)
+
     def semantic_match(self, question: str, lang: str, role: str = None):
         if not question:
             return None
@@ -303,7 +352,6 @@ class BhusampadanChatbot:
         # Priority boost for Section 21(1),(4)
         if intent_key == "check_and_download_section_21_1":
             if self.has_section_21_1_4_marker(cleaned):
-                # Only boost if 21_1_4 is also allowed for this role
                 if allowed_keys is None or "check_and_download_section_21_1_4" in allowed_keys:
                     intent_key = "check_and_download_section_21_1_4"
 
@@ -323,7 +371,6 @@ class BhusampadanChatbot:
         if response_map:
             answer = response_map.get(intent_key, {}).get(lang) or response_map.get(intent_key, {}).get("en", "")
         if not answer:
-            # Fallback: search all role maps
             for rmap in ROLE_RESPONSE_MAPS.values():
                 answer = rmap.get(intent_key, {}).get(lang) or rmap.get(intent_key, {}).get("en", "")
                 if answer:

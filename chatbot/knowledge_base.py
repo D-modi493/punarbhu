@@ -756,6 +756,18 @@ KNOWLEDGE_BASES = {
 # Keys accessible by Samanvay Officer
 # ====================================================================
 RESPONSE_KEYS_MAP_SAMANVAY_OFFICER = {
+    'dashboard_change_proect' : {
+        'en' : 'on dashboard click on change project.',
+        'hi' : 'डॅशबोर्ड पर प्रकल्प बदला पर क्लिक करें।',
+        'mr' : 'डॅशबोर्डवरील प्रकल्प बदलावर क्लिक करा.'
+    },
+
+    'dashboard_all_document' : {
+        'en' : 'on dashboard click on All Document so you can see all pdf documents you can view and download all as zip',
+        'hi' : 'डॅशबोर्ड पर All Document पर क्लिक करें ताकि आप सभी पीडीएफ दस्तावेज़ देख सकें और उन्हें ज़िप फ़ाइल के रूप में डाउनलोड कर सकें।',
+        'mr' : 'डॅशबोर्डवरील All Document वर क्लिक करा जेणेकरून तुम्हाला सर्व पीडीएफ डॉक्युमेंट्स दिसतील आणि तुम्ही ते सर्व झिप म्हणून पाहू आणि डाउनलोड करू शकाल.'
+    },
+
     'create_project': {
         'en': 'On Sidebar go to Create/Edit Project -> Click on New Project button fill the form and select category.\n',
         'hi': 'साइडबार पर प्रकल्प व्यवस्थापन  -> नविन प्रकल्प बटन पर क्लिक करें, फॉर्म भरें और श्रेणी का चयन करें।\n',
@@ -788,7 +800,11 @@ RESPONSE_KEYS_MAP_LAO = {
 # Keys accessible by Project Incharge Officer
 # ====================================================================
 RESPONSE_KEYS_MAP_PROJECT_INCHARGE = {
-    
+    'edit_project': {
+        'en': 'Go to Create/Edit Project and click on Edit button.',
+        'hi': 'प्रकल्प व्यवस्थापन में जाएं और संपादित बटन पर क्लिक करें।',
+        'mr': 'प्रकल्प व्यवस्थापन विभागात जा आणि संपादन करा बटणावर क्लिक करा.',
+    },
 }
 
 # ====================================================================
@@ -821,6 +837,30 @@ RESPONSE_KEYS_MAP_TEHSILDAR = {
 # ====================================================================
 RESPONSE_KEYS_MAP_DRO = {
     
+}
+
+# ====================================================================
+# RESPONSE KEYS MAP - COLLECTOR
+# Keys accessible by Collector
+# ====================================================================
+RESPONSE_KEYS_MAP_COLLECTOR = {
+    'create_project': {
+        'en': 'On Sidebar go to Create/Edit Project -> Click on New Project button fill the form and select category.\n',
+        'hi': 'साइडबार पर प्रकल्प व्यवस्थापन  -> नविन प्रकल्प बटन पर क्लिक करें, फॉर्म भरें और श्रेणी का चयन करें।\n',
+        'mr': 'साइडबार वर प्रकल्प व्यवस्थापन -> नवीन प्रकल्प बटणावर क्लिक करा फॉर्म भरा आणि श्रेणी निवडा.\n',
+    },
+
+    'edit_project': {
+        'en': 'Go to Create/Edit Project and click on Edit button.',
+        'hi': 'प्रकल्प व्यवस्थापन में जाएं और संपादित बटन पर क्लिक करें।',
+        'mr': 'प्रकल्प व्यवस्थापन विभागात जा आणि संपादन करा बटणावर क्लिक करा.',
+    },
+
+    'proposal_landholding' : {
+        'en' : 'Go to Create/Edit Proposal and click on Landholding :\n 1) for see Details of Land To be Acquire like:\n -download Land Acquisition Officer Appointment \n -All Documents(नमुना "क" : भूसंपादन प्रस्ताव) \n -send to Respected Collector\n -send back to Project Incharge',
+        'hi' : 'प्रस्ताव प्रबंधन में जाएं और Landholding पर क्लिक करें:\n 1) अधिग्रहित की जाने वाली भूमि का विवरण देखने के लिए, जैसे:\n -भूमि अधिग्रहण अधिकारी नियुक्ति डाउनलोड करें \n -सभी दस्तावेज़ (नमुना "क": भूसंपादन प्रस्ताव) \n -सम्मानित कलेक्टर को भेजें\n -Project Incharge को वापस भेजें',
+        'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा:\n 1) संपादनासाठी प्रस्तावित जमिनीचा तपशील पाहा, जैसे:\n -भूसंपादन अधिकारी नियुक्ती पत्र डाउनलोड करा \n -सर्व दस्तावेज (नमुना "क": भूसंपादन प्रस्ताव) \n - मा.जिल्हाधिकारी यांच्याकडे पाठवा\n -Project Incharge परत पाठवा',
+    },
 }
 
 # INTENT_SENTENCES_MAP = {
@@ -912,7 +952,7 @@ def get_response_by_key(answer_key: str, language: str = 'en', role: str = None)
     """
     Get response by key in specified language.
     Optionally filter by role. Supported roles: 'samanvay_officer', 'lao', 'project_incharge',
-    'surveyor', 'dslr', 'tehsildar', 'dro'.
+    'surveyor', 'dslr', 'tehsildar', 'dro', 'collector'.
     Falls back to searching all role maps if key is not found in the given role map.
     """
     ROLE_MAP = {
@@ -923,6 +963,7 @@ def get_response_by_key(answer_key: str, language: str = 'en', role: str = None)
         'dslr': RESPONSE_KEYS_MAP_DSLR,
         'tehsildar': RESPONSE_KEYS_MAP_TEHSILDAR,
         'dro': RESPONSE_KEYS_MAP_DRO,
+        'collector': RESPONSE_KEYS_MAP_COLLECTOR,
     }
     if role and role in ROLE_MAP:
         role_map = ROLE_MAP[role]
@@ -940,7 +981,7 @@ def get_response_by_key_for_role(answer_key: str, role: str, language: str = 'en
     Get response by key strictly for a specific role and language.
     Returns None if the key is not accessible for the given role.
     Supported roles: 'samanvay_officer', 'lao', 'project_incharge',
-    'surveyor', 'dslr', 'tehsildar', 'dro'
+    'surveyor', 'dslr', 'tehsildar', 'dro', 'collector'
     """
     ROLE_MAP = {
         'samanvay_officer': RESPONSE_KEYS_MAP_SAMANVAY_OFFICER,
@@ -950,6 +991,7 @@ def get_response_by_key_for_role(answer_key: str, role: str, language: str = 'en
         'dslr': RESPONSE_KEYS_MAP_DSLR,
         'tehsildar': RESPONSE_KEYS_MAP_TEHSILDAR,
         'dro': RESPONSE_KEYS_MAP_DRO,
+        'collector': RESPONSE_KEYS_MAP_COLLECTOR,
     }
     role_map = ROLE_MAP.get(role)
     if role_map is None or answer_key not in role_map:
