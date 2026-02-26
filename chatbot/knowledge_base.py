@@ -788,11 +788,7 @@ RESPONSE_KEYS_MAP_LAO = {
 # Keys accessible by Project Incharge Officer
 # ====================================================================
 RESPONSE_KEYS_MAP_PROJECT_INCHARGE = {
-    'edit_project': {
-        'en': 'Go to Create/Edit Project and click on Edit button.',
-        'hi': 'प्रकल्प व्यवस्थापन में जाएं और संपादित बटन पर क्लिक करें।',
-        'mr': 'प्रकल्प व्यवस्थापन विभागात जा आणि संपादन करा बटणावर क्लिक करा.',
-    },
+    
 }
 
 # ====================================================================
@@ -824,16 +820,7 @@ RESPONSE_KEYS_MAP_TEHSILDAR = {
 # Keys accessible by DRO Officer
 # ====================================================================
 RESPONSE_KEYS_MAP_DRO = {
-    'proposal_landholding': {
-        'en': 'Go to Create/Edit Proposal and click on Landholding to review rehabilitation records (Namuna A) and documents sent to DRO for approval.',
-        'hi': 'भूसंपादन प्रस्ताव में जाएं और Landholding पर क्लिक करें। DRO को अनुमोदन के लिए भेजे गए पुनर्वसन रिकॉर्ड (नमुना अ) और दस्तावेज़ देखें।',
-        'mr': 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा. DRO कडे मंजुरीसाठी पाठवलेले पुनर्वसन नोंदी (नमुना अ) आणि दस्तऐवज पाहा.',
-    },
-    'create_project': {
-        'en': 'DRO Officer can view project and proposal details. Go to Create/Edit Project on the Sidebar to review assigned project information.',
-        'hi': 'DRO अधिकारी प्रोजेक्ट और प्रस्ताव विवरण देख सकते हैं। साइडबार पर प्रकल्प व्यवस्थापन में जाएं और सौंपे गए प्रोजेक्ट की जानकारी देखें।',
-        'mr': 'DRO अधिकारी प्रकल्प आणि प्रस्तावाचे तपशील पाहू शकतात. साइडबारवरील प्रकल्प व्यवस्थापन मध्ये जा आणि नियुक्त प्रकल्पाची माहिती पाहा.',
-    },
+    
 }
 
 # INTENT_SENTENCES_MAP = {
