@@ -161,7 +161,7 @@ RESPONSE_KEYS_MAP_SAMANVAY_OFFICER = {
     },
 
     'add_sub_user' : {
-        'en' : 'On sidebar Administration -> go to Sub-User Management -> Click on Add Sub-User button fill the form and click on Add Sub-User button',
+        'en' : 'On sidebar go to Administration -> Sub-User Management -> Click on Add Sub-User button fill the form and click on Add Sub-User button',
         'hi' : 'साइडबार में जाकर प्रशासन -> उप-वापरकर्ता व्यवस्थापन पर जाएं -> उप-वापरकर्ता जोड़ा बटन पर क्लिक करें, फॉर्म भरें और जोड़े पर क्लिक करें।',
         'mr' : 'साइडबारवरील प्रशासन -> उप-वापरकर्ता व्यवस्थापन विभागात जा -> उप-वापरकर्ता जोडा बटणावर क्लिक करा, फॉर्म भरा आणि जोड़ा बटणावर क्लिक करा.'
     },
