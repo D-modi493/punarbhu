@@ -250,6 +250,12 @@ RESPONSE_KEYS_MAP_PROJECT_INCHARGE = {
         'hi': 'प्रकल्प व्यवस्थापन में जाएं और संपादित बटन पर क्लिक करें।',
         'mr': 'प्रकल्प व्यवस्थापन विभागात जा आणि संपादन करा बटणावर क्लिक करा.',
     },
+
+    'create_proposal': {
+        'en' : 'Go to Create/Edit Proposal and click on Add Proposal button fill the form and click on save button.',
+        'hi' : 'प्रस्ताव प्रबंधन में जाएं और प्रस्ताव जोड़ें बटन पर क्लिक करें, फॉर्म भरें और सहेजें पर क्लिक करें।',
+        'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि नवीन प्रस्ताव बटणावर क्लिक करा, फॉर्म भरा आणि सेव्ह करा बटणावर क्लिक करा.'
+    },
 }
 
 # ====================================================================
@@ -410,93 +416,18 @@ RESPONSE_KEYS_MAP_COLLECTOR = {
         'mr': 'प्रकल्प व्यवस्थापन विभागात जा आणि संपादन करा बटणावर क्लिक करा.',
     },
 
+    'create_proposal': {
+        'en' : 'Go to Create/Edit Proposal and click on Add Proposal button fill the form and click on save button.',
+        'hi' : 'प्रस्ताव प्रबंधन में जाएं और प्रस्ताव जोड़ें बटन पर क्लिक करें, फॉर्म भरें और सहेजें पर क्लिक करें।',
+        'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि नवीन प्रस्ताव बटणावर क्लिक करा, फॉर्म भरा आणि सेव्ह करा बटणावर क्लिक करा.'
+    },
+
     'proposal_landholding' : {
         'en' : 'Go to Create/Edit Proposal and click on Landholding :\n 1) for see Details of Land To be Acquire like:\n -download Land Acquisition Officer Appointment \n -All Documents(नमुना "क" : भूसंपादन प्रस्ताव) \n -send to Respected Collector\n -send back to Project Incharge',
         'hi' : 'प्रस्ताव प्रबंधन में जाएं और Landholding पर क्लिक करें:\n 1) अधिग्रहित की जाने वाली भूमि का विवरण देखने के लिए, जैसे:\n -भूमि अधिग्रहण अधिकारी नियुक्ति डाउनलोड करें \n -सभी दस्तावेज़ (नमुना "क": भूसंपादन प्रस्ताव) \n -सम्मानित कलेक्टर को भेजें\n -Project Incharge को वापस भेजें',
         'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा:\n 1) संपादनासाठी प्रस्तावित जमिनीचा तपशील पाहा, जैसे:\n -भूसंपादन अधिकारी नियुक्ती पत्र डाउनलोड करा \n -सर्व दस्तावेज (नमुना "क": भूसंपादन प्रस्ताव) \n - मा.जिल्हाधिकारी यांच्याकडे पाठवा\n -Project Incharge परत पाठवा',
     },
 }
-
-# INTENT_SENTENCES_MAP = {
-#     "office_hours_responses": {
-#         'en' : ("What are the office hours"),
-#         'hi' : ("कार्यालय का समय क्या है"),
-#         'mr' : ("कार्यालयाचे वेळ काय आहेत")
-#     },
-    
-#     "create_project": {
-#         "en": "How to create a new project in the system",
-#         "hi": "सिस्टम में नया प्रोजेक्ट कैसे बनाएं",
-#         "mr": "सिस्टममध्ये नवीन प्रकल्प कसा तयार करायचा"
-#     },
-
-#     "change_project": {
-#         "en": "How to change or switch an existing project",
-#         "hi": "मौजूदा प्रोजेक्ट कैसे बदलें",
-#         "mr": "विद्यमान प्रकल्प कसा बदलायचा"
-#     },
-
-#     "summary_check": {
-#         "en": "How to check project summary or download summary report",
-#         "hi": "परियोजना का सारांश कैसे देखें या डाउनलोड करें",
-#         "mr": "प्रकल्पाचा सारांश कसा तपासायचा किंवा डाउनलोड करायचा"
-#     },
-
-#     "land_acquisistion_status": {
-#         "en": "How to check land acquisition status",
-#         "hi": "भूमि अधिग्रहण की स्थिति कैसे जांचें",
-#         "mr": "जमीन अधिग्रहणाची स्थिती कशी तपासायची",
-#     },
-
-#     "advance_payment_status": {
-#         "en": "How to check advance payment status",
-#         "hi": "एडवांस भुगतान की स्थिति कैसे जांचें"
-#               "एडवांस पेमेंट की स्थिति कैसे जांचें",
-#         "mr": "अॅडव्हान्स पेमेंटची स्थिती कशी तपासायची"
-#     },
-
-#     "edit_project": {
-#         "en": "How to edit or update an existing project",
-#         "hi": "मौजूदा प्रोजेक्ट को कैसे संपादित या अपडेट करें",
-#         "mr": "विद्यमान प्रकल्प कसा संपादित किंवा अपडेट करायचा"
-#     },
-
-#     "create_proposal": {
-#         "en": "How to create or add a new proposal",
-#         "hi": "नया प्रस्ताव कैसे बनाएं",
-#         "mr": "नवीन प्रस्ताव कसा तयार करायचा"
-#     }
-# }
-
-# ====================================================================
-# BUILD RESPONSE WITH DUMMY LINK
-# ====================================================================
-
-# def build_response_with_link(response_key, language):
-#     """
-#     Returns response text + dummy link based on response_key
-#     Example:
-#         response_key = "create_project"
-#         -> https://create_project.com
-#     """
-
-#     if response_key not in RESPONSE_KEYS_MAP:
-#         return None
-
-#     response_text = RESPONSE_KEYS_MAP[response_key].get(language)
-
-#     if not response_text:
-#         return None
-
-#     # Generate dummy link automatically
-#     clean_key = response_key.lower()
-#     link = f"https://{clean_key}.com"
-
-#     return {
-#         "text": response_text,
-#         "link": link
-#     }
-
 
 def get_knowledge_base(language: str = 'en') -> str:
     """Get knowledge base for specified language"""
