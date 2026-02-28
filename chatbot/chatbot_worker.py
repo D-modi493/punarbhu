@@ -393,50 +393,123 @@ class BhusampadanChatbot:
                     "प्रस्ताव जोडा"
                 ]
             },
+
+            "edit_proposal": {
+                "en": [
+                    "edit proposal",
+                    "modify proposal",
+                    "update proposal",
+                    "change proposal details",
+                    "proposal edit option",
+                    "how to edit proposal",
+                    "edit existing proposal",
+                    "update proposal information",
+                    "proposal modification",
+                    "edit proposal data"
+                ],
+                "hi": [
+                    "प्रस्ताव संपादित करें",
+                    "प्रस्ताव में बदलाव करें",
+                    "प्रस्ताव अपडेट करें",
+                    "प्रस्ताव विवरण बदलें",
+                    "प्रस्ताव संशोधन",
+                    "प्रस्ताव कैसे संपादित करें",
+                    "मौजूदा प्रस्ताव संपादित करें",
+                    "प्रस्ताव जानकारी अपडेट करें",
+                    "प्रस्ताव डेटा बदलें",
+                    "प्रस्ताव एडिट करना है"
+                ],
+                "mr": [
+                    "प्रस्ताव संपादित करा",
+                    "प्रस्ताव बदल करा",
+                    "प्रस्ताव अपडेट करा",
+                    "प्रस्ताव तपशील बदला",
+                    "प्रस्ताव सुधारणा",
+                    "प्रस्ताव कसा संपादित करावा",
+                    "विद्यमान प्रस्ताव संपादित करा",
+                    "प्रस्ताव माहिती अपडेट करा",
+                    "प्रस्ताव डेटा बदला",
+                    "प्रस्ताव एडिट करायचा आहे"
+                ]
+            },
             
             "proposal_landholding": {
                 "en": [
-                    "proposal landholding",
-                    "landholding in proposal",
-                    "add landholding in proposal",
-                    "proposal land holder details",
-                    "proposal land details entry",
-                    "land holder details in proposal",
-                    "land acquisition proposal landholding",
-                    "add land acquisition land details",
-                    "land acquisition landholder entry",
-                    "enter land acquisition land record in proposal",
-                    "land acquisition proposal land details"
+                    "add landholding",
+                    "landholding entry",
+                    "add land details in proposal",
+                    "enter landholding information",
+                    "manage landholding",
+                    "update landholding details",
+                    "land parcel entry",
+                    "add land record in proposal",
+                    "land survey details entry",
+                    "proposal landholding section"
                 ],
-
                 "hi": [
-                    "प्रस्ताव में जमीनधारक कैसे जोड़ें",
-                    "प्रस्ताव भूमि धारक विवरण",
-                    "प्रस्ताव में भूमि विवरण कैसे दर्ज करें",
-                    "प्रस्ताव जमीनधारक जोड़ना",
-                    "प्रस्ताव में लैंड होल्डिंग जोड़ें",
-                    "प्रस्ताव में भूमि स्वामी जानकारी",
-                    "भूमि अधिग्रहण प्रस्ताव में जमीनधारक जोड़ें",
-                    "भूमि अधिग्रहण भूमि विवरण दर्ज करें",
-                    "भूमि अधिग्रहण प्रस्ताव भूमि रिकॉर्ड",
-                    "भूमि अधिग्रहण जमीनधारक एंट्री",
-                    "भूमि अधिग्रहण प्रस्ताव में भूमि जानकारी"
+                    "भूमि विवरण जोड़ें",
+                    "भूमि होल्डिंग प्रविष्टि",
+                    "प्रस्ताव में भूमि विवरण जोड़ें",
+                    "भूमि जानकारी दर्ज करें",
+                    "भूमि रिकॉर्ड जोड़ें",
+                    "भूमि सर्वे विवरण दर्ज करें",
+                    "भूमि विवरण अपडेट करें",
+                    "भूमि होल्डिंग प्रबंधन",
+                    "प्रस्ताव भूमि अनुभाग",
+                    "जमीन का विवरण भरें"
                 ],
-
                 "mr": [
-                    "प्रस्तावामध्ये भूधारक कसा जोडावा",
-                    "प्रस्ताव जमीनधारक माहिती",
-                    "प्रस्तावात जमीन तपशील कसा भरावा",
-                    "प्रस्ताव भूधारक जोडा",
-                    "प्रस्तावात लँड होल्डिंग जोडा",
-                    "प्रस्ताव जमीन मालक माहिती",
-                    "भूसंपादन प्रस्तावात भूधारक जोडा",
-                    "भूसंपादन जमीन तपशील भरा",
-                    "भूसंपादन प्रस्ताव जमीन नोंद",
-                    "भूसंपादन भूधारक एंट्री",
-                    "भूसंपादन प्रस्ताव जमीन माहिती"
+                    "जमीन तपशील जोडा",
+                    "जमीन होल्डिंग नोंद",
+                    "प्रस्तावात जमीन तपशील जोडा",
+                    "जमीन माहिती भरा",
+                    "जमीन रेकॉर्ड जोडा",
+                    "जमीन सर्वे तपशील भरा",
+                    "जमीन तपशील अपडेट करा",
+                    "जमीन होल्डिंग व्यवस्थापन",
+                    "प्रस्ताव जमीन विभाग",
+                    "जमीनचा तपशील भरा"
                 ]
-            }
+            },
+
+            "section_11_covering_letter": {
+                "en": [
+                    "section 11 covering letter",
+                    "open section 11 letter",
+                    "section 11 approval letter",
+                    "section 11 notification letter",
+                    "preliminary notification section 11",
+                    "kalama 11 manayata",
+                    "section 11 document",
+                    "open section 11 document",
+                    "section 11 covering document",
+                    "publication section 11 letter"
+                ],
+                "hi": [
+                    "धारा 11 आवरण पत्र",
+                    "धारा 11 पत्र खोलें",
+                    "कलम 11 मान्यता पत्र",
+                    "धारा 11 अधिसूचना पत्र",
+                    "प्राथमिक अधिसूचना धारा 11",
+                    "कलम 11 दस्तावेज़",
+                    "धारा 11 पत्र देखें",
+                    "कलम 11 मान्यता खोलें",
+                    "धारा 11 कवरिंग लेटर",
+                    "सेक्शन 11 पत्र"
+                ],
+                "mr": [
+                    "कलम 11 आवरण पत्र",
+                    "कलम 11 पत्र उघडा",
+                    "कलम 11 मान्यता पत्र",
+                    "कलम 11 अधिसूचना पत्र",
+                    "प्रारंभिक अधिसूचना कलम 11",
+                    "कलम 11 दस्तऐवज",
+                    "कलम 11 पत्र पहा",
+                    "कलम 11 मान्यता उघडा",
+                    "सेक्शन 11 पत्र",
+                    "कलम 11 कवरिंग लेटर"
+                ]
+            },
         }
 
         all_texts = []

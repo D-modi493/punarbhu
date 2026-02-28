@@ -179,9 +179,15 @@ RESPONSE_KEYS_MAP_SAMANVAY_OFFICER = {
     },
 
     'proposal_landholding' : {
-        'en' : 'Go to Create/Edit Proposal and click on Landholding :\n 1) for see Details of Land To be Acquire like:\n -download Land Acquisition Officer Appointment \n -All Documents(नमुना "क" : भूसंपादन प्रस्ताव) \n -send to Respected Collector\n -send back to Project Incharge',
-        'hi' : 'प्रस्ताव प्रबंधन में जाएं और Landholding पर क्लिक करें:\n 1) अधिग्रहित की जाने वाली भूमि का विवरण देखने के लिए, जैसे:\n -भूमि अधिग्रहण अधिकारी नियुक्ति डाउनलोड करें \n -सभी दस्तावेज़ (नमुना "क": भूसंपादन प्रस्ताव) \n -सम्मानित कलेक्टर को भेजें\n -Project Incharge को वापस भेजें',
-        'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा:\n 1) संपादनासाठी प्रस्तावित जमिनीचा तपशील पाहा, जैसे:\n -भूसंपादन अधिकारी नियुक्ती पत्र डाउनलोड करा \n -सर्व दस्तावेज (नमुना "क": भूसंपादन प्रस्ताव) \n - मा.जिल्हाधिकारी यांच्याकडे पाठवा\n -Project Incharge परत पाठवा',
+        'en' : 'Go to Create/Edit Proposal and click on Landholding :\n 1) for see Details of Land To be Acquire like:\n -Appendix 4 \n -Appendix 5 \n -Appendix 7 \n -download Land Acquisition Officer Appointment \n -All Documents(नमुना "क" : भूसंपादन प्रस्ताव) \n -send to Respected Collector\n -send back to Project Incharge',
+        'hi' : 'प्रस्ताव प्रबंधन में जाएं और Landholding पर क्लिक करें:\n 1) अधिग्रहित की जाने वाली भूमि का विवरण देखने के लिए, जैसे:\n -परिशिष्ट 4 \n -परिशिष्ट 5 \n -परिशिष्ट 7 \n -भूमि अधिग्रहण अधिकारी नियुक्ति डाउनलोड करें \n -सभी दस्तावेज़ (नमुना "क": भूसंपादन प्रस्ताव) \n -सम्मानित कलेक्टर को भेजें\n -Project Incharge को वापस भेजें',
+        'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा:\n 1) संपादनासाठी प्रस्तावित जमिनीचा तपशील पाहा, जैसे:\n -परिशिष्ट 4 \n -परिशिष्ट 5 \n -परिशिष्ट 7 \n-भूसंपादन अधिकारी नियुक्ती पत्र डाउनलोड करा \n -सर्व दस्तावेज (नमुना "क": भूसंपादन प्रस्ताव) \n - मा.जिल्हाधिकारी यांच्याकडे पाठवा\n -Project Incharge परत पाठवा',
+    },
+
+    'section_11_covering_letter' : {
+        'en' : 'Go to Publication Preliminary Notification and click on कलम 11 मान्यता so Section 11 Covering Letter will open.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और कलम 11 मान्यता पर क्लिक करें ताकि धारा 11 आवरण पत्र खुल जाए।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि कलम 11 मान्यता वर क्लिक करा जेणेकरून कलम 11 मान्यता उघडेल.'
     },
 }
 
@@ -212,6 +218,12 @@ RESPONSE_KEYS_MAP_LAO = {
         'en' : 'On sidebar Administration -> go to Sub-User Management -> Click on Add Sub-User button fill the form and click on Add Sub-User button',
         'hi' : 'साइडबार में जाकर प्रशासन -> उप-वापरकर्ता व्यवस्थापन पर जाएं -> उप-वापरकर्ता जोड़ा बटन पर क्लिक करें, फॉर्म भरें और जोड़े पर क्लिक करें।',
         'mr' : 'साइडबारवरील प्रशासन -> उप-वापरकर्ता व्यवस्थापन विभागात जा -> उप-वापरकर्ता जोडा बटणावर क्लिक करा, फॉर्म भरा आणि जोड़ा बटणावर क्लिक करा.'
+    },
+
+    'proposal_landholding' : {
+        'en' : 'Go to Create/Edit Proposal and click on Landholding :\n 1) for see Details of Land To be Acquire like:\n -All Documents(नमुना "क" : भूसंपादन प्रस्ताव)',
+        'hi' : 'प्रस्ताव प्रबंधन में जाएं और Landholding पर क्लिक करें:\n 1) अधिग्रहित की जाने वाली भूमि का विवरण देखने के लिए, जैसे:\n  -सभी दस्तावेज़ (नमुना "क": भूसंपादन प्रस्ताव)',
+        'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा:\n 1) संपादनासाठी प्रस्तावित जमिनीचा तपशील पाहा, जैसे:\n -सर्व दस्तावेज (नमुना "क": भूसंपादन प्रस्ताव)'
     },
     
 }
@@ -252,9 +264,15 @@ RESPONSE_KEYS_MAP_PROJECT_INCHARGE = {
     },
 
     'create_proposal': {
-        'en' : 'Go to Create/Edit Proposal and click on Add Proposal button fill the form and click on save button.',
-        'hi' : 'प्रस्ताव प्रबंधन में जाएं और प्रस्ताव जोड़ें बटन पर क्लिक करें, फॉर्म भरें और सहेजें पर क्लिक करें।',
-        'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि नवीन प्रस्ताव बटणावर क्लिक करा, फॉर्म भरा आणि सेव्ह करा बटणावर क्लिक करा.'
+        'en' : 'Go to Proposal and click on Add Proposal button fill the form and click on save button.',
+        'hi' : 'प्रस्ताव में जाएं और प्रस्ताव जोड़ें बटन पर क्लिक करें, फॉर्म भरें और सहेजें पर क्लिक करें।',
+        'mr' : 'प्रस्ताव मध्ये जा आणि नवीन प्रस्ताव बटणावर क्लिक करा, फॉर्म भरा आणि सेव्ह करा बटणावर क्लिक करा.'
+    },
+
+    'edit_proposal' : {
+        'en' : 'Go to Proposal and click on Edit button.',
+        'hi' : 'प्रस्ताव में जाएं और संपादित बटन पर क्लिक करें।',
+        'mr' : 'प्रस्ताव मध्ये जा आणि संपादित करा बटणावर क्लिक करा.'
     },
 }
 
@@ -417,15 +435,21 @@ RESPONSE_KEYS_MAP_COLLECTOR = {
     },
 
     'create_proposal': {
-        'en' : 'Go to Create/Edit Proposal and click on Add Proposal button fill the form and click on save button.',
-        'hi' : 'प्रस्ताव प्रबंधन में जाएं और प्रस्ताव जोड़ें बटन पर क्लिक करें, फॉर्म भरें और सहेजें पर क्लिक करें।',
-        'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि नवीन प्रस्ताव बटणावर क्लिक करा, फॉर्म भरा आणि सेव्ह करा बटणावर क्लिक करा.'
+        'en' : 'Go to Proposal and click on Add Proposal button fill the form and click on save button.',
+        'hi' : 'प्रस्ताव में जाएं और प्रस्ताव जोड़ें बटन पर क्लिक करें, फॉर्म भरें और सहेजें पर क्लिक करें।',
+        'mr' : 'प्रस्ताव मध्ये जा आणि नवीन प्रस्ताव बटणावर क्लिक करा, फॉर्म भरा आणि सेव्ह करा बटणावर क्लिक करा.'
+    },
+
+    'edit_proposal' : {
+        'en' : 'Go to Proposal and click on Edit button.',
+        'hi' : 'प्रस्ताव में जाएं और संपादित बटन पर क्लिक करें।',
+        'mr' : 'प्रस्ताव मध्ये जा आणि संपादित करा बटणावर क्लिक करा.'
     },
 
     'proposal_landholding' : {
-        'en' : 'Go to Create/Edit Proposal and click on Landholding :\n 1) for see Details of Land To be Acquire like:\n -download Land Acquisition Officer Appointment \n -All Documents(नमुना "क" : भूसंपादन प्रस्ताव) \n -send to Respected Collector\n -send back to Project Incharge',
-        'hi' : 'प्रस्ताव प्रबंधन में जाएं और Landholding पर क्लिक करें:\n 1) अधिग्रहित की जाने वाली भूमि का विवरण देखने के लिए, जैसे:\n -भूमि अधिग्रहण अधिकारी नियुक्ति डाउनलोड करें \n -सभी दस्तावेज़ (नमुना "क": भूसंपादन प्रस्ताव) \n -सम्मानित कलेक्टर को भेजें\n -Project Incharge को वापस भेजें',
-        'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा:\n 1) संपादनासाठी प्रस्तावित जमिनीचा तपशील पाहा, जैसे:\n -भूसंपादन अधिकारी नियुक्ती पत्र डाउनलोड करा \n -सर्व दस्तावेज (नमुना "क": भूसंपादन प्रस्ताव) \n - मा.जिल्हाधिकारी यांच्याकडे पाठवा\n -Project Incharge परत पाठवा',
+        'en' : 'Go to Create/Edit Proposal and click on Landholding :\n 1) for see Details of Land To be Acquire like:\n -download Land Acquisition Officer Appointment \n -All Documents(नमुना "क" : भूसंपादन प्रस्ताव) \n -Back to Samanvay \n -Assign LAO Officer',
+        'hi' : 'प्रस्ताव प्रबंधन में जाएं और Landholding पर क्लिक करें:\n 1) अधिग्रहित की जाने वाली भूमि का विवरण देखने के लिए, जैसे:\n -भूमि अधिग्रहण अधिकारी नियुक्ति डाउनलोड करें \n -सभी दस्तावेज़ (नमुना "क": भूसंपादन प्रस्ताव) \n -Back to Samanvay \n -LAO अधिकारी नियुक्त करा ',
+        'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा:\n 1) संपादनासाठी प्रस्तावित जमिनीचा तपशील पाहा, जैसे:\n -भूसंपादन अधिकारी नियुक्ती पत्र डाउनलोड करा \n -सर्व दस्तावेज (नमुना "क": भूसंपादन प्रस्ताव) \n -Back to Samanvay \n-LAO अधिकारी नियुक्त करा ',
     },
 }
 
