@@ -189,6 +189,19 @@ RESPONSE_KEYS_MAP_SAMANVAY_OFFICER = {
         'hi' : 'प्राथमिक अधिसूचना पर जाएं और कलम 11 मान्यता पर क्लिक करें ताकि धारा 11 आवरण पत्र खुल जाए।',
         'mr' : 'प्रारंभिक अधिसूचना वर जा आणि कलम 11 मान्यता वर क्लिक करा जेणेकरून कलम 11 मान्यता उघडेल.'
     },
+
+    'section_11' : {
+        'en' : 'Go to Publication Preliminary Notification and click on Preliminary Notification(Section-11) so Section 11 details will open.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और प्रारंभिक अधिसूचना(धारा-11) पर क्लिक करें ताकि धारा 11 के विवरण खुलें।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि प्रारंभिक अधिसूचना वर क्लिक करा जेणेकरून प्रारंभिक अधिसूचना माहिती उघडेल.'
+    },
+
+    'view_publication_proposal' : {
+        'en' : 'Go to Publication Preliminary Notification and click on View Detail so you can see all details of the proposal.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और विवरण देखे पर क्लिक करें ताकि आप सभी प्रस्ताव के विवरण देख सकें।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि तपशील पाहा वर क्लिक करा जेणेकरून तुम्हाला सर्व प्रस्तावाची माहिती पाहायला मिळेल.'
+    },
+
 }
 
 # ====================================================================
@@ -225,7 +238,42 @@ RESPONSE_KEYS_MAP_LAO = {
         'hi' : 'प्रस्ताव प्रबंधन में जाएं और Landholding पर क्लिक करें:\n 1) अधिग्रहित की जाने वाली भूमि का विवरण देखने के लिए, जैसे:\n  -सभी दस्तावेज़ (नमुना "क": भूसंपादन प्रस्ताव)',
         'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा:\n 1) संपादनासाठी प्रस्तावित जमिनीचा तपशील पाहा, जैसे:\n -सर्व दस्तावेज (नमुना "क": भूसंपादन प्रस्ताव)'
     },
+
+    'section_11' : {
+        'en' : 'Go to Publication Preliminary Notification and click on Preliminary Notification(Section-11) so Section 11 details will open.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और प्रारंभिक अधिसूचना(धारा-11) पर क्लिक करें ताकि धारा 11 के विवरण खुलें।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि प्रारंभिक अधिसूचना वर क्लिक करा जेणेकरून प्रारंभिक अधिसूचना माहिती उघडेल.'
+    },
+
+    'section_11_edit' : {
+        'en' : 'Go to Publication Preliminary Notification and click on Preliminary Noptification(Section-11) -> click on Edit button.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और प्रारंभिक अधिसूचना(धारा-11) पर क्लिक करें -> संपादित करे बटन पर क्लिक करें।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि प्रारंभिक अधिसूचना वर क्लिक करा -> संपादन करा बटणावर क्लिक करा'
+    },
     
+    'section_11_send_to_samanvay_officer' : {
+        'en' : 'Go to Publication Preliminary Notification and click on Preliminary Notification(Section-11) -> click on send to Samanvay Officer.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और प्रारंभिक अधिसूचना(धारा-11) पर क्लिक करें -> समन्वय अधिकारी को भेजें पर क्लिक करें।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि प्रारंभिक अधिसूचना(कलम-11) वर क्लिक करा -> समन्वय अधिकाऱ्यांना पाठवा वर क्लिक करा.'
+    },
+
+    'land_record_realisation_send_to_tehsildar' : {
+        'en' : 'Go to Publication Preliminary Notification and click on send to Tehsildar -> fill the required information and click on send to tehsildar.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और भूमि अभिलेख वसूली पर क्लिक करें -> आवश्यक जानकारी भरे और send to tehsildar पर क्लिक करें।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि भूमिअभिलेख अध्यवतीकरण वर क्लिक करा -> आवश्यक माहिती भरा आणि send to tehsildar वर क्लिक करा।'
+     },
+
+     'send_publication_proposal_to_dslr_for_joint_calculation' : {
+         'en' : 'Go to Publication Preliminary Notification and click on send to DSLR officer.',
+         'hi' : 'प्राथमिक अधिसूचना पर जाएं और संयुक्त गणना हेतु भेजें पर क्लिक करें।',
+         'mr' : 'प्रारंभिक अधिसूचना वर जा आणि संयुक्त मोजणीसाठी पाठवा वर क्लिक करा.'
+     },
+
+     'view_publication_proposal' : {
+        'en' : 'Go to Publication Preliminary Notification and click on View Detail so you can see all details of the proposal.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और विवरण देखे पर क्लिक करें ताकि आप सभी प्रस्ताव के विवरण देख सकें।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि तपशील पाहा वर क्लिक करा जेणेकरून तुम्हाला सर्व प्रस्तावाची माहिती पाहायला मिळेल.'
+    },
 }
 
 # ====================================================================
@@ -450,6 +498,48 @@ RESPONSE_KEYS_MAP_COLLECTOR = {
         'en' : 'Go to Create/Edit Proposal and click on Landholding :\n 1) for see Details of Land To be Acquire like:\n -download Land Acquisition Officer Appointment \n -All Documents(नमुना "क" : भूसंपादन प्रस्ताव) \n -Back to Samanvay \n -Assign LAO Officer',
         'hi' : 'प्रस्ताव प्रबंधन में जाएं और Landholding पर क्लिक करें:\n 1) अधिग्रहित की जाने वाली भूमि का विवरण देखने के लिए, जैसे:\n -भूमि अधिग्रहण अधिकारी नियुक्ति डाउनलोड करें \n -सभी दस्तावेज़ (नमुना "क": भूसंपादन प्रस्ताव) \n -Back to Samanvay \n -LAO अधिकारी नियुक्त करा ',
         'mr' : 'भूसंपादन प्रस्ताव मध्ये जा आणि Landholding वर क्लिक करा:\n 1) संपादनासाठी प्रस्तावित जमिनीचा तपशील पाहा, जैसे:\n -भूसंपादन अधिकारी नियुक्ती पत्र डाउनलोड करा \n -सर्व दस्तावेज (नमुना "क": भूसंपादन प्रस्ताव) \n -Back to Samanvay \n-LAO अधिकारी नियुक्त करा ',
+    },
+
+    'section_11_covering_letter' : {
+        'en' : 'Go to Publication Preliminary Notification and click on कलम 11 मान्यता so Section 11 Covering Letter will open.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और कलम 11 मान्यता पर क्लिक करें ताकि धारा 11 आवरण पत्र खुल जाए।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि कलम 11 मान्यता वर क्लिक करा जेणेकरून कलम 11 मान्यता उघडेल.'
+    },
+
+    'section_11' : {
+        'en' : 'Go to Publication Preliminary Notification and click on Preliminary Notification(Section-11) so Section 11 details will open.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और प्रारंभिक अधिसूचना(धारा-11) पर क्लिक करें ताकि धारा 11 के विवरण खुलें।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि प्रारंभिक अधिसूचना वर क्लिक करा जेणेकरून प्रारंभिक अधिसूचना माहिती उघडेल.'
+    },
+
+    'section_11_edit' : {
+        'en' : 'Go to Publication Preliminary Notification and click on Preliminary Noptification(Section-11) -> click on Edit button.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और प्रारंभिक अधिसूचना(धारा-11) पर क्लिक करें -> संपादित करे बटन पर क्लिक करें।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि प्रारंभिक अधिसूचना वर क्लिक करा -> संपादन करा बटणावर क्लिक करा'
+    },
+    
+    'section_11_send_to_samanvay_officer' : {
+        'en' : 'Go to Publication Preliminary Notification and click on Preliminary Notification(Section-11) -> click on send to Samanvay Officer.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और प्रारंभिक अधिसूचना(धारा-11) पर क्लिक करें -> समन्वय अधिकारी को भेजें पर क्लिक करें।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि प्रारंभिक अधिसूचना(कलम-11) वर क्लिक करा -> समन्वय अधिकाऱ्यांना पाठवा वर क्लिक करा.'
+    },
+
+    'land_record_realisation_send_to_tehsildar' : {
+        'en' : 'Go to Publication Preliminary Notification and click on send to Tehsildar -> fill the required information and click on send to tehsildar.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और भूमि अभिलेख वसूली पर क्लिक करें -> आवश्यक जानकारी भरे और send to tehsildar पर क्लिक करें।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि भूमिअभिलेख अध्यवतीकरण वर क्लिक करा -> आवश्यक माहिती भरा आणि send to tehsildar वर क्लिक करा।'
+     },
+
+    'assign_dro_for_publication_preliminary_notification' : {
+         'en' : 'Go to Publication Preliminary Notification and click on Assign DRO.',
+         'hi' : 'प्राथमिक अधिसूचना पर जाएं और Asign DRO पर क्लिक करें।',
+         'mr' : 'प्रारंभिक अधिसूचना वर जा आणि Assign DRO वर क्लिक करा.'
+     },
+
+    'view_publication_proposal' : {
+        'en' : 'Go to Publication Preliminary Notification and click on View Detail so you can see all details of the proposal.',
+        'hi' : 'प्राथमिक अधिसूचना पर जाएं और विवरण देखे पर क्लिक करें ताकि आप सभी प्रस्ताव के विवरण देख सकें।',
+        'mr' : 'प्रारंभिक अधिसूचना वर जा आणि तपशील पाहा वर क्लिक करा जेणेकरून तुम्हाला सर्व प्रस्तावाची माहिती पाहायला मिळेल.'
     },
 }
 

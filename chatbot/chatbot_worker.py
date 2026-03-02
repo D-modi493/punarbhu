@@ -510,6 +510,279 @@ class BhusampadanChatbot:
                     "कलम 11 कवरिंग लेटर"
                 ]
             },
+
+            "section_11": {
+                "en": [
+                    "section 11 details",
+                    "open section 11",
+                    "preliminary notification section 11",
+                    "section 11 information",
+                    "section 11 page",
+                    "view section 11",
+                    "section 11 notification details",
+                    "open preliminary notification",
+                    "section 11 main page",
+                    "publication section 11"
+                ],
+                "hi": [
+                    "धारा 11 विवरण",
+                    "धारा 11 खोलें",
+                    "प्रारंभिक अधिसूचना धारा 11",
+                    "धारा 11 की जानकारी",
+                    "धारा 11 पेज",
+                    "धारा 11 देखें",
+                    "धारा 11 अधिसूचना विवरण",
+                    "प्रारंभिक अधिसूचना खोलें",
+                    "सेक्शन 11 विवरण",
+                    "धारा 11 मुख्य पृष्ठ"
+                ],
+                "mr": [
+                    "कलम 11 तपशील",
+                    "कलम 11 उघडा",
+                    "प्रारंभिक अधिसूचना कलम 11",
+                    "कलम 11 माहिती",
+                    "कलम 11 पृष्ठ",
+                    "कलम 11 पहा",
+                    "कलम 11 अधिसूचना तपशील",
+                    "प्रारंभिक अधिसूचना उघडा",
+                    "सेक्शन 11 तपशील",
+                    "कलम 11 मुख्य पृष्ठ"
+                ]
+            },
+
+            "section_11_edit": {
+                "en": [
+                    "edit section 11",
+                    "modify section 11",
+                    "update section 11",
+                    "edit section 11 details",
+                    "change section 11 information",
+                    "update preliminary notification section 11",
+                    "edit section 11 notification",
+                    "section 11 edit option",
+                    "modify preliminary notification",
+                    "section 11 update"
+                ],
+                "hi": [
+                    "धारा 11 संपादित करें",
+                    "धारा 11 अपडेट करें",
+                    "धारा 11 में बदलाव करें",
+                    "धारा 11 विवरण संपादित करें",
+                    "प्रारंभिक अधिसूचना धारा 11 अपडेट करें",
+                    "सेक्शन 11 एडिट करें",
+                    "धारा 11 की जानकारी बदलें",
+                    "धारा 11 संशोधित करें",
+                    "धारा 11 संपादन",
+                    "धारा 11 में परिवर्तन करें"
+                ],
+                "mr": [
+                    "कलम 11 संपादित करा",
+                    "कलम 11 अपडेट करा",
+                    "कलम 11 बदल करा",
+                    "कलम 11 तपशील संपादित करा",
+                    "प्रारंभिक अधिसूचना कलम 11 अपडेट करा",
+                    "सेक्शन 11 एडिट करा",
+                    "कलम 11 माहिती बदला",
+                    "कलम 11 सुधारणा करा",
+                    "कलम 11 संपादन",
+                    "कलम 11 मध्ये बदल करा"
+                ]
+            },
+
+            "section_11_send_to_samanvay_officer": {
+                "en": [
+                    "send section 11 to samanvay officer",
+                    "send to samanvay officer section 11",
+                    "forward section 11 to officer",
+                    "submit section 11 to samanvay",
+                    "section 11 send option",
+                    "send preliminary notification to officer",
+                    "forward preliminary notification section 11",
+                    "send section 11 for review",
+                    "transfer section 11 to samanvay officer",
+                    "section 11 submit to officer"
+                ],
+                "hi": [
+                    "धारा 11 समन्वय अधिकारी को भेजें",
+                    "धारा 11 अग्रेषित करें",
+                    "सेक्शन 11 समन्वय अधिकारी को भेजें",
+                    "प्रारंभिक अधिसूचना धारा 11 भेजें",
+                    "धारा 11 समीक्षा के लिए भेजें",
+                    "धारा 11 अधिकारी को सबमिट करें",
+                    "धारा 11 फॉरवर्ड करें",
+                    "धारा 11 समन्वय अधिकारी को ट्रांसफर करें",
+                    "सेक्शन 11 भेजना है",
+                    "धारा 11 भेजें"
+                ],
+                "mr": [
+                    "कलम 11 समन्वय अधिकाऱ्यांना पाठवा",
+                    "कलम 11 अग्रेषित करा",
+                    "सेक्शन 11 समन्वय अधिकाऱ्यांना पाठवा",
+                    "प्रारंभिक अधिसूचना कलम 11 पाठवा",
+                    "कलम 11 पुनरावलोकनासाठी पाठवा",
+                    "कलम 11 अधिकारीकडे सबमिट करा",
+                    "कलम 11 फॉरवर्ड करा",
+                    "कलम 11 ट्रान्सफर करा",
+                    "सेक्शन 11 पाठवायचे आहे",
+                    "कलम 11 पाठवा"
+                ]
+            },
+
+            "land_record_realisation_send_to_tehsildar": {
+                "en": [
+                    "send land record realisation to tehsildar",
+                    "forward land record to tehsildar",
+                    "submit land record to tehsildar",
+                    "send land record details",
+                    "land record send option",
+                    "realisation send to tehsildar",
+                    "transfer land record to tehsildar",
+                    "submit land record for verification",
+                    "send land record information",
+                    "forward land record realisation"
+                ],
+                "hi": [
+                    "भूमि अभिलेख वसूली तहसीलदार को भेजें",
+                    "भूमि रिकॉर्ड तहसीलदार को भेजें",
+                    "भूमि अभिलेख भेजें",
+                    "तहसीलदार को भूमि विवरण भेजें",
+                    "भूमि रिकॉर्ड सबमिट करें",
+                    "भूमि अभिलेख अग्रेषित करें",
+                    "भूमि वसूली तहसीलदार को भेजें",
+                    "भूमि रिकॉर्ड ट्रांसफर करें",
+                    "भूमि जानकारी तहसीलदार को भेजें",
+                    "भूमि अभिलेख अधिकारी को भेजें"
+                ],
+                "mr": [
+                    "भूमिअभिलेख तहसीलदारांना पाठवा",
+                    "जमीन रेकॉर्ड तहसीलदारांकडे पाठवा",
+                    "भूमिअभिलेख पाठवा",
+                    "तहसीलदारांना जमीन तपशील पाठवा",
+                    "जमीन रेकॉर्ड सबमिट करा",
+                    "भूमिअभिलेख अग्रेषित करा",
+                    "जमीन वसूली तहसीलदारांना पाठवा",
+                    "जमीन रेकॉर्ड ट्रान्सफर करा",
+                    "जमीन माहिती तहसीलदारांना पाठवा",
+                    "भूमिअभिलेख अधिकारीकडे पाठवा"
+                ]
+            },
+
+            "send_publication_proposal_to_dslr_for_joint_calculation": {
+                "en": [
+                    "send publication proposal to dslr",
+                    "send proposal to dslr officer",
+                    "forward proposal to dslr",
+                    "submit proposal for joint calculation",
+                    "joint calculation send to dslr",
+                    "send for joint measurement",
+                    "forward publication proposal",
+                    "transfer proposal to dslr",
+                    "send proposal for joint survey",
+                    "submit publication proposal to dslr"
+                ],
+                "hi": [
+                    "प्रकाशन प्रस्ताव DSLR को भेजें",
+                    "प्रस्ताव DSLR अधिकारी को भेजें",
+                    "संयुक्त गणना हेतु प्रस्ताव भेजें",
+                    "संयुक्त मापन के लिए भेजें",
+                    "प्रस्ताव अग्रेषित करें DSLR को",
+                    "प्रकाशन प्रस्ताव सबमिट करें",
+                    "संयुक्त गणना के लिए प्रस्ताव ट्रांसफर करें",
+                    "प्रस्ताव DSLR को फॉरवर्ड करें",
+                    "संयुक्त सर्वे हेतु भेजें",
+                    "प्रस्ताव DSLR अधिकारी को सबमिट करें"
+                ],
+                "mr": [
+                    "प्रकाशन प्रस्ताव DSLR ला पाठवा",
+                    "प्रस्ताव DSLR अधिकाऱ्यांना पाठवा",
+                    "संयुक्त मोजणीसाठी प्रस्ताव पाठवा",
+                    "संयुक्त गणनेसाठी पाठवा",
+                    "प्रस्ताव अग्रेषित करा DSLR ला",
+                    "प्रकाशन प्रस्ताव सबमिट करा",
+                    "संयुक्त मोजणीसाठी ट्रान्सफर करा",
+                    "प्रस्ताव DSLR कडे फॉरवर्ड करा",
+                    "संयुक्त सर्वेसाठी पाठवा",
+                    "प्रस्ताव DSLR अधिकाऱ्यांकडे पाठवा"
+                ]
+            },
+
+            "assign_dro_for_publication_preliminary_notification": {
+                "en": [
+                    "assign dro",
+                    "assign dro for publication",
+                    "assign dro for preliminary notification",
+                    "select dro officer",
+                    "allocate dro",
+                    "assign dro to publication proposal",
+                    "dro assignment",
+                    "set dro officer",
+                    "choose dro",
+                    "assign dro option"
+                ],
+                "hi": [
+                    "डीआरओ नियुक्त करें",
+                    "प्रकाशन के लिए डीआरओ नियुक्त करें",
+                    "प्रारंभिक अधिसूचना के लिए डीआरओ असाइन करें",
+                    "डीआरओ अधिकारी चुनें",
+                    "डीआरओ आवंटित करें",
+                    "डीआरओ सेट करें",
+                    "डीआरओ चयन करें",
+                    "प्रकाशन प्रस्ताव के लिए डीआरओ असाइन करें",
+                    "डीआरओ नियुक्ति",
+                    "डीआरओ असाइन करें"
+                ],
+                "mr": [
+                    "डीआरओ नियुक्त करा",
+                    "प्रकाशनासाठी डीआरओ नियुक्त करा",
+                    "प्रारंभिक अधिसूचनेसाठी डीआरओ असाइन करा",
+                    "डीआरओ अधिकारी निवडा",
+                    "डीआरओ वाटप करा",
+                    "डीआरओ सेट करा",
+                    "डीआरओ निवडा",
+                    "प्रकाशन प्रस्तावासाठी डीआरओ असाइन करा",
+                    "डीआरओ नियुक्ती",
+                    "डीआरओ असाइन करा"
+                ]
+            },
+
+            "view_publication_proposal": {
+                "en": [
+                    "view publication proposal",
+                    "view proposal details",
+                    "open publication proposal",
+                    "show publication proposal",
+                    "proposal detail view",
+                    "view preliminary notification proposal",
+                    "see proposal information",
+                    "open proposal details page",
+                    "publication proposal details",
+                    "view proposal information"
+                ],
+                "hi": [
+                    "प्रकाशन प्रस्ताव देखें",
+                    "प्रस्ताव विवरण देखें",
+                    "प्रकाशन प्रस्ताव खोलें",
+                    "प्रस्ताव की जानकारी देखें",
+                    "प्रारंभिक अधिसूचना प्रस्ताव देखें",
+                    "प्रस्ताव का विवरण देखें",
+                    "प्रस्ताव विवरण पेज खोलें",
+                    "प्रकाशन प्रस्ताव जानकारी",
+                    "प्रस्ताव देखें",
+                    "प्रस्ताव विवरण दिखाएं"
+                ],
+                "mr": [
+                    "प्रकाशन प्रस्ताव पहा",
+                    "प्रस्ताव तपशील पहा",
+                    "प्रकाशन प्रस्ताव उघडा",
+                    "प्रस्तावाची माहिती पहा",
+                    "प्रारंभिक अधिसूचना प्रस्ताव पहा",
+                    "प्रस्ताव तपशील पृष्ठ उघडा",
+                    "प्रकाशन प्रस्ताव माहिती",
+                    "प्रस्ताव पाहा",
+                    "प्रस्ताव तपशील दाखवा",
+                    "प्रस्ताव माहिती पहा"
+                ]
+            },
         }
 
         all_texts = []
