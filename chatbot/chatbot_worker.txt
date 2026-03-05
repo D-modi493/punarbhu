@@ -24,11 +24,30 @@ sys.stderr.reconfigure(line_buffering=True)
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from knowledge_base import (
-    RESPONSE_KEYS_MAP,
+    RESPONSE_KEYS_MAP_SAMANVAY_OFFICER,
+    RESPONSE_KEYS_MAP_LAO,
+    RESPONSE_KEYS_MAP_PROJECT_INCHARGE,
+    RESPONSE_KEYS_MAP_SURVEYOR,
+    RESPONSE_KEYS_MAP_DSLR,
+    RESPONSE_KEYS_MAP_TEHSILDAR,
+    RESPONSE_KEYS_MAP_DRO,
+    RESPONSE_KEYS_MAP_COLLECTOR,
     get_knowledge_base,
     get_response_by_key,
     # build_response_with_link
 )
+
+# Role → response map lookup
+ROLE_RESPONSE_MAPS = {
+    "samanvay":         RESPONSE_KEYS_MAP_SAMANVAY_OFFICER,
+    "lao":              RESPONSE_KEYS_MAP_LAO,
+    "project_incharge": RESPONSE_KEYS_MAP_PROJECT_INCHARGE,
+    "surveyor":         RESPONSE_KEYS_MAP_SURVEYOR,
+    "dslr":             RESPONSE_KEYS_MAP_DSLR,
+    "tehsildar":        RESPONSE_KEYS_MAP_TEHSILDAR,
+    "dro":              RESPONSE_KEYS_MAP_DRO,
+    "collector":        RESPONSE_KEYS_MAP_COLLECTOR,
+}
 
 # from sentence_transformers import SentenceTransformer, util
 from simple_embedding import SimpleEmbedder
@@ -45,10 +64,34 @@ class BhusampadanChatbot:
             "mr": get_knowledge_base("mr")
         }
 
-        self.fallback = {
-            "en": "Sorry, I can answer only questions related to punarbhu.",
-            "hi": "माफ़ करें, मैं केवल पुनर्भू से संबंधित प्रश्नों के उत्तर दे सकता हूँ।",
-            "mr": "माफ करा, मी फक्त पुनर्भू प्रणालीशी संबंधित प्रश्नांची उत्तरे देऊ शकतो."
+        self._fallback_templates = {
+            "en": "Sorry, I can answer only questions related to {role}.",
+            "hi": "माफ़ करें, मैं केवल {role} से संबंधित प्रश्नों के उत्तर दे सकता हूँ।",
+            "mr": "माफ करा, मी फक्त {role} प्रणालीशी संबंधित प्रश्नांची उत्तरे देऊ शकतो."
+        }
+
+        # Human-readable role labels for the fallback message
+        self._role_labels = {
+            "samanvay":         "Samanvay Officer",
+            "lao":              "LAO Officer",
+            "project_incharge": "Project Incharge",
+            "surveyor":         "Surveyor",
+            "dslr":             "DSLR Officer",
+            "tehsildar":        "Tehsildar",
+            "dro":              "DRO Officer",
+            "collector":        "Collector",
+        }
+
+        # ROLE → allowed intent keys
+        self.role_allowed_keys = {
+            "samanvay":         set(RESPONSE_KEYS_MAP_SAMANVAY_OFFICER.keys()),
+            "lao":              set(RESPONSE_KEYS_MAP_LAO.keys()),
+            "project_incharge": set(RESPONSE_KEYS_MAP_PROJECT_INCHARGE.keys()),
+            "surveyor":         set(RESPONSE_KEYS_MAP_SURVEYOR.keys()),
+            "dslr":             set(RESPONSE_KEYS_MAP_DSLR.keys()),
+            "tehsildar":        set(RESPONSE_KEYS_MAP_TEHSILDAR.keys()),
+            "dro":              set(RESPONSE_KEYS_MAP_DRO.keys()),
+            "collector":        set(RESPONSE_KEYS_MAP_COLLECTOR.keys()),
         }
 
         # Load model from local folder — no internet, no HuggingFace cache needed
@@ -62,6 +105,214 @@ class BhusampadanChatbot:
 
         # Enhanced intent profiles - COPY FROM YOUR server.py lines 54-1467
         self.intent_profiles = {
+            "dashboard_change_project": {
+                "en": [
+                    "how to change project",
+                    "change project",
+                    "switch project",
+                    "select another project",
+                    "change current project",
+                    "how to switch project",
+                    "update selected project",
+                    "choose different project",
+                    "project change option",
+                    "change active project"
+                ],
+                "hi": [
+                    "प्रोजेक्ट कैसे बदलें",
+                    "प्रोजेक्ट बदलना है",
+                    "प्रोजेक्ट स्विच करना",
+                    "दूसरा प्रोजेक्ट चुनना",
+                    "वर्तमान प्रोजेक्ट बदलना",
+                    "चयनित प्रोजेक्ट बदलें",
+                    "प्रोजेक्ट बदलने का विकल्प",
+                    "नया प्रोजेक्ट चुनें",
+                    "सक्रिय प्रोजेक्ट बदलना",
+                    "प्रोजेक्ट अपडेट कैसे करें"
+                ],
+                "mr": [
+                    "प्रकल्प कसा बदलावा",
+                    "प्रकल्प बदलायचा आहे",
+                    "प्रकल्प स्विच करणे",
+                    "दुसरा प्रकल्प निवडणे",
+                    "सध्याचा प्रकल्प बदलणे",
+                    "निवडलेला प्रकल्प बदला",
+                    "प्रकल्प बदलण्याचा पर्याय",
+                    "नवीन प्रकल्प निवडा",
+                    "सक्रिय प्रकल्प बदलणे",
+                    "प्रकल्प अपडेट कसा करावा"
+                ]
+            },
+
+            "dashboard_all_document": {
+                "en": [
+                    "view all documents",
+                    "show all documents",
+                    "see all pdf documents",
+                    "open all documents",
+                    "access all documents",
+                    "download all documents",
+                    "download all documents as zip",
+                    "view document list",
+                    "see all files",
+                    "all document option"
+                ],
+                "hi": [
+                    "सभी दस्तावेज़ देखें",
+                    "सभी पीडीएफ दस्तावेज़ दिखाएं",
+                    "सभी डॉक्यूमेंट खोलें",
+                    "सभी दस्तावेज़ डाउनलोड करें",
+                    "सभी दस्तावेज़ ज़िप में डाउनलोड करें",
+                    "डॉक्यूमेंट सूची देखें",
+                    "सभी फाइल देखें",
+                    "ऑल डॉक्यूमेंट विकल्प",
+                    "सभी दस्तावेज़ एक्सेस करें",
+                    "सभी पीडीएफ देखें"
+                ],
+                "mr": [
+                    "सर्व दस्तऐवज पाहा",
+                    "सर्व पीडीएफ डॉक्युमेंट्स पाहा",
+                    "सर्व डॉक्युमेंट उघडा",
+                    "सर्व दस्तऐवज डाउनलोड करा",
+                    "सर्व दस्तऐवज झिपमध्ये डाउनलोड करा",
+                    "डॉक्युमेंट यादी पाहा",
+                    "सर्व फाईल्स पाहा",
+                    "ऑल डॉक्युमेंट पर्याय",
+                    "सर्व कागदपत्रे एक्सेस करा",
+                    "सर्व पीडीएफ पाहा"
+                ]
+            },
+
+            "dashboard_proposal_progress_status": {
+                "en": [
+                    "check proposal progress status",
+                    "view proposal progress",
+                    "see section progress",
+                    "check section status",
+                    "proposal status",
+                    "progress of section 11",
+                    "progress of section 12",
+                    "progress of section 15",
+                    "progress of section 19",
+                    "progress of section 21",
+                    "progress of section 23",
+                    "check payment status",
+                    "proposal payment progress",
+                    "track proposal progress",
+                    "view progress details"
+                ],
+                "hi": [
+                    "प्रस्ताव की प्रगति स्थिति देखें",
+                    "सेक्शन की स्थिति जांचें",
+                    "सेक्शन 11 की प्रगति",
+                    "सेक्शन 12 की प्रगति",
+                    "सेक्शन 15 की प्रगति",
+                    "सेक्शन 19 की प्रगति",
+                    "सेक्शन 21 की प्रगति",
+                    "सेक्शन 23 की प्रगति",
+                    "भुगतान स्थिति जांचें",
+                    "प्रस्ताव प्रगति ट्रैक करें",
+                    "प्रस्ताव की स्थिति",
+                    "प्रगति विवरण देखें",
+                    "सेक्शन स्टेटस देखें",
+                    "पेमेंट प्रगति देखें"
+                ],
+                "mr": [
+                    "प्रस्तावाची प्रगती स्थिती पाहा",
+                    "सेक्शनची स्थिती तपासा",
+                    "सेक्शन 11 प्रगती",
+                    "सेक्शन 12 प्रगती",
+                    "सेक्शन 15 प्रगती",
+                    "सेक्शन 19 प्रगती",
+                    "सेक्शन 21 प्रगती",
+                    "सेक्शन 23 प्रगती",
+                    "पेमेंट स्थिती तपासा",
+                    "प्रस्ताव प्रगती ट्रॅक करा",
+                    "प्रस्ताव स्थिती पाहा",
+                    "प्रगती तपशील पाहा",
+                    "सेक्शन स्टेटस पाहा",
+                    "पेमेंट प्रगती पाहा"
+                ]
+            },
+
+            "add_user": {
+                "en": [
+                    "add user",
+                    "create new user",
+                    "add system user",
+                    "user management add user",
+                    "register user",
+                    "new user entry",
+                    "create user account",
+                    "how to add user",
+                    "add user in system",
+                    "user creation"
+                ],
+                "hi": [
+                    "नया उपयोगकर्ता जोड़ें",
+                    "यूजर जोड़ना",
+                    "नया यूजर बनाएं",
+                    "उपयोगकर्ता प्रबंधन में यूजर जोड़ें",
+                    "यूजर रजिस्टर करें",
+                    "नया यूजर एंट्री",
+                    "यूजर अकाउंट बनाएं",
+                    "सिस्टम में यूजर जोड़ें",
+                    "यूजर कैसे जोड़ें",
+                    "यूजर बनाना है"
+                ],
+                "mr": [
+                    "नवीन वापरकर्ता जोडा",
+                    "यूजर जोडा",
+                    "नवीन यूजर तयार करा",
+                    "वापरकर्ता व्यवस्थापनात यूजर जोडा",
+                    "यूजर नोंदणी करा",
+                    "नवीन यूजर एंट्री",
+                    "यूजर अकाउंट तयार करा",
+                    "सिस्टममध्ये यूजर जोडा",
+                    "यूजर कसा जोडावा",
+                    "यूजर तयार करणे"
+                ]
+            },
+
+            "add_sub_user": {
+                "en": [
+                    "add sub user",
+                    "create sub user",
+                    "add sub-user",
+                    "sub user management add",
+                    "register sub user",
+                    "new sub user entry",
+                    "how to add sub user",
+                    "create sub account",
+                    "add subordinate user",
+                    "sub user creation"
+                ],
+                "hi": [
+                    "उप उपयोगकर्ता जोड़ें",
+                    "सब यूजर जोड़ें",
+                    "उप-यूजर बनाएं",
+                    "उप उपयोगकर्ता प्रबंधन",
+                    "नया सब यूजर जोड़ें",
+                    "सब यूजर रजिस्टर करें",
+                    "उप-यूजर एंट्री",
+                    "सब अकाउंट बनाएं",
+                    "उप उपयोगकर्ता कैसे जोड़ें",
+                    "सब यूजर बनाना है"
+                ],
+                "mr": [
+                    "उप-वापरकर्ता जोडा",
+                    "सब यूजर जोडा",
+                    "नवीन उप-वापरकर्ता तयार करा",
+                    "उप-वापरकर्ता व्यवस्थापनात जोडा",
+                    "सब यूजर नोंदणी करा",
+                    "नवीन उप-यूजर एंट्री",
+                    "उप-वापरकर्ता अकाउंट तयार करा",
+                    "उप-वापरकर्ता कसा जोडावा",
+                    "सब यूजर तयार करणे",
+                    "उप-वापरकर्ता तयार करणे"
+                ]
+            },
+
             "create_project": {
                 "en": [
                     "create new project in project management system",
@@ -103,2616 +354,591 @@ class BhusampadanChatbot:
                     "प्रकल्पाचे तपशील बदलणे"
                 ]
             },
-            
-            "change_project": {
-                "en": [
-                    "switch to different project",
-                    "select another project",
-                    "change current project",
-                    "move to different project"
-                ],
-                "hi": [
-                    "दूसरा प्रोजेक्ट चुनना",
-                    "अन्य प्रोजेक्ट का चयन करना",
-                    "वर्तमान प्रोजेक्ट बदलना",
-                    "भिन्न प्रोजेक्ट पर जाना"
-                ],
-                "mr": [
-                    "वेगळा प्रकल्प निवडणे",
-                    "दुसरा प्रकल्प निवडणे",
-                    "सध्याचा प्रकल्प बदलणे",
-                    "भिन्न प्रकल्पावर जाणे"
-                ]
-            },
-            
+
             "create_proposal": {
                 "en": [
-                    "create proposal under existing project",
-                    "add new proposal to project",
-                    "make proposal for project",
-                    "submit proposal in project"
+                    "create proposal",
+                    "add proposal",
+                    "new proposal entry",
+                    "how to create proposal",
+                    "start new proposal",
+                    "proposal creation",
+                    "make new proposal",
+                    "register proposal",
+                    "add new proposal",
+                    "create proposal in system"
                 ],
                 "hi": [
-                    "मौजूदा प्रोजेक्ट के अंतर्गत नया प्रस्ताव बनाना",
-                    "प्रोजेक्ट में नया प्रस्ताव जोड़ना",
-                    "प्रोजेक्ट के लिए प्रस्ताव बनाना",
-                    "प्रोजेक्ट में प्रस्ताव जमा करना"
+                    "प्रस्ताव बनाएं",
+                    "नया प्रस्ताव जोड़ें",
+                    "प्रस्ताव कैसे बनाएं",
+                    "प्रस्ताव बनाना है",
+                    "प्रस्ताव एंट्री करें",
+                    "नया प्रस्ताव शुरू करें",
+                    "प्रस्ताव रजिस्टर करें",
+                    "प्रस्ताव जोड़ना है",
+                    "प्रस्ताव निर्माण",
+                    "सिस्टम में प्रस्ताव बनाएं"
                 ],
                 "mr": [
-                    "विद्यमान प्रकल्पासाठी नवीन प्रस्ताव तयार करणे",
-                    "प्रकल्पात नवीन प्रस्ताव जोडणे",
-                    "प्रकल्पासाठी प्रस्ताव बनवणे",
-                    "प्रकल्पात प्रस्ताव सादर करणे"
+                    "प्रस्ताव तयार करा",
+                    "नवीन प्रस्ताव जोडा",
+                    "प्रस्ताव कसा तयार करावा",
+                    "प्रस्ताव तयार करायचा आहे",
+                    "प्रस्ताव नोंदणी करा",
+                    "नवीन प्रस्ताव एंट्री",
+                    "प्रस्ताव सुरू करा",
+                    "प्रस्ताव तयार करणे",
+                    "सिस्टममध्ये प्रस्ताव तयार करा",
+                    "प्रस्ताव जोडा"
                 ]
             },
 
             "edit_proposal": {
                 "en": [
-                    "edit existing proposal",
-                    "update proposal details",
-                    "modify proposal information",
-                    "change proposal data",
-                    "edit proposal form",
-                    "update submitted proposal",
+                    "edit proposal",
+                    "modify proposal",
+                    "update proposal",
+                    "change proposal details",
                     "proposal edit option",
-                    "edit proposal under project",
-                    "edit proposal from action column",
-                    "make changes in proposal"
+                    "how to edit proposal",
+                    "edit existing proposal",
+                    "update proposal information",
+                    "proposal modification",
+                    "edit proposal data"
                 ],
                 "hi": [
-                    "प्रस्ताव संपादित करना",
-                    "प्रस्ताव में बदलाव करना",
-                    "प्रस्ताव की जानकारी अपडेट करना",
-                    "जमा किए गए प्रस्ताव को संपादित करना",
-                    "प्रस्ताव फॉर्म में संशोधन करना",
-                    "प्रस्ताव अपडेट कैसे करें",
-                    "प्रस्ताव एडिट विकल्प",
-                    "प्रोजेक्ट के प्रस्ताव को संपादित करना",
-                    "प्रस्ताव के एक्शन कॉलम से एडिट करना"
+                    "प्रस्ताव संपादित करें",
+                    "प्रस्ताव में बदलाव करें",
+                    "प्रस्ताव अपडेट करें",
+                    "प्रस्ताव विवरण बदलें",
+                    "प्रस्ताव संशोधन",
+                    "प्रस्ताव कैसे संपादित करें",
+                    "मौजूदा प्रस्ताव संपादित करें",
+                    "प्रस्ताव जानकारी अपडेट करें",
+                    "प्रस्ताव डेटा बदलें",
+                    "प्रस्ताव एडिट करना है"
                 ],
                 "mr": [
-                    "प्रस्ताव संपादित करणे",
-                    "प्रस्तावामध्ये बदल करणे",
-                    "प्रस्तावाची माहिती अपडेट करणे",
-                    "सादर केलेला प्रस्ताव संपादित करणे",
-                    "प्रस्ताव फॉर्ममध्ये बदल करणे",
-                    "प्रस्ताव एडिट कसा करायचा",
-                    "प्रस्ताव संपादन पर्याय",
-                    "प्रकल्पातील प्रस्ताव संपादित करणे",
-                    "अ‍ॅक्शन कॉलममधून प्रस्ताव एडिट करणे"
+                    "प्रस्ताव संपादित करा",
+                    "प्रस्ताव बदल करा",
+                    "प्रस्ताव अपडेट करा",
+                    "प्रस्ताव तपशील बदला",
+                    "प्रस्ताव सुधारणा",
+                    "प्रस्ताव कसा संपादित करावा",
+                    "विद्यमान प्रस्ताव संपादित करा",
+                    "प्रस्ताव माहिती अपडेट करा",
+                    "प्रस्ताव डेटा बदला",
+                    "प्रस्ताव एडिट करायचा आहे"
                 ]
             },
-
-
-            "check_print_and_download_proposal": {
-                "en": [
-                    "check proposal details",
-                    "view proposal information",
-                    "print proposal document",
-                    "download proposal pdf",
-                    "check proposal नमुना क",
-                    "print proposal नमुना क",
-                    "download proposal document",
-                    "view submitted proposal",
-                    "proposal action check",
-                    "proposal print and download"
-                ],
-                "hi": [
-                    "प्रस्ताव की जांच करना",
-                    "प्रस्ताव का विवरण देखना",
-                    "प्रस्ताव प्रिंट करना",
-                    "प्रस्ताव डाउनलोड करना",
-                    "नमुना क प्रस्ताव देखना",
-                    "नमुना क प्रस्ताव प्रिंट करना",
-                    "प्रस्ताव पीडीएफ डाउनलोड करना",
-                    "जमा किया गया प्रस्ताव देखना",
-                    "प्रस्ताव की कार्यवाही देखना"
-                ],
-                "mr": [
-                    "प्रस्ताव तपासणे",
-                    "प्रस्तावाची माहिती पाहणे",
-                    "प्रस्ताव प्रिंट करणे",
-                    "प्रस्ताव डाउनलोड करणे",
-                    "नमुना क प्रस्ताव पाहणे",
-                    "नमुना क प्रस्ताव प्रिंट करणे",
-                    "प्रस्ताव पीडीएफ डाउनलोड करणे",
-                    "सादर केलेला प्रस्ताव पाहणे",
-                    "प्रस्तावाची कारवाई तपासणे",
-                    "प्रस्ताव पाहण्याची प्रक्रिया काय आहे"
-                ]
-            },
-
-            "category_of_project_creation": {
-                "en": [
-                    "what are the project categories",
-                    "project creation categories available",
-                    "types of project categories",
-                    "which categories for creating project",
-                    "project category options",
-                    "what category to select for project"
-                ],
-                "hi": [
-                    "प्रोजेक्ट की श्रेणियां क्या हैं",
-                    "प्रोजेक्ट की कैटेगरी क्या हैं",
-                    "प्रोजेक्ट बनाने के लिए कौन सी category हैं",
-                    "प्रोजेक्ट category के प्रकार",
-                    "प्रोजेक्ट बनाने के लिए कौन सी श्रेणियां हैं",
-                    "प्रोजेक्ट category विकल्प",
-                    "प्रोजेक्ट के लिए कौन सी category चुनें",
-                    "कितनी category हैं प्रोजेक्ट की",
-                    "प्रोजेक्ट में कौन कौन सी category होती है"
-                ],
-                "mr": [
-                    "प्रकल्पाच्या श्रेण्या कोणत्या आहेत",
-                    "प्रकल्पाच्या कॅटेगरी कोणत्या आहेत",
-                    "प्रकल्प तयार करण्यासाठी कोणत्या category उपलब्ध आहेत",
-                    "प्रकल्प category चे प्रकार",
-                    "प्रकल्प तयार करण्यासाठी कोणत्या श्रेण्या आहेत",
-                    "प्रकल्प category पर्याय",
-                    "प्रकल्पासाठी कोणती category निवडायची",
-                    "किती category आहेत प्रकल्पाच्या",
-                    "प्रकल्पात कोणकोणत्या category असतात"
-                ]
-            },
-
-            "add_landholding": {
+            
+            "proposal_landholding": {
                 "en": [
                     "add landholding",
-                    "add land holder details",
-                    "add land ownership details",
-                    "add land details to proposal",
-                    "add land information",
-                    "add new landholding entry",
-                    "enter landholding details",
-                    "add land record",
-                    "add land under project",
-                    "add land data"
+                    "landholding entry",
+                    "add land details in proposal",
+                    "enter landholding information",
+                    "manage landholding",
+                    "update landholding details",
+                    "land parcel entry",
+                    "add land record in proposal",
+                    "land survey details entry",
+                    "proposal landholding section"
                 ],
                 "hi": [
-                    "भूमि धारक जोड़ना",
-                    "भूमि स्वामित्व जोड़ना",
-                    "जमीन की जानकारी जोड़ना",
-                    "भूमि विवरण दर्ज करना",
-                    "नया भूमि धारक जोड़ें",
-                    "भूमि रिकॉर्ड जोड़ना",
-                    "परियोजना में भूमि जोड़ना",
-                    "भूमि जानकारी भरना",
-                    "भूमि होल्डिंग जोड़ना"
+                    "भूमि विवरण जोड़ें",
+                    "भूमि होल्डिंग प्रविष्टि",
+                    "प्रस्ताव में भूमि विवरण जोड़ें",
+                    "भूमि जानकारी दर्ज करें",
+                    "भूमि रिकॉर्ड जोड़ें",
+                    "भूमि सर्वे विवरण दर्ज करें",
+                    "भूमि विवरण अपडेट करें",
+                    "भूमि होल्डिंग प्रबंधन",
+                    "प्रस्ताव भूमि अनुभाग",
+                    "जमीन का विवरण भरें"
                 ],
                 "mr": [
-                    "भूधारक माहिती जोडा",
-                    "भूधारक समाविष्ट करणे",
-                    "जमिनीची माहिती जोडा",
-                    "नवीन भूधारक जोडा",
-                    "जमीन नोंद जोडा",
-                    "भूधारक तपशील भरणे",
-                    "प्रकल्पात जमीन जोडा",
-                    "जमिनीचा तपशील समाविष्ट करणे",
-                    "लँडहोल्डिंग जोडा"
+                    "जमीन तपशील जोडा",
+                    "जमीन होल्डिंग नोंद",
+                    "प्रस्तावात जमीन तपशील जोडा",
+                    "जमीन माहिती भरा",
+                    "जमीन रेकॉर्ड जोडा",
+                    "जमीन सर्वे तपशील भरा",
+                    "जमीन तपशील अपडेट करा",
+                    "जमीन होल्डिंग व्यवस्थापन",
+                    "प्रस्ताव जमीन विभाग",
+                    "जमीनचा तपशील भरा"
                 ]
             },
 
-            "check_land_holding_records": {
+            "section_11_covering_letter": {
                 "en": [
-                    "check land holding records",
-                    "view landholding records",
-                    "see all land holding records",
-                    "check all land records",
-                    "view land ownership records",
-                    "landholding record details",
-                    "see land holder records",
-                    "check land details records",
-                    "view land data records"
-                ],
-                "hi": [
-                    "भूमि धारक रिकॉर्ड देखना",
-                    "भूमि स्वामित्व रिकॉर्ड की जांच करना",
-                    "सभी भूमि धारक रिकॉर्ड देखना",
-                    "जमीन के रिकॉर्ड देखना",
-                    "भूमि अभिलेख जांचना",
-                    "भूमि धारक विवरण देखना",
-                    "भूमि स्वामित्व अभिलेख देखना",
-                    "सभी भूमि रिकॉर्ड देखना"
-                ],
-                "mr": [
-                    "भूधारक नोंदी तपासणे",
-                    "सर्व भूधारक नोंदी पाहणे",
-                    "जमीन मालकी नोंदी पाहणे",
-                    "जमिनीच्या नोंदी तपासणे",
-                    "भूधारक तपशील पाहणे",
-                    "जमीन अभिलेख पाहणे",
-                    "सर्व जमीन नोंदी तपासणे",
-                    "भूधारक माहिती पाहणे"
-                ]
-            },
-
-            "edit_or_delete_records": {
-                "en": [
-                    "edit land holding records",
-                    "delete land holding records",
-                    "edit or delete land records",
-                    "modify landholding records",
-                    "remove landholding record",
-                    "update land holder details",
-                    "edit land ownership records",
-                    "delete land ownership record",
-                    "change land record details"
-                ],
-                "hi": [
-                    "भूमि धारक रिकॉर्ड संपादित करना",
-                    "भूमि धारक रिकॉर्ड हटाना",
-                    "भूमि रिकॉर्ड एडिट या डिलीट करना",
-                    "भूमि स्वामित्व रिकॉर्ड में बदलाव करना",
-                    "भूमि रिकॉर्ड हटाना",
-                    "भूमि धारक विवरण अपडेट करना",
-                    "जमीन के रिकॉर्ड संपादित करना",
-                    "जमीन का रिकॉर्ड डिलीट करना"
-                ],
-                "mr": [
-                    "भूधारक नोंदी संपादित करणे",
-                    "भूधारक नोंदी हटवणे",
-                    "जमीन नोंदी एडिट किंवा डिलीट करणे",
-                    "भूधारक माहितीमध्ये बदल करणे",
-                    "जमीन नोंद काढून टाकणे",
-                    "भूधारक तपशील अपडेट करणे",
-                    "जमिनीच्या नोंदी संपादित करणे",
-                    "जमिनीची नोंद डिलीट करणे"
-                ]
-            },
-
-            "land_acuistion_report": {
-                "en": [
-                    "land acquisition report",
-                    "check land acquisition report",
-                    "download land acquisition report",
-                    "view land acquisition report",
-                    "land acquisition summary report",
-                    "generate land acquisition report",
-                    "land acquisition details report",
-                    "get land acquisition report"
-                ],
-                "hi": [
-                    "भूमि अधिग्रहण रिपोर्ट",
-                    "भूमि अधिग्रहण रिपोर्ट देखना",
-                    "भूमि अधिग्रहण रिपोर्ट डाउनलोड करना",
-                    "भूमि अधिग्रहण की रिपोर्ट",
-                    "भूमि अधिग्रहण सारांश रिपोर्ट",
-                    "भूमि अधिग्रहण विवरण रिपोर्ट",
-                    "लैंड एक्विजिशन रिपोर्ट"
-                ],
-                "mr": [
-                    "भूसंपादन अहवाल",
-                    "भूसंपादन अहवाल पाहणे",
-                    "भूसंपादन अहवाल डाउनलोड करणे",
-                    "जमीन अधिग्रहण अहवाल",
-                    "भूसंपादन अहवाल तपासणे",
-                    "भूसंपादन तपशील अहवाल",
-                    "लँड अॅक्विझिशन रिपोर्ट"
-                ]
-            },
-
-            "appendix_1": {
-                "en": [
-                    "check appendix 1",
-                    "view appendix 1",
-                    "download appendix 1",
-                    "appendix 1 document",
-                    "upload signature in appendix 1"
-                ],
-                "hi": [
-                    "परिशिष्ट 1",
-                    "परिशिष्ट १",
-                    "परिशिष्ट 1 देखना",
-                    "परिशिष्ट १ देखना",
-                    "परिशिष्ट 1 डाउनलोड करना",
-                    "परिशिष्ट १ डाउनलोड करना",
-                    "परिशिष्ट 1 में हस्ताक्षर अपलोड करना",
-                    "परिशिष्ट १ में हस्ताक्षर अपलोड करना"
-                ],
-                "mr": [
-                    "परिशिष्ट 1",
-                    "परिशिष्ट १",
-                    "परिशिष्ट 1 पाहणे",
-                    "परिशिष्ट १ पाहणे",
-                    "परिशिष्ट 1 डाउनलोड करणे",
-                    "परिशिष्ट १ डाउनलोड करणे",
-                    "परिशिष्ट 1 मध्ये स्वाक्षरी अपलोड करणे",
-                    "परिशिष्ट १ मध्ये स्वाक्षरी अपलोड करणे"
-                ]
-            },
-
-            "appendix_2": {
-                "en": [
-                    "check appendix 2",
-                    "view appendix 2",
-                    "download appendix 2",
-                    "appendix 2 document",
-                    "upload signature in appendix 2"
-                ],
-                "hi": [
-                    "परिशिष्ट 2",
-                    "परिशिष्ट २",
-                    "परिशिष्ट 2 देखना",
-                    "परिशिष्ट २ देखना",
-                    "परिशिष्ट 2 डाउनलोड करना",
-                    "परिशिष्ट २ डाउनलोड करना",
-                    "परिशिष्ट 2 में हस्ताक्षर अपलोड करना",
-                    "परिशिष्ट २ में हस्ताक्षर अपलोड करना"
-                ],
-                "mr": [
-                    "परिशिष्ट 2",
-                    "परिशिष्ट २",
-                    "परिशिष्ट 2 पाहणे",
-                    "परिशिष्ट २ पाहणे",
-                    "परिशिष्ट 2 डाउनलोड करणे",
-                    "परिशिष्ट २ डाउनलोड करणे",
-                    "परिशिष्ट 2 मध्ये स्वाक्षरी अपलोड करणे",
-                    "परिशिष्ट २ मध्ये स्वाक्षरी अपलोड करणे"
-                ]
-            },
-
-            "appendix_3": {
-                "en": [
-                    "check appendix 3",
-                    "view appendix 3",
-                    "download appendix 3",
-                    "appendix 3 document",
-                    "upload signature in appendix 3"
-                ],
-                "hi": [
-                    "परिशिष्ट 3",
-                    "परिशिष्ट ३",
-                    "परिशिष्ट 3 देखना",
-                    "परिशिष्ट ३ देखना",
-                    "परिशिष्ट 3 डाउनलोड करना",
-                    "परिशिष्ट ३ डाउनलोड करना",
-                    "परिशिष्ट 3 में हस्ताक्षर अपलोड करना",
-                    "परिशिष्ट ३ में हस्ताक्षर अपलोड करना"
-                ],
-                "mr": [
-                    "परिशिष्ट 3",
-                    "परिशिष्ट ३",
-                    "परिशिष्ट 3 पाहणे",
-                    "परिशिष्ट ३ पाहणे",
-                    "परिशिष्ट 3 डाउनलोड करणे",
-                    "परिशिष्ट ३ डाउनलोड करणे",
-                    "परिशिष्ट 3 मध्ये स्वाक्षरी अपलोड करणे",
-                    "परिशिष्ट ३ मध्ये स्वाक्षरी अपलोड करणे"
-                ]
-            },
-
-            "appendix_4": {
-                "en": [
-                    "check appendix 4",
-                    "view appendix 4",
-                    "download appendix 4",
-                    "appendix 4 document",
-                    "upload signature in appendix 4"
-                ],
-                "hi": [
-                    "परिशिष्ट 4",
-                    "परिशिष्ट ४",
-                    "परिशिष्ट 4 देखना",
-                    "परिशिष्ट ४ देखना",
-                    "परिशिष्ट 4 डाउनलोड करना",
-                    "परिशिष्ट ४ डाउनलोड करना",
-                    "परिशिष्ट 4 में हस्ताक्षर अपलोड करना",
-                    "परिशिष्ट ४ में हस्ताक्षर अपलोड करना"
-                ],
-                "mr": [
-                    "परिशिष्ट 4",
-                    "परिशिष्ट ४",
-                    "परिशिष्ट 4 पाहणे",
-                    "परिशिष्ट ४ पाहणे",
-                    "परिशिष्ट 4 डाउनलोड करणे",
-                    "परिशिष्ट ४ डाउनलोड करणे",
-                    "परिशिष्ट 4 मध्ये स्वाक्षरी अपलोड करणे",
-                    "परिशिष्ट ४ मध्ये स्वाक्षरी अपलोड करणे"
-                ]
-            },
-
-            "appendix_5": {
-                "en": [
-                    "check appendix 5",
-                    "view appendix 5",
-                    "download appendix 5",
-                    "appendix 5 document",
-                    "upload signature in appendix 5"
-                ],
-                "hi": [
-                    "परिशिष्ट 5",
-                    "परिशिष्ट ५",
-                    "परिशिष्ट 5 देखना",
-                    "परिशिष्ट ५ देखना",
-                    "परिशिष्ट 5 डाउनलोड करना",
-                    "परिशिष्ट ५ डाउनलोड करना",
-                    "परिशिष्ट 5 में हस्ताक्षर अपलोड करना",
-                    "परिशिष्ट ५ में हस्ताक्षर अपलोड करना"
-                ],
-                "mr": [
-                    "परिशिष्ट 5",
-                    "परिशिष्ट ५",
-                    "परिशिष्ट 5 पाहणे",
-                    "परिशिष्ट ५ पाहणे",
-                    "परिशिष्ट 5 डाउनलोड करणे",
-                    "परिशिष्ट ५ डाउनलोड करणे",
-                    "परिशिष्ट 5 मध्ये स्वाक्षरी अपलोड करणे",
-                    "परिशिष्ट ५ मध्ये स्वाक्षरी अपलोड करणे"
-                ]
-            },
-
-            "appendix_6": {
-                "en": [
-                    "check appendix 6",
-                    "view appendix 6",
-                    "download appendix 6",
-                    "appendix 6 document",
-                    "upload signature in appendix 6"
-                ],
-                "hi": [
-                    "परिशिष्ट 6",
-                    "परिशिष्ट ६",
-                    "परिशिष्ट 6 देखना",
-                    "परिशिष्ट ६ देखना",
-                    "परिशिष्ट 6 डाउनलोड करना",
-                    "परिशिष्ट ६ डाउनलोड करना",
-                    "परिशिष्ट 6 में हस्ताक्षर अपलोड करना",
-                    "परिशिष्ट ६ में हस्ताक्षर अपलोड करना"
-                ],
-                "mr": [
-                    "परिशिष्ट 6",
-                    "परिशिष्ट ६",
-                    "परिशिष्ट 6 पाहणे",
-                    "परिशिष्ट ६ पाहणे",
-                    "परिशिष्ट 6 डाउनलोड करणे",
-                    "परिशिष्ट ६ डाउनलोड करणे",
-                    "परिशिष्ट 6 मध्ये स्वाक्षरी अपलोड करणे",
-                    "परिशिष्ट ६ मध्ये स्वाक्षरी अपलोड करणे"
-                ]
-            },
-
-            "appendix_7": {
-                "en": [
-                    "check appendix 7",
-                    "view appendix 7",
-                    "download appendix 7",
-                    "appendix 7 document",
-                    "upload signature in appendix 7"
-                ],
-                "hi": [
-                    "परिशिष्ट 7",
-                    "परिशिष्ट ७",
-                    "परिशिष्ट 7 देखना",
-                    "परिशिष्ट ७ देखना",
-                    "परिशिष्ट 7 डाउनलोड करना",
-                    "परिशिष्ट ७ डाउनलोड करना",
-                    "परिशिष्ट 7 में हस्ताक्षर अपलोड करना",
-                    "परिशिष्ट ७ में हस्ताक्षर अपलोड करना"
-                ],
-                "mr": [
-                    "परिशिष्ट 7",
-                    "परिशिष्ट ७",
-                    "परिशिष्ट 7 पाहणे",
-                    "परिशिष्ट ७ पाहणे",
-                    "परिशिष्ट 7 डाउनलोड करणे",
-                    "परिशिष्ट ७ डाउनलोड करणे",
-                    "परिशिष्ट 7 मध्ये स्वाक्षरी अपलोड करणे",
-                    "परिशिष्ट ७ मध्ये स्वाक्षरी अपलोड करणे"
-                ]
-            },
-
-            "other_land_proposal_certificates": {
-                "en": [
-                    "other land proposal certificates",
-                    "check other land proposal certificates",
-                    "view other land proposal certificates",
-                    "download other land proposal certificates",
-                    "other certificates for land proposal",
-                    "land proposal other certificates",
-                    "additional land proposal certificates",
-                    "other certificates in land proposal",
-                    "land proposal certificate list",
-                    "other land certificates"
-                ],
-                "hi": [
-                    "अन्य भूमि प्रस्ताव प्रमाणपत्र",
-                    "अन्य भूमि प्रस्ताव प्रमाणपत्र देखना",
-                    "अन्य भूमि प्रस्ताव प्रमाणपत्र डाउनलोड करना",
-                    "भूमि प्रस्ताव के अन्य प्रमाणपत्र",
-                    "भूमि प्रस्ताव अन्य प्रमाणपत्र",
-                    "अतिरिक्त भूमि प्रस्ताव प्रमाणपत्र",
-                    "अन्य प्रमाणपत्र भूमि प्रस्ताव",
-                    "लैंड प्रपोजल अन्य सर्टिफिकेट"
-                ],
-                "mr": [
-                    "इतर जमीन प्रस्ताव प्रमाणपत्र",
-                    "इतर जमीन प्रस्ताव प्रमाणपत्र पाहणे",
-                    "इतर जमीन प्रस्ताव प्रमाणपत्र डाउनलोड करणे",
-                    "जमीन प्रस्तावाचे इतर प्रमाणपत्र",
-                    "जमीन प्रस्ताव इतर प्रमाणपत्रे",
-                    "अतिरिक्त जमीन प्रस्ताव प्रमाणपत्र",
-                    "लँड प्रपोजल इतर सर्टिफिकेट"
-                ]
-            },
-
-            "send_land_records_to_samanvay_officer": {
-                "en": [
-                    "send land records to samanvay officer",
-                    "send land details to samanvay officer",
-                    "forward land records to samanvay officer",
-                    "submit land records to samanvay officer",
-                    "send landholding records to samanvay officer",
-                    "share land records with samanvay officer",
-                    "send land proposal to samanvay officer"
-                ],
-                "hi": [
-                    "भूमि रिकॉर्ड समन्वय अधिकारी को भेजना",
-                    "जमीन के रिकॉर्ड समन्वय अधिकारी को भेजें",
-                    "भूमि विवरण समन्वय अधिकारी को भेजना",
-                    "भूमि स्वामित्व रिकॉर्ड समन्वय अधिकारी को भेजना",
-                    "लैंड रिकॉर्ड समन्वय ऑफिसर को भेजें",
-                    "भूमि प्रस्ताव समन्वय अधिकारी को भेजना"
-                ],
-                "mr": [
-                    "जमीन नोंदी समन्वय अधिकाऱ्यांना पाठवणे",
-                    "भूधारक नोंदी समन्वय अधिकाऱ्यांना पाठवा",
-                    "जमीन तपशील समन्वय अधिकाऱ्यांना पाठवणे",
-                    "जमीन मालकी नोंदी समन्वय अधिकाऱ्यांना पाठवणे",
-                    "लँड रेकॉर्ड समन्वय ऑफिसरकडे पाठवा",
-                    "जमीन प्रस्ताव समन्वय अधिकाऱ्यांना पाठवणे"
-                ]
-            },
-
-            "send_land_records_to_respected_collector": {
-                "en": [
-                    "send land records to collector",
-                    "send land records to respected collector",
-                    "forward land records to collector",
-                    "submit land records to collector",
-                    "send landholding records to collector",
-                    "share land records with collector",
-                    "send land proposal to collector",
-                    "forward land records from Samanvay Officer to Collector",
-                    "forward land records to Collector"
-                ],
-                "hi": [
-                    "भूमि रिकॉर्ड कलेक्टर को भेजना",
-                    "जमीन के रिकॉर्ड माननीय कलेक्टर को भेजें",
-                    "भूमि विवरण कलेक्टर को भेजना",
-                    "भूमि स्वामित्व रिकॉर्ड कलेक्टर को भेजना",
-                    "लैंड रिकॉर्ड कलेक्टर को भेजें",
-                    "भूमि प्रस्ताव कलेक्टर को भेजना"
-                ],
-                "mr": [
-                    "जमीन नोंदी जिल्हाधिकारी यांना पाठवणे",
-                    "भूधारक नोंदी माननीय जिल्हाधिकाऱ्यांना पाठवा",
-                    "जमीन तपशील जिल्हाधिकारी यांना पाठवणे",
-                    "जमीन मालकी नोंदी जिल्हाधिकाऱ्यांना पाठवणे",
-                    "लँड रेकॉर्ड कलेक्टरकडे पाठवा",
-                    "जमीन प्रस्ताव जिल्हाधिकाऱ्यांना पाठवणे"
-                ]
-            },
-
-            "assign_dro": {
-                "en": [
-                    "assign dro to project",
-                    "how to assign dro",
-                    "select dro for project",
-                    "appoint dro for land acquisition",
-                    "assign district revenue officer",
-                    "dro assignment process"
-                ],
-                "hi": [
-                    "प्रोजेक्ट के लिए DRO नियुक्त करना",
-                    "DRO कैसे असाइन करें",
-                    "प्रोजेक्ट के लिए DRO चुनें",
-                    "भूमि अधिग्रहण के लिए DRO नियुक्त करना",
-                    "जिला राजस्व अधिकारी नियुक्त करना",
-                    "DRO असाइन करने की प्रक्रिया"
-                ],
-                "mr": [
-                    "प्रकल्पासाठी DRO नियुक्त करणे",
-                    "DRO कसा असाइन करायचा",
-                    "प्रकल्पासाठी DRO निवडा",
-                    "भूसंपादनासाठी DRO ची नियुक्ती",
-                    "जिल्हा महसूल अधिकारी नियुक्त करणे",
-                    "DRO वाटप करण्याची प्रक्रिया"
-                ]
-            },
-
-            "Preliminary_notification_of_section_11": {
-                "en": [
+                    "section 11 covering letter",
+                    "open section 11 letter",
+                    "section 11 approval letter",
+                    "section 11 notification letter",
                     "preliminary notification section 11",
-                    "preliminary notification of section 11",
-                    "section 11 preliminary notification",
-                    "check preliminary notification section 11",
-                    "view preliminary notification section 11",
-                    "download preliminary notification section 11",
-                    "section 11 land acquisition notification",
-                    "preliminary land acquisition notification",
-                    "publication of preliminary notification section 11"
+                    "kalama 11 manayata",
+                    "section 11 document",
+                    "open section 11 document",
+                    "section 11 covering document",
+                    "publication section 11 letter"
                 ],
                 "hi": [
-                    "प्रारंभिक अधिसूचना धारा 11",
-                    "धारा 11 की प्रारंभिक अधिसूचना",
-                    "सेक्शन 11 प्रारंभिक अधिसूचना",
-                    "प्रारंभिक अधिसूचना देखना",
-                    "धारा 11 अधिसूचना डाउनलोड करें",
-                    "भूमि अधिग्रहण प्रारंभिक अधिसूचना",
-                    "सेक्शन 11 भूमि अधिग्रहण अधिसूचना"
+                    "धारा 11 आवरण पत्र",
+                    "धारा 11 पत्र खोलें",
+                    "कलम 11 मान्यता पत्र",
+                    "धारा 11 अधिसूचना पत्र",
+                    "प्राथमिक अधिसूचना धारा 11",
+                    "कलम 11 दस्तावेज़",
+                    "धारा 11 पत्र देखें",
+                    "कलम 11 मान्यता खोलें",
+                    "धारा 11 कवरिंग लेटर",
+                    "सेक्शन 11 पत्र"
                 ],
                 "mr": [
-                    "कलम 11 प्रारंभिक अधिसूचना",
+                    "कलम 11 आवरण पत्र",
+                    "कलम 11 पत्र उघडा",
+                    "कलम 11 मान्यता पत्र",
+                    "कलम 11 अधिसूचना पत्र",
                     "प्रारंभिक अधिसूचना कलम 11",
-                    "सेक्शन 11 प्रारंभिक सूचना",
-                    "प्रारंभिक अधिसूचना पाहणे",
-                    "कलम 11 अधिसूचना डाउनलोड करा",
-                    "भूसंपादन प्रारंभिक अधिसूचना",
-                    "सेक्शन 11 भूसंपादन अधिसूचना"
+                    "कलम 11 दस्तऐवज",
+                    "कलम 11 पत्र पहा",
+                    "कलम 11 मान्यता उघडा",
+                    "सेक्शन 11 पत्र",
+                    "कलम 11 कवरिंग लेटर"
                 ]
             },
 
-            "send_preliminary_notification_to_tehsildar": {
+            "section_11": {
                 "en": [
-                    "send preliminary notification to tehsildar",
-                    "forward section 11 notification to tehsildar",
-                    "how to send preliminary notice to tehsildar",
-                    "submit preliminary notification to tehsildar office",
-                    "notify tehsildar about section 11 publication"
+                    "section 11 details",
+                    "open section 11",
+                    "preliminary notification section 11",
+                    "section 11 information",
+                    "section 11 page",
+                    "view section 11",
+                    "section 11 notification details",
+                    "open preliminary notification",
+                    "section 11 main page",
+                    "publication section 11"
                 ],
                 "hi": [
-                    "तहसीलदार को प्रारंभिक अधिसूचना भेजना",
-                    "धारा 11 की अधिसूचना तहसीलदार को भेजें",
-                    "तहसीलदार को प्रारंभिक सूचना कैसे भेजें",
-                    "प्रारंभिक अधिसूचना तहसीलदार कार्यालय में जमा करना",
-                    "तहसीलदार को धारा 11 प्रकाशन की जानकारी देना"
+                    "धारा 11 विवरण",
+                    "धारा 11 खोलें",
+                    "प्रारंभिक अधिसूचना धारा 11",
+                    "धारा 11 की जानकारी",
+                    "धारा 11 पेज",
+                    "धारा 11 देखें",
+                    "धारा 11 अधिसूचना विवरण",
+                    "प्रारंभिक अधिसूचना खोलें",
+                    "सेक्शन 11 विवरण",
+                    "धारा 11 मुख्य पृष्ठ"
                 ],
                 "mr": [
-                    "तहसीलदारांना प्रारंभिक अधिसूचना पाठवणे",
-                    "कलम 11 ची अधिसूचना तहसीलदारांना पाठवा",
-                    "तहसीलदारांना प्राथमिक सूचना कशी पाठवायची",
-                    "प्रारंभिक अधिसूचना तहसीलदार कार्यालयात सादर करणे",
-                    "तहसीलदारांना कलम 11 प्रसिद्धीबद्दल कळवणे"
+                    "कलम 11 तपशील",
+                    "कलम 11 उघडा",
+                    "प्रारंभिक अधिसूचना कलम 11",
+                    "कलम 11 माहिती",
+                    "कलम 11 पृष्ठ",
+                    "कलम 11 पहा",
+                    "कलम 11 अधिसूचना तपशील",
+                    "प्रारंभिक अधिसूचना उघडा",
+                    "सेक्शन 11 तपशील",
+                    "कलम 11 मुख्य पृष्ठ"
                 ]
             },
 
-            "publish_publication_preliminary_notification": {
+            "section_11_edit": {
                 "en": [
-                    "publish preliminary notification",
-                    "publication of preliminary notification",
-                    "how to publish section 11 notification",
-                    "steps for publication of preliminary notice",
-                    "publish land acquisition preliminary notification"
+                    "edit section 11",
+                    "modify section 11",
+                    "update section 11",
+                    "edit section 11 details",
+                    "change section 11 information",
+                    "update preliminary notification section 11",
+                    "edit section 11 notification",
+                    "section 11 edit option",
+                    "modify preliminary notification",
+                    "section 11 update"
                 ],
                 "hi": [
-                    "प्रारंभिक अधिसूचना प्रकाशित करना",
-                    "प्रारंभिक अधिसूचना का प्रकाशन",
-                    "धारा 11 की अधिसूचना कैसे प्रकाशित करें",
-                    "प्रारंभिक सूचना के प्रकाशन के चरण",
-                    "भूमि अधिग्रहण की प्रारंभिक अधिसूचना प्रकाशित करें"
+                    "धारा 11 संपादित करें",
+                    "धारा 11 अपडेट करें",
+                    "धारा 11 में बदलाव करें",
+                    "धारा 11 विवरण संपादित करें",
+                    "प्रारंभिक अधिसूचना धारा 11 अपडेट करें",
+                    "सेक्शन 11 एडिट करें",
+                    "धारा 11 की जानकारी बदलें",
+                    "धारा 11 संशोधित करें",
+                    "धारा 11 संपादन",
+                    "धारा 11 में परिवर्तन करें"
                 ],
                 "mr": [
-                    "प्रारंभिक अधिसूचना प्रसिद्ध करणे",
-                    "प्रारंभिक अधिसूचना प्रकाशन",
-                    "कलम 11 ची अधिसूचना कशी प्रसिद्ध करायची",
-                    "प्राथमिक सूचना प्रसिद्ध करण्याचे टप्पे",
-                    "भूसंपादन प्रारंभिक अधिसूचना प्रसिद्ध करणे"
+                    "कलम 11 संपादित करा",
+                    "कलम 11 अपडेट करा",
+                    "कलम 11 बदल करा",
+                    "कलम 11 तपशील संपादित करा",
+                    "प्रारंभिक अधिसूचना कलम 11 अपडेट करा",
+                    "सेक्शन 11 एडिट करा",
+                    "कलम 11 माहिती बदला",
+                    "कलम 11 सुधारणा करा",
+                    "कलम 11 संपादन",
+                    "कलम 11 मध्ये बदल करा"
                 ]
             },
 
-            "send_preliminary_notification_to_dslr": {
+            "section_11_send_to_samanvay_officer": {
                 "en": [
-                    "send preliminary notification to dslr",
-                    "forward section 11 notification to dslr",
-                    "how to send preliminary notice to dslr",
-                    "submit preliminary notification to dslr office",
-                    "notify dslr about section 11 publication",
-                    "send section 11 notification to district superintendent of land records"
+                    "send section 11 to samanvay officer",
+                    "send to samanvay officer section 11",
+                    "forward section 11 to officer",
+                    "submit section 11 to samanvay",
+                    "section 11 send option",
+                    "send preliminary notification to officer",
+                    "forward preliminary notification section 11",
+                    "send section 11 for review",
+                    "transfer section 11 to samanvay officer",
+                    "section 11 submit to officer"
                 ],
                 "hi": [
-                    "डीएसएलआर (DSLR) को प्रारंभिक अधिसूचना भेजना",
-                    "धारा 11 की अधिसूचना डीएसएलआर को भेजें",
-                    "डीएसएलआर को प्रारंभिक सूचना कैसे भेजें",
-                    "प्रारंभिक अधिसूचना डीएसएलआर कार्यालय में जमा करना",
-                    "जिला भूमि अभिलेख अधीक्षक को धारा 11 प्रकाशन की जानकारी देना"
+                    "धारा 11 समन्वय अधिकारी को भेजें",
+                    "धारा 11 अग्रेषित करें",
+                    "सेक्शन 11 समन्वय अधिकारी को भेजें",
+                    "प्रारंभिक अधिसूचना धारा 11 भेजें",
+                    "धारा 11 समीक्षा के लिए भेजें",
+                    "धारा 11 अधिकारी को सबमिट करें",
+                    "धारा 11 फॉरवर्ड करें",
+                    "धारा 11 समन्वय अधिकारी को ट्रांसफर करें",
+                    "सेक्शन 11 भेजना है",
+                    "धारा 11 भेजें"
                 ],
                 "mr": [
-                    "डीएसएलआर (DSLR) ला प्रारंभिक अधिसूचना पाठवणे",
-                    "कलम 11 ची अधिसूचना डीएसएलआर ला पाठवा",
-                    "डीएसएलआर ला प्राथमिक सूचना कशी पाठवायची",
-                    "प्रारंभिक अधिसूचना डीएसएलआर कार्यालयात सादर करणे",
-                    "जिल्हा अधीक्षक भूमी अभिलेख यांना कलम 11 प्रसिद्धीबद्दल कळवणे"
+                    "कलम 11 समन्वय अधिकाऱ्यांना पाठवा",
+                    "कलम 11 अग्रेषित करा",
+                    "सेक्शन 11 समन्वय अधिकाऱ्यांना पाठवा",
+                    "प्रारंभिक अधिसूचना कलम 11 पाठवा",
+                    "कलम 11 पुनरावलोकनासाठी पाठवा",
+                    "कलम 11 अधिकारीकडे सबमिट करा",
+                    "कलम 11 फॉरवर्ड करा",
+                    "कलम 11 ट्रान्सफर करा",
+                    "सेक्शन 11 पाठवायचे आहे",
+                    "कलम 11 पाठवा"
                 ]
             },
 
-            "send_section_11_notification_to_Respected_collector": {
+            "land_record_realisation_send_to_tehsildar": {
                 "en": [
-                    "send section 11 notification to collector",
-                    "send preliminary notification section 11 to collector",
-                    "forward section 11 notification to respected collector",
-                    "submit section 11 notification to collector",
-                    "send preliminary land acquisition notification to collector",
-                    "send section 11 notice to collector",
-                    "send section eleven notification to collector"
+                    "send land record realisation to tehsildar",
+                    "forward land record to tehsildar",
+                    "submit land record to tehsildar",
+                    "send land record details",
+                    "land record send option",
+                    "realisation send to tehsildar",
+                    "transfer land record to tehsildar",
+                    "submit land record for verification",
+                    "send land record information",
+                    "forward land record realisation"
                 ],
                 "hi": [
-                    "धारा 11 की अधिसूचना कलेक्टर को भेजना",
-                    "प्रारंभिक अधिसूचना धारा 11 कलेक्टर को भेजें",
-                    "सेक्शन 11 नोटिफिकेशन कलेक्टर को भेजना",
-                    "भूमि अधिग्रहण प्रारंभिक अधिसूचना कलेक्टर को भेजना",
-                    "धारा 11 सूचना कलेक्टर को भेजें",
-                    "प्रारंभिक अधिसूचना कलेक्टर को भेजना"
+                    "भूमि अभिलेख वसूली तहसीलदार को भेजें",
+                    "भूमि रिकॉर्ड तहसीलदार को भेजें",
+                    "भूमि अभिलेख भेजें",
+                    "तहसीलदार को भूमि विवरण भेजें",
+                    "भूमि रिकॉर्ड सबमिट करें",
+                    "भूमि अभिलेख अग्रेषित करें",
+                    "भूमि वसूली तहसीलदार को भेजें",
+                    "भूमि रिकॉर्ड ट्रांसफर करें",
+                    "भूमि जानकारी तहसीलदार को भेजें",
+                    "भूमि अभिलेख अधिकारी को भेजें"
                 ],
                 "mr": [
-                    "कलम 11 अधिसूचना जिल्हाधिकाऱ्यांना पाठवणे",
-                    "प्रारंभिक अधिसूचना कलम 11 जिल्हाधिकाऱ्यांना पाठवा",
-                    "सेक्शन 11 सूचना जिल्हाधिकाऱ्यांना पाठवणे",
-                    "भूसंपादन प्रारंभिक अधिसूचना जिल्हाधिकाऱ्यांना पाठवणे",
-                    "कलम 11 सूचना कलेक्टरकडे पाठवा",
-                    "प्रारंभिक अधिसूचना जिल्हाधिकाऱ्यांना पाठवणे"
+                    "भूमिअभिलेख तहसीलदारांना पाठवा",
+                    "जमीन रेकॉर्ड तहसीलदारांकडे पाठवा",
+                    "भूमिअभिलेख पाठवा",
+                    "तहसीलदारांना जमीन तपशील पाठवा",
+                    "जमीन रेकॉर्ड सबमिट करा",
+                    "भूमिअभिलेख अग्रेषित करा",
+                    "जमीन वसूली तहसीलदारांना पाठवा",
+                    "जमीन रेकॉर्ड ट्रान्सफर करा",
+                    "जमीन माहिती तहसीलदारांना पाठवा",
+                    "भूमिअभिलेख अधिकारीकडे पाठवा"
                 ]
             },
 
-            "send_section_11_notification_to_samanvay_officer": {
+            "send_publication_proposal_to_dslr_for_joint_calculation": {
                 "en": [
-                    "send section 11 notification to samanvay officer",
-                    "how to send section 11 notice",
-                    "section 11 notification process",
-                    "send section 11 proposal",
-                    "notify samanvay officer under section 11"
+                    "send publication proposal to dslr",
+                    "send proposal to dslr officer",
+                    "forward proposal to dslr",
+                    "submit proposal for joint calculation",
+                    "joint calculation send to dslr",
+                    "send for joint measurement",
+                    "forward publication proposal",
+                    "transfer proposal to dslr",
+                    "send proposal for joint survey",
+                    "submit publication proposal to dslr"
                 ],
                 "hi": [
-                    "धारा 11 की सूचना समन्वय अधिकारी को भेजना",
-                    "सेक्शन 11 नोटिस कैसे भेजें",
-                    "धारा 11 अधिसूचना प्रक्रिया",
-                    "समन्वय अधिकारी को धारा 11 सूचना"
+                    "प्रकाशन प्रस्ताव DSLR को भेजें",
+                    "प्रस्ताव DSLR अधिकारी को भेजें",
+                    "संयुक्त गणना हेतु प्रस्ताव भेजें",
+                    "संयुक्त मापन के लिए भेजें",
+                    "प्रस्ताव अग्रेषित करें DSLR को",
+                    "प्रकाशन प्रस्ताव सबमिट करें",
+                    "संयुक्त गणना के लिए प्रस्ताव ट्रांसफर करें",
+                    "प्रस्ताव DSLR को फॉरवर्ड करें",
+                    "संयुक्त सर्वे हेतु भेजें",
+                    "प्रस्ताव DSLR अधिकारी को सबमिट करें"
                 ],
                 "mr": [
-                    "कलम 11 अधिसूचना समन्वय अधिकाऱ्यास पाठवा",
-                    "कलम 11 नोटीस कशी पाठवायची",
-                    "कलम 11 अधिसूचना प्रक्रिया",
-                    "समन्वय अधिकाऱ्यास कलम 11 सूचना"
+                    "प्रकाशन प्रस्ताव DSLR ला पाठवा",
+                    "प्रस्ताव DSLR अधिकाऱ्यांना पाठवा",
+                    "संयुक्त मोजणीसाठी प्रस्ताव पाठवा",
+                    "संयुक्त गणनेसाठी पाठवा",
+                    "प्रस्ताव अग्रेषित करा DSLR ला",
+                    "प्रकाशन प्रस्ताव सबमिट करा",
+                    "संयुक्त मोजणीसाठी ट्रान्सफर करा",
+                    "प्रस्ताव DSLR कडे फॉरवर्ड करा",
+                    "संयुक्त सर्वेसाठी पाठवा",
+                    "प्रस्ताव DSLR अधिकाऱ्यांकडे पाठवा"
                 ]
             },
 
-            "published_proposal_details": {
+            "assign_dro_for_publication_preliminary_notification": {
                 "en": [
-                    "published proposal details",
-                    "view published proposal details",
-                    "check published proposal details",
-                    "proposal publication details",
-                    "view proposal publication information",
-                    "published proposal information",
-                    "proposal details after publication",
-                    "publication proposal details"
+                    "assign dro",
+                    "assign dro for publication",
+                    "assign dro for preliminary notification",
+                    "select dro officer",
+                    "allocate dro",
+                    "assign dro to publication proposal",
+                    "dro assignment",
+                    "set dro officer",
+                    "choose dro",
+                    "assign dro option"
                 ],
                 "hi": [
-                    "प्रकाशित प्रस्ताव विवरण",
-                    "प्रकाशित प्रस्ताव का विवरण",
-                    "प्रकाशित प्रस्ताव का विवरण देखें",
-                    "प्रकाशित प्रस्ताव की जानकारी",
-                    "प्रस्ताव प्रकाशन विवरण",
-                    "प्रकाशन के बाद प्रस्ताव विवरण",
-                    "प्रकाशित प्रस्ताव जानकारी",
-                    "प्रस्ताव प्रकाशन की जानकारी",
-                    "प्रस्ताव विवरण में विवरण देखें",
-                    "समन्वय अधिकारी प्रकाशित प्रस्ताव",
-                    "भूसंपादन प्रणाली में प्रकाशित प्रस्ताव"
+                    "डीआरओ नियुक्त करें",
+                    "प्रकाशन के लिए डीआरओ नियुक्त करें",
+                    "प्रारंभिक अधिसूचना के लिए डीआरओ असाइन करें",
+                    "डीआरओ अधिकारी चुनें",
+                    "डीआरओ आवंटित करें",
+                    "डीआरओ सेट करें",
+                    "डीआरओ चयन करें",
+                    "प्रकाशन प्रस्ताव के लिए डीआरओ असाइन करें",
+                    "डीआरओ नियुक्ति",
+                    "डीआरओ असाइन करें"
                 ],
                 "mr": [
-                    "प्रकाशित प्रस्ताव तपशील",
-                    "प्रकाशित प्रस्तावाचा तपशील पहा",
-                    "प्रकाशित प्रस्तावाची माहिती",
-                    "प्रस्ताव प्रकाशन तपशील",
-                    "प्रकाशनानंतर प्रस्ताव तपशील",
-                    "प्रकाशित प्रस्ताव माहिती",
-                    "प्रस्ताव प्रकाशनाची माहिती",
-                    "समन्वय अधिकारी प्रकाशित प्रस्तावाचे",
-                    "प्रस्ताव तपशील मध्ये तपशील पहा",
-                    "भूसंपादन प्रणालीमध्ये प्रकाशित प्रस्तावाचे",
-                    "प्रारंभिक सूचनेनंतर प्रस्ताव तपशील",
-                    "प्रकाशन माहितीसह प्रस्ताव तपशील"
+                    "डीआरओ नियुक्त करा",
+                    "प्रकाशनासाठी डीआरओ नियुक्त करा",
+                    "प्रारंभिक अधिसूचनेसाठी डीआरओ असाइन करा",
+                    "डीआरओ अधिकारी निवडा",
+                    "डीआरओ वाटप करा",
+                    "डीआरओ सेट करा",
+                    "डीआरओ निवडा",
+                    "प्रकाशन प्रस्तावासाठी डीआरओ असाइन करा",
+                    "डीआरओ नियुक्ती",
+                    "डीआरओ असाइन करा"
                 ]
             },
 
-            "fund_request_recieved": {
+            "view_publication_proposal": {
                 "en": [
-                    "fund request received",
-                    "check fund request received",
-                    "view fund request received status",
-                    "fund request acknowledgement",
-                    "received fund request details",
-                    "fund request has been received",
-                    "status of received fund request"
+                    "view publication proposal",
+                    "view proposal details",
+                    "open publication proposal",
+                    "show publication proposal",
+                    "proposal detail view",
+                    "view preliminary notification proposal",
+                    "see proposal information",
+                    "open proposal details page",
+                    "publication proposal details",
+                    "view proposal information"
                 ],
                 "hi": [
-                    "फंड अनुरोध प्राप्त हुआ",
-                    "फंड अनुरोध प्राप्त स्थिति",
-                    "प्राप्त फंड अनुरोध देखें",
-                    "फंड अनुरोध प्राप्त होने की जानकारी",
-                    "फंड अनुरोध की स्वीकृति",
-                    "प्राप्त फंड अनुरोध विवरण"
+                    "प्रकाशन प्रस्ताव देखें",
+                    "प्रस्ताव विवरण देखें",
+                    "प्रकाशन प्रस्ताव खोलें",
+                    "प्रस्ताव की जानकारी देखें",
+                    "प्रारंभिक अधिसूचना प्रस्ताव देखें",
+                    "प्रस्ताव का विवरण देखें",
+                    "प्रस्ताव विवरण पेज खोलें",
+                    "प्रकाशन प्रस्ताव जानकारी",
+                    "प्रस्ताव देखें",
+                    "प्रस्ताव विवरण दिखाएं"
                 ],
                 "mr": [
-                    "निधी मागणी प्राप्त झाली",
-                    "निधी विनंती प्राप्त झाली",
-                    "निधी मागणी मिळाली आहे",
-                    "निधी विनंती आणि प्राप्ती",
-                    "निधी विनंती व प्राप्ती स्थिती",
-                    "निधी मागणी प्राप्त स्थिती",
-                    "प्राप्त निधी मागणी",
-                    "निधी विनंती मिळाल्याची माहिती",
-                    "फंड रिक्वेस्ट/रिसीव्ह माहिती",
-                    "साइडबारमध्ये निधी विनंती पर्याय",
-                    "समन्वय अधिकारी निधी तपशील",
-                    "प्रोजेक्टसाठी निधीची माहिती",
-                    "निधी विनंती आणि प्राप्ती पाहा",
-                    "फंड रिक्वेस्ट/रिसीव्ह माहिती पाहता येईल",
-                    "निधी तपशील कसा पाहतो"
+                    "प्रकाशन प्रस्ताव पहा",
+                    "प्रस्ताव तपशील पहा",
+                    "प्रकाशन प्रस्ताव उघडा",
+                    "प्रस्तावाची माहिती पहा",
+                    "प्रारंभिक अधिसूचना प्रस्ताव पहा",
+                    "प्रस्ताव तपशील पृष्ठ उघडा",
+                    "प्रकाशन प्रस्ताव माहिती",
+                    "प्रस्ताव पाहा",
+                    "प्रस्ताव तपशील दाखवा",
+                    "प्रस्ताव माहिती पहा"
                 ]
             },
 
-            "send_funding_requirement_for_the_proclamation_of_section_19": {
+            "funds_required_for_the_proclamation_of_section_19": {
                 "en": [
-                    "send funding requirement for the proclamation of section 19",
-                    "how to send section 19 funding requirement",
-                    "funding requirement for section 19 proclamation",
-                    "forward section 19 funding request",
-                    "submit funding requirement for section 19",
-                    "section 19 proclamation funding steps"
+                    "funds required for section 19",
+                    "section 19 fund requirement",
+                    "fund request for section 19",
+                    "required funds for proclamation of section 19",
+                    "section 19 fund details",
+                    "view section 19 fund demand",
+                    "section 19 fund information",
+                    "check funds for section 19",
+                    "section 19 proclamation fund",
+                    "funds needed for section 19"
                 ],
                 "hi": [
-                    "धारा 19 की उद्घोषणा के लिए धन की आवश्यकता भेजना",
-                    "धारा 19 फंडिंग की आवश्यकता कैसे भेजें",
-                    "सेक्शन 19 उद्घोषणा के लिए फंडिंग",
-                    "धारा 19 की घोषणा के लिए धन की मांग भेजना",
-                    "सेक्शन 19 फंड रिक्वायरमेंट प्रोसेस"
+                    "धारा 19 के लिए आवश्यक निधि",
+                    "धारा 19 निधि मांग",
+                    "धारा 19 के लिए फंड अनुरोध",
+                    "धारा 19 घोषणा हेतु निधि",
+                    "धारा 19 फंड विवरण",
+                    "धारा 19 के लिए आवश्यक राशि देखें",
+                    "धारा 19 निधि जानकारी",
+                    "धारा 19 निधि आवश्यकता",
+                    "धारा 19 के लिए फंड देखें",
+                    "धारा 19 निधि मांग विवरण"
                 ],
                 "mr": [
-                    "कलम 19 च्या उद्घोषणेसाठी निधीची आवश्यकता पाठवणे",
-                    "कलम 19 निधीची आवश्यकता कशी पाठवायची",
-                    "सेक्शन 19 उद्घोषणेसाठी निधी",
-                    "कलम 19 प्रसिद्धीसाठी निधीची मागणी पाठवणे",
-                    "कलम 19 निधी आवश्यकता प्रक्रिया"
+                    "कलम 19 साठी आवश्यक निधी",
+                    "कलम 19 निधी मागणी",
+                    "कलम 19 साठी निधी विनंती",
+                    "कलम 19 घोषणा निधी",
+                    "कलम 19 निधी तपशील",
+                    "कलम 19 साठी लागणारा निधी",
+                    "कलम 19 निधी माहिती",
+                    "कलम 19 साठी निधी आवश्यकता",
+                    "कलम 19 निधी मागणी तपशील",
+                    "कलम 19 साठी निधी पहा"
                 ]
             },
 
-            "send_funding_requirement_for_the_final_award": {
+            "send_funds_required_for_the_proclamation_of_section_19_to_project_incharge": {
                 "en": [
-                    "send funding requirement for the final award",
-                    "how to send final award funding requirement",
-                    "forward funding request for final award",
-                    "submit funding requirement for final award",
-                    "final award funding steps",
-                    "send fund requirement for award"
+                    "send section 19 fund to project incharge",
+                    "send section 19 fund request",
+                    "forward section 19 fund demand",
+                    "send funds required for section 19",
+                    "send section 19 proclamation fund",
+                    "send section 19 fund details to project incharge",
+                    "submit section 19 fund request",
+                    "send fund requirement to project incharge",
+                    "forward fund request for section 19",
+                    "send section 19 funds"
                 ],
                 "hi": [
-                    "अंतिम अवार्ड के लिए धन की आवश्यकता भेजना",
-                    "अंतिम अवार्ड के लिए फंडिंग की आवश्यकता कैसे भेजें",
-                    "फाइनल अवार्ड के लिए फंड की मांग भेजना",
-                    "अंतिम अवार्ड के लिए फंड की आवश्यकता सबमिट करना",
-                    "फाइनल अवार्ड फंडिंग प्रक्रिया"
+                    "धारा 19 निधि प्रोजेक्ट इंचार्ज को भेजें",
+                    "धारा 19 फंड अनुरोध भेजें",
+                    "धारा 19 निधि मांग अग्रेषित करें",
+                    "धारा 19 घोषणा निधि भेजें",
+                    "धारा 19 के लिए निधि प्रोजेक्ट इंचार्ज को भेजें",
+                    "धारा 19 निधि विवरण भेजें",
+                    "धारा 19 फंड सबमिट करें",
+                    "धारा 19 निधि आगे भेजें",
+                    "धारा 19 निधि अनुरोध भेजना है",
+                    "धारा 19 निधि प्रोजेक्ट इंचार्ज को अग्रेषित करें"
                 ],
                 "mr": [
-                    "अंतिम निवाड्यासाठी निधीची आवश्यकता पाठवणे",
-                    "अंतिम निवाड्यासाठी निधीची आवश्यकता कशी पाठवायची",
-                    "अंतिम निवाड्यासाठी निधीची मागणी पाठवणे",
-                    "फायनल अवॉर्डसाठी निधीची आवश्यकता सादर करणे",
-                    "अंतिम निवाडा निधी प्रक्रिया"
+                    "कलम 19 निधी प्रोजेक्ट इंचार्ज ला पाठवा",
+                    "कलम 19 निधी मागणी पाठवा",
+                    "कलम 19 निधी पुढे पाठवा",
+                    "कलम 19 घोषणा निधी पाठवा",
+                    "कलम 19 साठी निधी प्रोजेक्ट इंचार्ज कडे पाठवा",
+                    "कलम 19 निधी तपशील पाठवा",
+                    "कलम 19 निधी सबमिट करा",
+                    "कलम 19 निधी विनंती पाठवा",
+                    "कलम 19 निधी प्रोजेक्ट इंचार्ज ला अग्रेषित करा",
+                    "कलम 19 निधी पुढे पाठवायचा आहे"
                 ]
             },
 
-            "JMR_list": {
+            "funds_required_for_final_award": {
                 "en": [
-                    "jmr list",
-                    "view jmr list",
-                    "check jmr list",
-                    "joint measurement record list",
-                    "joint measurement records",
-                    "joint measurement details",
-                    "list of joint measurement records",
-                    "jmr details list",
-                    "jmr records",
-                    "access jmr"
+                    "funds required for final award",
+                    "final award fund requirement",
+                    "fund request for final award",
+                    "final award fund details",
+                    "view final award fund demand",
+                    "final award fund information",
+                    "check funds for final award",
+                    "final award proclamation fund",
+                    "funds needed for final award",
+                    "final award fund status"
                 ],
                 "hi": [
-                    "जेएमआर सूची",
-                    "जेएमआर लिस्ट",
-                    "संयुक्त मापन अभिलेख सूची",
-                    "संयुक्त मापन रिकॉर्ड सूची",
-                    "जेएमआर रिकॉर्ड",
-                    "जेएमआर विवरण सूची",
-                    "संयुक्त मापन की सूची",
-                    "संयुक्त मापन विवरण",
-                    "संयुक्त मापन जानकारी",
-                    "संयुक्त मापन विवरण डाउनलोड",
-                    "प्रोजेक्ट की संयुक्त मापन",
-                    "भूमि के संयुक्त मापन विवरण",
-                    "अग्रिम मुआवजा किसे और कितना मिला"
+                    "अंतिम पुरस्कार के लिए आवश्यक निधि",
+                    "अंतिम पुरस्कार निधि मांग",
+                    "अंतिम पुरस्कार के लिए फंड अनुरोध",
+                    "अंतिम पुरस्कार निधि विवरण",
+                    "अंतिम पुरस्कार के लिए आवश्यक राशि देखें",
+                    "अंतिम पुरस्कार निधि जानकारी",
+                    "अंतिम पुरस्कार निधि आवश्यकता",
+                    "अंतिम पुरस्कार फंड देखें",
+                    "अंतिम पुरस्कार निधि मांग विवरण",
+                    "अंतिम पुरस्कार के लिए निधि स्थिति"
                 ],
                 "mr": [
-                    "जेएमआर यादी",
-                    "जेएमआर सूची",
-                    "संयुक्त मोजणी नोंद यादी",
-                    "संयुक्त मोजणी रेकॉर्ड यादी",
-                    "जेएमआर रेकॉर्ड",
-                    "जेएमआर तपशील यादी",
-                    "संयुक्त मोजणीची यादी",
-                    "संयुक्त मोजणी अहवाल डाउनलोड",
-                    "प्रकल्पाची संयुक्त मोजणी माहिती",
-                    " JMR कसे पाहू शकतात",
-                    "संयुक्त मोजणी यादी डाउनलोड",
-                    "जमिनीची संयुक्त मोजणी माहिती"
+                    "अंतिम निवाडा साठी आवश्यक निधी",
+                    "अंतिम निवाडा निधी मागणी",
+                    "अंतिम निवाडा साठी निधी विनंती",
+                    "अंतिम निवाडा निधी तपशील",
+                    "अंतिम निवाडा साठी लागणारा निधी",
+                    "अंतिम निवाडा निधी माहिती",
+                    "अंतिम निवाडा साठी निधी आवश्यकता",
+                    "अंतिम निवाडा निधी मागणी तपशील",
+                    "अंतिम निवाडा साठी निधी पहा",
+                    "अंतिम निवाडा निधी स्थिती"
                 ]
             },
 
-            "JMR_List_assign_to_surveyor": {
+            "send_funds_required_for_final_award_to_project_incharge": {
                 "en": [
-                    "JMR List assign to surveyor",
-                    "assign jmr list to surveyor",
-                    "how to assign jmr to surveyor",
-                    "dslr assign jmr list",
-                    "forward jmr list to surveyor",
-                    "assign joint measurement list"
+                    "send final award fund to project incharge",
+                    "send final award fund request",
+                    "forward final award fund demand",
+                    "send funds required for final award",
+                    "send final award fund details",
+                    "submit final award fund request",
+                    "forward fund request for final award",
+                    "send final award funds",
+                    "send final award fund requirement",
+                    "transfer final award fund to project incharge"
                 ],
                 "hi": [
-                    "जेएमआर सूची सर्वेयर को असाइन करना",
-                    "सर्वेयर को जेएमआर सूची कैसे असाइन करें",
-                    "डीएसएलआर द्वारा जेएमआर असाइनमेंट",
-                    "संयुक्त मापन सूची सर्वेयर को भेजना",
-                    "जेएमआर लिस्ट असाइन करें"
+                    "अंतिम पुरस्कार निधि प्रोजेक्ट इंचार्ज को भेजें",
+                    "अंतिम पुरस्कार फंड अनुरोध भेजें",
+                    "अंतिम पुरस्कार निधि मांग अग्रेषित करें",
+                    "अंतिम पुरस्कार निधि भेजें",
+                    "अंतिम पुरस्कार के लिए निधि प्रोजेक्ट इंचार्ज को भेजें",
+                    "अंतिम पुरस्कार निधि विवरण भेजें",
+                    "अंतिम पुरस्कार फंड सबमिट करें",
+                    "अंतिम पुरस्कार निधि आगे भेजें",
+                    "अंतिम पुरस्कार निधि अनुरोध भेजना है",
+                    "अंतिम पुरस्कार निधि प्रोजेक्ट इंचार्ज को अग्रेषित करें"
                 ],
                 "mr": [
-                    "जेएमआर यादी सर्वेअरला असाइन करणे",
-                    "सर्वेअरला जेएमआर यादी कशी असाइन करायची",
-                    "डीएसएलआर द्वारे जेएमआर असाइनमेंट",
-                    "संयुक्त मोजणी यादी सर्वेअरला पाठवणे",
-                    "जेएमआर लिस्ट असाइन करा"
+                    "अंतिम निवाडा निधी प्रोजेक्ट इंचार्ज ला पाठवा",
+                    "अंतिम निवाडा निधी मागणी पाठवा",
+                    "अंतिम निवाडा निधी पुढे पाठवा",
+                    "अंतिम निवाडा निधी पाठवा",
+                    "अंतिम निवाडा साठी निधी प्रोजेक्ट इंचार्ज कडे पाठवा",
+                    "अंतिम निवाडा निधी तपशील पाठवा",
+                    "अंतिम निवाडा निधी सबमिट करा",
+                    "अंतिम निवाडा निधी विनंती पाठवा",
+                    "अंतिम निवाडा निधी प्रोजेक्ट इंचार्ज ला अग्रेषित करा",
+                    "अंतिम निवाडा निधी पुढे पाठवायचा आहे"
                 ]
             },
-
-            "verify_JMR_list_and_re-send_back_to_dslr": {
-                "en": [
-                    "verify JMR list and re-send back to DSLR",
-                    "surveyor verify jmr",
-                    "send jmr back to dslr",
-                    "re-send jmr to dslr",
-                    "verify joint measurement list",
-                    "submit verified jmr to dslr"
-                ],
-                "hi": [
-                    "JMR सूची सत्यापित करें और DSLR को वापस भेजें",
-                    "सर्वेयर JMR सत्यापित करें",
-                    "JMR को DSLR को वापस भेजें",
-                    "संयुक्त मापन सूची सत्यापित करें",
-                    "सत्यापित JMR सबमिट करें"
-                ],
-                "mr": [
-                    "JMR यादी सत्यापित करा आणि DSLR ला परत पाठवा",
-                    "सर्वेअर JMR तपासा",
-                    "JMR DSLR ला परत पाठवा",
-                    "संयुक्त मोजणी यादी सत्यापित करा",
-                    "सत्यापित JMR सादर करा"
-                ]
-            },
-
-            "advance_payment_distribution": {
-                "en": [
-                    "advance payment distribution",
-                    "view advance payment distribution",
-                    "check advance payment distribution",
-                    "advance payment distribution details",
-                    "advance payment distribution record",
-                    "advance payment distribution list",
-                    "advance payment disbursement",
-                    "advance payment disbursement details",
-                    "distribute advance payment",
-                    "advance payment distribution process",
-                    "how to distribute advance payment",
-                    "check advance payment distribution",
-                    "view advance payment distribution details",
-                    "advance payment distribution status",
-                    "complete advance payment distribution",
-                    "update advance payment distribution",
-                    "advance payment disbursement process"
-                ],
-                "hi": [
-                    "अग्रिम भुगतान वितरण",
-                    "अग्रिम भुगतान वितरण देखें",
-                    "अग्रिम भुगतान वितरण की जानकारी",
-                    "अग्रिम भुगतान वितरण विवरण",
-                    "अग्रिम भुगतान वितरण रिकॉर्ड",
-                    "अग्रिम भुगतान वितरण सूची",
-                    "अग्रिम भुगतान वितरण स्थिति",
-                    "अग्रिम भुगतान वितरित करना",
-                    "अग्रिम भुगतान वितरण प्रक्रिया",
-                    "अग्रिम भुगतान कैसे वितरित करें",
-                    "अग्रिम भुगतान वितरण स्थिति",
-                    "अग्रिम भुगतान वितरण विवरण देखें",
-                    "अग्रिम भुगतान वितरण पूरा करें",
-                    "अग्रिम भुगतान वितरण अपडेट करें",
-                    "अग्रिम भुगतान वितरण जांचें",
-                    "अग्रिम भुगतान वितरण प्रक्रिया क्या है"
-                ],
-                "mr": [
-                    "आगाऊ मोबदला वाटप",
-                    "आगाऊ मोबदला वाटप पहा",
-                    "आगाऊ मोबदला वाटप माहिती",
-                    "आगाऊ मोबदला वाटप तपशील",
-                    "आगाऊ मोबदला वाटप रेकॉर्ड",
-                    "आगाऊ मोबदला वाटप यादी",
-                    "आगाऊ मोबदला वाटप स्थिती",
-                    "आगाऊ मोबदला वाटपाशी संबंधित नोंदी",
-                    "जमीनधारकांना दिलेल्या आगाऊ मोबदल्याचा तपशील",
-                    "समन्वय अधिकारी आगाऊ मोबदला वाटप पाहू शकतात",
-                    "आगाऊ मोबदला वाटप अहवाल डाउनलोड",
-                    "आगाऊ देयक वितरण",
-                    "आगाऊ देयक वितरित करणे",
-                    "आगाऊ देयक वितरण प्रक्रिया",
-                    "आगाऊ देयक कसे वितरित करायचे",
-                    "आगाऊ देयक वितरण स्थिती",
-                    "आगाऊ देयक वितरण तपशील पाहा",
-                    "आगाऊ देयक वितरण पूर्ण करा",
-                    "आगाऊ देयक वितरण अपडेट करा",
-                    "आगाऊ देयक वितरण तपासा",
-                    "आगाऊ देयक वितरण प्रक्रिया काय आहे"
-                ]
-            },
-
-            "raise_objection": {
-                "en": [
-                    "raise objection",
-                    "how to raise objection",
-                    "file objection",
-                    "submit objection",
-                    "object to land acquisition",
-                    "raise general objection",
-                    "how to submit objection form",
-                    "open objection form",
-                    "objection process"
-                ],
-                "hi": [
-                    "हरकत दर्ज करना",
-                    "आपत्ति कैसे दर्ज करें",
-                    "आपत्ति दर्ज करें",
-                    "हरकत फॉर्म खोलें",
-                    "सामान्य हरकत दर्ज करना",
-                    "भूमि अधिग्रहण पर आपत्ति",
-                    "हरकत नोंदवायची",
-                    "आपत्ति दर्ज करने की प्रक्रिया",
-                    "हरकत सूची में आपत्ति जोड़ें",
-                    "आपत्ति फॉर्म खोलें",
-                    "हरकत दर्ज करने के चरण"
-                ],
-                "mr": [
-                    "हरकत नोंदवा",
-                    "हरकत कशी नोंदवायची",
-                    "आपत्ती नोंद करणे",
-                    "हरकतीचा फॉर्म उघडा",
-                    "सामान्य हरकत नोंदवा",
-                    "भूसंपादनावर हरकत",
-                    "हरकत नोंदवा प्रक्रिया आहे",
-                    "आपत्ती दाखल करायची",
-                    "हरकत यादीत नोंद करावी",
-                    "हरकत प्रक्रिया आहे",
-                    "प्रणालीमध्ये हरकत वाढवायची"
-                ]
-            },
-
-            "section_15_notice": {
-                "en": [
-                    "section 15 notice",
-                    "view section 15 notice",
-                    "check section 15 notice",
-                    "section 15 notice details",
-                    "section fifteen notice",
-                    "notice under section 15",
-                    "section 15 notification",
-                    "section 15 notice information",
-                    "objection notice",
-                    "view objection notice",
-                    "check objection notice",
-                    "notice under objection",
-                    "objection notification",
-                    "objection notice information",
-                    "check objection notices",
-                    "land objection notices"
-                ],
-                "hi": [
-                    "धारा 15 नोटिस",
-                    "धारा 15 की सूचना",
-                    "धारा 15 नोटिस देखें",
-                    "धारा 15 नोटिस विवरण",
-                    "धारा 15 के अंतर्गत नोटिस",
-                    "धारा 15 अधिसूचना",
-                    "धारा 15 नोटिस की जानकारी",
-                    "भूमि अधिग्रहण की आपत्ति नोटिस",
-                    "जमीन से जुड़ी आपत्ति नोटिस"
-                ],
-                "mr": [
-                    "कलम 15 नोटीस",
-                    "कलम 15 ची नोटीस",
-                    "कलम 15 नोटीस पहा",
-                    "कलम 15 नोटीस तपशील",
-                    "कलम 15 अंतर्गत नोटीस",
-                    "कलम 15 अधिसूचना",
-                    "कलम 15 नोटीसची माहिती",
-                    "कलम 15 नोटीस डाउनलोड",
-                    "भूसंपादनातील हरकत नोटीस उपलब्ध",
-                    "जमिनीसंबंधित हरकत नोटीस"
-                ]
-            },
-
-            "section_15": {
-                "en": [
-                    "section 15",
-                    "section fifteen",
-                    "view section 15",
-                    "check section 15",
-                    "section 15 details",
-                    "section 15 information",
-                    "objection section 15",
-                    "section 15 proceedings",
-                    "section 15 in land acquisition"
-                ],
-                "hi": [
-                    "धारा 15",
-                    "धारा पंद्रह",
-                    "धारा 15 देखें",
-                    "धारा 15 की जानकारी",
-                    "धारा 15 विवरण",
-                    "धारा 15 कार्यवाही",
-                    "धारा 15 आपत्ति",
-                    "भूमि अधिग्रहण में धारा 15 का महत्व"
-                ],
-                "mr": [
-                    "कलम 15",
-                    "कलम पंधरा",
-                    "कलम 15 पहा",
-                    "कलम 15 माहिती",
-                    "कलम 15 तपशील",
-                    "कलम 15 कार्यवाही",
-                    "कलम 15 हरकत"
-                ]
-            },
-
-            "send_section_15_recognition_to_collector": {
-                "en": [
-                    "send section 15 recognition to collector",
-                    "send section 15 to collector",
-                    "forward section 15 to collector",
-                    "submit section 15 recognition",
-                    "send approved section 15"
-                ],
-                "hi": [
-                    "धारा 15 कलेक्टर को भेजें",
-                    "धारा 15 मान्यता कलेक्टर को भेजें",
-                    "धारा 15 आदेश कलेक्टर को भेजना",
-                    "धारा 15 स्वीकृति भेजें"
-                ],
-                "mr": [
-                    "कलम 15 मान्यता कलेक्टरकडे पाठवा",
-                    "कलम 15 आदेश जिल्हाधिकाऱ्यांकडे पाठवा",
-                    "कलम 15 मंजुरी पाठवा",
-                    "कलम 15 कलेक्टरकडे सादर करा"
-                ]
-            },
-
-            "send_section_15_recognition_to_samanvay_officer": {
-                "en": [
-                    "send section 15 recognition to samanvay officer",
-                    "forward section 15 recognition",
-                    "section 15 recognition process",
-                    "send section 15 notice to samanvay officer",
-                    "how to send section 15 recognition",
-                    "forward section 15 to samanvay"
-                ],
-                "hi": [
-                    "धारा 15 मान्यता समन्वय अधिकारी को भेजना",
-                    "सेक्शन 15 मान्यता अग्रेषित करना",
-                    "धारा 15 नोटिस समन्वय अधिकारी को भेजें",
-                    "धारा 15 मान्यता प्रक्रिया",
-                    "धारा 15 को समन्वय अधिकारी तक पहुंचाएं",
-                    "मन्वय अधिकारी को सेक्शन 15 भेजें"
-                ],
-                "mr": [
-                    "कलम 15 मान्यता समन्वय अधिकाऱ्यांना पाठवा",
-                    "सेक्शन 15 मान्यता पुढे पाठवणे",
-                    "कलम 15 नोटीस समन्वय अधिकारी यांना पाठवा",
-                    "कलम 15 मान्यता प्रक्रिया"
-                ]
-            },
-
-            "download_list_of_those_who_filed_objection": {
-                "en": [
-                    "download list of those who filed objection",
-                    "download objection list",
-                    "download list of objections",
-                    "list of people who filed objection",
-                    "download objection filed list",
-                    "download objection applicants list"
-                ],
-                "hi": [
-                    "आपत्ति दर्ज करने वालों की सूची डाउनलोड करें",
-                    "आपत्ति दाखिल करने वालों की सूची",
-                    "आपत्ति सूची डाउनलोड करें",
-                    "आपत्ति दर्ज करने वाले लोगों की सूची",
-                    "आपत्ति आवेदकों की सूची डाउनलोड करें"
-                ],
-                "mr": [
-                    "हरकत दाखल केलेल्यांची यादी डाउनलोड करा",
-                    "हरकत नोंदविलेल्यांची यादी",
-                    "हरकत दाखल केलेल्या व्यक्तींची यादी डाउनलोड करा",
-                    "हरकतदारांची यादी डाउनलोड करा",
-                    "आक्षेप दाखल केलेल्यांची यादी"
-                ]
-            },
-
-            "check_objection_details": {
-                "en": [
-                    "check objection details",
-                    "view objection details",
-                    "see objection information",
-                    "objection details view",
-                    "check filed objections",
-                    "view objection records",
-                    "objection case details",
-                    "objection information under land acquisition",
-                    "check land acquisition objections"
-                ],
-                "hi": [
-                    "आपत्ति विवरण देखें",
-                    "आपत्ति की जानकारी देखें",
-                    "दर्ज आपत्तियों का विवरण",
-                    "आपत्ति रिकॉर्ड देखें",
-                    "आपत्ति से संबंधित जानकारी",
-                    "भूमि अधिग्रहण आपत्ति विवरण",
-                    "आपत्ति प्रकरण का विवरण",
-                    "आपत्ति प्रबंधन प्रणाली में विवरण देखें",
-                    "भूमि अधिग्रहण की आपत्तियाँ कहाँ दिखती",
-                    "परियोजना से संबंधित आपत्तियाँ देखें"
-                ],
-                "mr": [
-                    "हरकत तपशील पहा",
-                    "हरकतीची माहिती पहा",
-                    "नोंदवलेल्या हरकतींचा तपशील",
-                    "हरकत रेकॉर्ड पहा",
-                    "हरकत प्रकरणाची माहिती",
-                    "भूसंपादन हरकत तपशील",
-                    "हरकत माहिती पाहणे",
-                    "हरकतीचा तपशील",
-                    "प्रकल्पाशी संबंधित हरकती पाहायच्या",
-                    "हरकत नोंदी तपासायच्या",
-                    "भूसंपादनातील हरकती दिसतात",
-                    "हरकत यादीचा तपशील पाहायचा",
-                    "हरकत व्यवस्थापन प्रणालीतील माहिती",
-                    "हरकत संबंधित संपूर्ण माहिती"
-                ]
-            },
-
-            # "extend_the_time_period_for_declaration_under_section_19": {
-            #     "en": [
-            #         "extend the time period for declaration under section 19",
-            #         "extension of time period under section 19",
-            #         "extend section 19 declaration time",
-            #         "how to extend declaration period under section 19",
-            #         "section 19 declaration time extension",
-            #         "request extension under section 19"
-            #     ],
-            #     "hi": [
-            #         "धारा 19 के अंतर्गत घोषणा की समय सीमा बढ़ाएं",
-            #         "धारा 19 घोषणा अवधि का विस्तार",
-            #         "धारा 19 के तहत समय सीमा बढ़ाने की प्रक्रिया",
-            #         "धारा 19 घोषणा समय विस्तार",
-            #         "धारा 19 के अंतर्गत घोषणा अवधि बढ़ाना"
-            #     ],
-            #     "mr": [
-            #         "कलम 19 अंतर्गत घोषणेसाठी कालावधी वाढवणे",
-            #         "कलम 19 घोषणेची मुदत वाढ",
-            #         "कलम 19 अंतर्गत घोषणा कालावधी वाढवणे",
-            #         "कलम 19 घोषणेचा वेळ वाढवण्याची प्रक्रिया",
-            #         "कलम 19 वेळवाढ अर्ज"
-            #     ]
-            # },
-
-            "send_to_samanvay_for_section_19_time_extension": {
-                "en": [
-                    "send to samanvay for section 19 time extension",
-                    "forward section 19 time extension to samanvay officer",
-                    "how to send section 19 extension to samanvay",
-                    "section 19 time extension process for samanvay",
-                    "submit section 19 time extension to samanvay officer",
-                    "move section 19 extension to samanvay"
-                ],
-                "hi": [
-                    "धारा 19 समय विस्तार समन्वय अधिकारी को भेजें",
-                    "सेक्शन 19 समय विस्तार अग्रेषित करें",
-                    "धारा 19 समय बढ़ाने का प्रस्ताव समन्वय को भेजें",
-                    "सेक्शन 19 समय विस्तार प्रक्रिया",
-                    "समन्वय अधिकारी को धारा 19 विस्तार भेजना"
-                ],
-                "mr": [
-                    "कलम 19 वेळवाढ समन्वय अधिकाऱ्यांना पाठवा",
-                    "सेक्शन 19 वेळवाढ पुढे पाठवा",
-                    "कलम 19 वेळवाढ प्रस्ताव समन्वयकडे पाठवा",
-                    "सेक्शन 19 वेळवाढ प्रक्रिया",
-                    "समन्वय अधिकाऱ्यांना कलम 19 विस्तार पाठवा"
-                ]
-            },
-
-            "send_to_collector_for_section_19_time_extension": {
-                "en": [
-                    "send to collector for section 19 time extension",
-                    "forward section 19 time extension to collector",
-                    "how to send section 19 extension to collector",
-                    "section 19 time extension to respected collector",
-                    "submit section 19 extension to collector",
-                    "move section 19 extension to collector"
-                ],
-                "hi": [
-                    "धारा 19 समय विस्तार कलेक्टर को भेजें",
-                    "सेक्शन 19 समय विस्तार कलेक्टर को अग्रेषित करें",
-                    "धारा 19 विस्तार कलेक्टर को कैसे भेजें",
-                    "सम्माननीय कलेक्टर को धारा 19 समय विस्तार भेजें",
-                    "सेक्शन 19 समय विस्तार प्रक्रिया कलेक्टर हेतु"
-                ],
-                "mr": [
-                    "कलम 19 वेळवाढ जिल्हाधिकारी यांना पाठवा",
-                    "सेक्शन 19 वेळवाढ कलेक्टरकडे पाठवा",
-                    "कलम 19 विस्तार जिल्हाधिकारी यांना कसा पाठवायचा",
-                    "मां. जिल्हाधिकारी यांना कलम 19 वेळवाढ पाठवा",
-                    "सेक्शन 19 वेळवाढ प्रक्रिया कलेक्टरसाठी"
-                ]
-            },
-
-            "check_and_download_Section_19_document": {
-                "en": [
-                    "check section 19 document",
-                    "download section 19 document",
-                    "view section 19 notification",
-                    "print section 19 document",
-                    "open section 19 file",
-                    "section 19 document download process",
-                    "how to see section 19 document",
-                    "how to download section 19 notification",
-                    "check and download section 19",
-                    "section 19 document view and print"
-                ],
-                "hi": [
-                    "धारा 19 दस्तावेज़ जांचें",
-                    "सेक्शन 19 दस्तावेज़ डाउनलोड करें",
-                    "धारा 19 अधिसूचना देखें",
-                    "सेक्शन 19 नोटिफिकेशन प्रिंट करें",
-                    "धारा 19 फाइल खोलें",
-                    "सेक्शन 19 दस्तावेज़ डाउनलोड प्रक्रिया",
-                    "धारा 19 दस्तावेज़ कैसे देखें",
-                    "सेक्शन 19 अधिसूचना कैसे डाउनलोड करें",
-                    "धारा 19 दस्तावेज़ जांच और डाउनलोड",
-                    "सेक्शन 19 फाइल देखें"
-                ],
-                "mr": [
-                    "कलम 19 दस्तऐवज तपासा",
-                    "सेक्शन 19 दस्तऐवज डाउनलोड करा",
-                    "कलम 19 सूचना पाहा",
-                    "सेक्शन 19 नोटीस प्रिंट करा",
-                    "कलम 19 फाइल उघडा",
-                    "सेक्शन 19 दस्तऐवज डाउनलोड प्रक्रिया",
-                    "कलम 19 दस्तऐवज कसा पाहायचा",
-                    "सेक्शन 19 सूचना कशी डाउनलोड करायची",
-                    "कलम 19 दस्तऐवज तपासणी आणि डाउनलोड",
-                    "सेक्शन 19 फाइल पाहा"
-                ]
-            },
-
-            "edit_section_19_document": {
-                "en": [
-                    "edit section 19 document",
-                    "modify section 19 notification",
-                    "update section 19 file",
-                    "make changes in section 19 document",
-                    "edit section 19 report",
-                    "how to edit section 19 document"
-                ],
-                "hi": [
-                    "धारा 19 दस्तावेज़ संपादित करें",
-                    "सेक्शन 19 अधिसूचना में बदलाव करें",
-                    "धारा 19 फाइल अपडेट करें",
-                    "सेक्शन 19 दस्तावेज़ संशोधित करें",
-                    "धारा 19 रिपोर्ट संपादन प्रक्रिया"
-                ],
-                "mr": [
-                    "कलम 19 दस्तऐवज संपादित करा",
-                    "सेक्शन 19 सूचना बदल करा",
-                    "कलम 19 फाइल अपडेट करा",
-                    "सेक्शन 19 दस्तऐवज सुधारणा करा",
-                    "कलम 19 अहवाल संपादन प्रक्रिया"
-                ]
-            },
-
-            "send_section_19_to_samanvay_officer": {
-                "en": [
-                    "send section 19 to samanvay officer",
-                    "send section 19 notification to samanvay officer",
-                    "forward section 19 to samanvay officer",
-                    "submit section 19 to samanvay officer",
-                    "notify samanvay officer under section 19",
-                    "send section nineteen notification",
-                    "share section 19 document with samanvay officer",
-                    "how to send section 19 to samanvay officer"
-                ],
-                "hi": [
-                    "धारा 19 समन्वय अधिकारी को भेजना",
-                    "सेक्शन 19 अधिसूचना समन्वय अधिकारी को भेजें",
-                    "धारा 19 नोटिफिकेशन समन्वय अधिकारी को भेजना",
-                    "समन्वय अधिकारी को धारा 19 सूचना भेजना",
-                    "सेक्शन 19 दस्तावेज़ समन्वय अधिकारी को भेजना",
-                    "धारा 19 की जानकारी समन्वय अधिकारी को भेजें"
-                ],
-                "mr": [
-                    "कलम 19 समन्वय अधिकाऱ्यांना पाठवणे",
-                    "सेक्शन 19 अधिसूचना समन्वय अधिकाऱ्यांना पाठवा",
-                    "कलम 19 सूचना समन्वय अधिकाऱ्यांना पाठवणे",
-                    "समन्वय अधिकाऱ्यास कलम 19 नोटीस पाठवा",
-                    "सेक्शन 19 दस्तऐवज समन्वय अधिकाऱ्यांना पाठवा",
-                    "कलम 19 माहिती समन्वय अधिकाऱ्यांना पाठवा"
-                ]
-            },
-
-            "send_section_19_to_Respected_collector": {
-                "en": [
-                    "send section 19 to collector",
-                    "send section 19 declaration to collector",
-                    "forward section 19 to respected collector",
-                    "submit section 19 declaration to collector",
-                    "send section nineteen declaration",
-                    "send section 19 notification to collector",
-                    "forward section 19 document to collector",
-                    "send section 19 land acquisition declaration",
-                    "submit section 19 approval to collector"
-                ],
-                "hi": [
-                    "धारा 19 कलेक्टर को भेजें",
-                    "धारा 19 घोषणा कलेक्टर को भेजना",
-                    "धारा 19 की अधिसूचना कलेक्टर को भेजें",
-                    "धारा 19 दस्तावेज कलेक्टर को भेजना",
-                    "धारा 19 घोषणा माननीय कलेक्टर को भेजें",
-                    "धारा 19 भूमि अधिग्रहण घोषणा भेजना",
-                    "धारा 19 स्वीकृति कलेक्टर को भेजें"
-                ],
-                "mr": [
-                    "कलम 19 जिल्हाधिकाऱ्यांना पाठवा",
-                    "कलम 19 घोषणा कलेक्टरकडे पाठवा",
-                    "कलम 19 अधिसूचना जिल्हाधिकाऱ्यांना पाठवणे",
-                    "कलम 19 दस्तऐवज जिल्हाधिकाऱ्यांकडे पाठवा",
-                    "कलम 19 भूसंपादन घोषणा पाठवा",
-                    "कलम 19 मंजुरी कलेक्टरकडे पाठवा",
-                    "कलम 19 जाहीरनामा जिल्हाधिकाऱ्यांना सादर करा"
-                ]
-            },
-
-            "check_and_download_section_21_1": {
-                "en": [
-                    "check section 21(1)",
-                    "check Section 21(1) document",
-                    "download section 21(1)",
-                    "Download Section 21(1) land acquisition document",
-                    "view section 21(1) document",
-                    "section 21(1) pdf download",
-                    "section 21(1) declaration",
-                    "check section twenty one one document",
-                    "download section 21(1) notification",
-                    "view declaration under section 21(1)",
-                    "section 21(1) land acquisition document"
-                ],
-                "hi": [
-                    "धारा 21(1) देखें",
-                    "धारा 21(1) डाउनलोड करें",
-                    "धारा 21(1) दस्तावेज",
-                    "धारा 21(1) पीडीएफ डाउनलोड",
-                    "धारा 21(1) की घोषणा",
-                    "धारा 21(1) अधिसूचना डाउनलोड",
-                    "धारा 21(1) भूमि अधिग्रहण दस्तावेज",
-                    "धारा 21(1) घोषणा देखें",
-                    "धारा 21(1) दस्तावेज़ कैसे देखें",
-                    "धारा 21(1) अधिसूचना डाउनलोड करें",
-                    "सेक्शन 21(1) नोटिफिकेशन देखें",
-                    "धारा 21 उपधारा 1 दस्तावेज़ कैसे डाउनलोड करें",
-                    "सेक्शन 21 (1) फाइल खोलें",
-                    "धारा 21-1 की सूचना देखें",
-                    "धारा 21(1) रिपोर्ट प्रिंट करें",
-                    "सेक्शन 21/1 दस्तावेज़ जांचें",
-                    "धारा 21(1) दस्तावेज़ जांच और डाउनलोड",
-                    "धारा 21(1) की अधिसूचना कैसे देखें"
-                ],
-                "mr": [
-                    "कलम 21(1) पहा",
-                    "कलम 21(1) डाउनलोड करा",
-                    "कलम 21(1) दस्तऐवज",
-                    "कलम 21(1) पीडीएफ डाउनलोड",
-                    "कलम 21(1) घोषणा",
-                    "कलम 21(1) अधिसूचना डाउनलोड",
-                    "भूसंपादन कलम 21(1) दस्तऐवज",
-                    "कलम 21(1) जाहीरनामा पहा",
-                    "कलम 21(1) दस्तऐवज कसा पाहायचा",
-                    "सेक्शन 21(1) सूचना डाउनलोड करा",
-                    "कलम 21 उपकलम 1 दस्तऐवज पाहा",
-                    "सेक्शन 21 (1) फाइल उघडा",
-                    "कलम 21-1 सूचना तपासा",
-                    "सेक्शन 21/1 दस्तऐवज डाउनलोड करा",
-                    "कलम 21(1) नोटीस प्रिंट करा",
-                    "कलम 21(1) दस्तऐवज तपासणी आणि डाउनलोड"
-                ]
-            },
-
-            "edit_section_21_1_document": {
-                "en": [
-                    "edit section 21(1) document",
-                    "modify section 21(1) notification",
-                    "update section 21(1) file",
-                    "make changes in section 21(1)",
-                    "edit section 21(1) report",
-                    "how to edit section 21(1) document"
-                ],
-                "hi": [
-                    "धारा 21(1) दस्तावेज़ संपादित करें",
-                    "सेक्शन 21(1) अधिसूचना में बदलाव करें",
-                    "धारा 21(1) फाइल अपडेट करें",
-                    "सेक्शन 21(1) दस्तावेज़ संशोधित करें",
-                    "धारा 21(1) रिपोर्ट संपादन प्रक्रिया"
-                ],
-                "mr": [
-                    "कलम 21(1) दस्तऐवज संपादित करा",
-                    "सेक्शन 21(1) सूचना बदल करा",
-                    "कलम 21(1) फाइल अपडेट करा",
-                    "सेक्शन 21(1) दस्तऐवज सुधारणा करा",
-                    "कलम 21(1) अहवाल संपादन प्रक्रिया"
-                ]
-            },
-
-            "check_and_download_section_21_1_4": {
-                "en": [
-                    "download Section 21(1)(4)"
-                    "check section 21(1),(4)",
-                    "download section 21(1),(4) document",
-                    "section 21 sub section 1 clause 4",
-                    "section 21 one four notification",
-                    "download section 21(1),(4) pdf",
-                    "view section 21(1),(4) order",
-                    "section 21(1),(4) land acquisition document"
-                ],
-                "hi": [
-                    "धारा 21(1),(4) का दस्तावेज़ डाउनलोड करें",
-                    "शपथ पत्र धारा 21(1),(4) देखें",
-                    "भूसंपादन प्रणाली में सेक्शन 21(1),(4) खोलें",
-                    "धारा 21(1),(4) का डॉक्यूमेंट",
-                    "21(1),(4) शपथ पत्र",
-                    "धारा 21(1),(4) देखें",
-                    "धारा 21(1),(4) डाउनलोड करें",
-                    "सेक्शन 21 उपधारा 1(4)",
-                    "धारा 21(1),(4) आदेश",
-                    "धारा 21(1),(4) पीडीएफ डाउनलोड"
-                ],
-                "mr": [
-                    "कलम 21(1),(4) पहा",
-                    "कलम 21(1),(4) डाउनलोड करा",
-                    "कलम 21 उपकलम 1(4)",
-                    "कलम 21(1),(4) आदेश",
-                    "कलम 21(1),(4) दस्तऐवज डाउनलोड",
-                    "कलम 21(1),(4) दस्तऐवज  कसा डाउनलोड",
-                    "कलम 21(1),(4) दस्तऐवज डाउनलोड करायचा",
-                    "21(1),(4) दस्तऐवज डाउनलोड करण्याची",
-                    "21(1),(4) दस्तऐवज डाउनलोड करण्याची प्रक्रिया",
-                    "कलम 21(1),(4) फाइल पाहायची",
-                    "शपथ पत्र कलम 21(1),(4) मिळेल",
-                    "21(1),(4) डॉक्युमेंट ओपन करायचे"
-                ]
-            },
-
-            "edit_section_21_1_4_document": {
-                "en": [
-                    "edit section 21(1)(4) document",
-                    "modify section 21(1)(4) notification",
-                    "update section 21(1)(4) file",
-                    "make changes in section 21(1)(4)",
-                    "edit section 21(1)(4) report",
-                    "how to edit section 21(1)(4) document"
-                ],
-                "hi": [
-                    "धारा 21(1)(4) दस्तावेज़ संपादित करें",
-                    "सेक्शन 21(1)(4) अधिसूचना में बदलाव करें",
-                    "धारा 21(1)(4) फाइल अपडेट करें",
-                    "सेक्शन 21(1)(4) दस्तावेज़ संशोधित करें",
-                    "धारा 21(1)(4) रिपोर्ट संपादन प्रक्रिया"
-                ],
-                "mr": [
-                    "कलम 21(1)(4) दस्तऐवज संपादित करा",
-                    "सेक्शन 21(1)(4) सूचना बदल करा",
-                    "कलम 21(1)(4) फाइल अपडेट करा",
-                    "सेक्शन 21(1)(4) दस्तऐवज सुधारणा करा",
-                    "कलम 21(1)(4) अहवाल संपादन प्रक्रिया"
-                ]
-            },
-
-            "details_of_claims_under_section_21": {
-                "en": [
-                    "details of claims under section 21",
-                    "view claims filed under section 21",
-                    "section 21 claims details",
-                    "claim details section 21 land acquisition",
-                    "list of claims under section 21",
-                    "show section 21 compensation claims",
-                    "information about claims under section 21"
-                ],
-                "hi": [
-                    "धारा 21 के अंतर्गत दावों का विवरण",
-                    "धारा 21 के तहत दावे देखें",
-                    "सेक्शन 21 दावा विवरण",
-                    "धारा 21 मुआवजा दावा जानकारी",
-                    "धारा 21 के अंतर्गत दावों की सूची"
-                ],
-                "mr": [
-                    "कलम 21 अंतर्गत दाव्यांचा तपशील",
-                    "कलम 21 अंतर्गत दाखल दावे पहा",
-                    "कलम 21 दावा माहिती",
-                    "कलम 21 भरपाई दाव्यांचा तपशील",
-                    "कलम 21 अंतर्गत दाव्यांची यादी"
-                ]
-            },
-
-            "add_claim_under_section_21": {
-                "en": [
-                    "add claim under section 21",
-                    "file claim under section 21",
-                    "how to add section 21 claim",
-                    "submit claim under section 21",
-                    "create claim for section 21",
-                    "section 21 claim filing process",
-                    "register claim under section 21"
-                ],
-                "hi": [
-                    "धारा 21 के तहत दावा जोड़ें",
-                    "धारा 21 के अंतर्गत दावा दर्ज करें",
-                    "सेक्शन 21 दावा कैसे जोड़ें",
-                    "धारा 21 के तहत दावा सबमिट करें",
-                    "धारा 21 दावा पंजीकरण प्रक्रिया",
-                    "धारा 21 मुआवजा दावा दर्ज करें"
-                ],
-                "mr": [
-                    "कलम 21 अंतर्गत दावा जोडा",
-                    "कलम 21 अंतर्गत दावा नोंदवा",
-                    "सेक्शन 21 दावा कसा जोडायचा",
-                    "कलम 21 अंतर्गत दावा सबमिट करा",
-                    "कलम 21 दावा नोंदणी प्रक्रिया",
-                    "कलम 21 भरपाई दावा दाखल करा"
-                ]
-            },
-
-            "section_21_claim_details": {
-                "en": [
-                    "section 21 claim details",
-                    "claim details of section 21",
-                    "section 21 land acquisition claim information",
-                    "view section 21 claim details",
-                    "section 21 compensation claim details",
-                    "show claim status under section 21"
-                ],
-                "hi": [
-                    "धारा 21 दावा विवरण",
-                    "धारा 21 के दावे की जानकारी",
-                    "सेक्शन 21 मुआवजा दावा विवरण",
-                    "धारा 21 के अंतर्गत दावा स्थिति",
-                    "धारा 21 दावा विवरण देखें"
-                ],
-                "mr": [
-                    "कलम 21 दावा तपशील",
-                    "कलम 21 अंतर्गत दावा माहिती",
-                    "कलम 21 भरपाई दावा तपशील",
-                    "कलम 21 दावा स्थिती",
-                    "कलम 21 दावा तपशील पहा"
-                ]
-            },
-
-            "market_value_of_the_bail": {
-                "en": [
-                    "market value of the land",
-                    "market value of the land under acquisition",
-                    "check market value of land",
-                    "view market value of land",
-                    "what is the market value of the land",
-                    "land market value details",
-                    "market rate of acquired land",
-                    "land valuation details",
-                    "how much is the market value of land",
-                    "market value calculation of land"
-                ],
-                "hi": [
-                    "भूमि का बाजार मूल्य",
-                    "अधिग्रहित भूमि का बाजार मूल्य",
-                    "भूमि का बाजार मूल्य देखें",
-                    "भूमि का बाजार मूल्य क्या है",
-                    "भूमि के बाजार मूल्य की जानकारी",
-                    "भूमि मूल्यांकन विवरण",
-                    "अधिग्रहण भूमि का बाजार भाव",
-                    "भूमि का मूल्य कैसे तय होता है",
-                    "जमीन का बाजार मूल्य"
-                ],
-                "mr": [
-                    "जमिनीचे बाजारमूल्य",
-                    "अधिग्रहित जमिनीचे बाजारमूल्य",
-                    "जमिनीचे बाजारमूल्य पहा",
-                    "जमिनीचा बाजारभाव काय आहे",
-                    "जमिनीच्या बाजारमूल्याची माहिती",
-                    "जमीन मूल्यांकन तपशील",
-                    "भूसंपादन जमिनीचे बाजारमूल्य",
-                    "जमिनीचा बाजार दर",
-                    "जमिनीचे बाजारमूल्य कसे ठरते"
-                ]
-            },
-
-            "direct_purchase_market_value_of_land": {
-                "en": [
-                    "direct purchase market value of land",
-                    "direct purchase land market value",
-                    "market value of land for direct purchase",
-                    "direct purchase land valuation",
-                    "check direct purchase market value",
-                    "view direct purchase land market value",
-                    "direct purchase land rate",
-                    "direct purchase land price",
-                    "what is direct purchase land market value",
-                    "direct purchase land value details"
-                ],
-                "hi": [
-                    "डायरेक्ट परचेज जमीन का रेट",
-                    "प्रत्यक्ष खरीद योजना में भूमि मूल्य",
-                    "डायरेक्ट खरीद भूमि मूल्यांकन विवरण",
-                    "सीधी खरीद में जमीन का मूल्य",
-                    "प्रत्यक्ष खरीद भूमि का बाजार मूल्य",
-                    "सीधी खरीद भूमि का बाजार मूल्य",
-                    "प्रत्यक्ष खरीद के लिए भूमि का मूल्य",
-                    "सीधी खरीद भूमि का बाजार भाव",
-                    "प्रत्यक्ष खरीद भूमि मूल्यांकन",
-                    "डायरेक्ट परचेस भूमि का बाजार मूल्य",
-                    "प्रत्यक्ष खरीद जमीन का मूल्य",
-                    "सीधी खरीद जमीन का बाजार मूल्य"
-                ],
-                "mr": [
-                    "थेट खरेदी जमिनीचे बाजारमूल्य",
-                    "थेट खरेदीसाठी जमिनीचे बाजारमूल्य",
-                    "थेट खरेदी जमिनीचा बाजारभाव",
-                    "थेट खरेदी जमीन दर",
-                    "थेट खरेदी जमिनीचे मूल्यांकन",
-                    "डायरेक्ट खरेदी जमिनीचे बाजारमूल्य",
-                    "थेट खरेदी जमीन बाजार दर",
-                    "थेट खरेदी जमिनीची किंमत"
-                ]
-            },
-
-            "add_direct_purchase_record_market_value_of_land": {
-                "en": [
-                    "add direct purchase record",
-                    "add direct purchase record market value",
-                    "add direct purchase record for land",
-                    "how to add direct purchase record",
-                    "add direct purchase entry",
-                    "add direct purchase record in market value"
-                ],
-                "hi": [
-                    "थेट खरेदी नोंद जोडा",
-                    "थेट खरेदी रिकॉर्ड जोड़ें",
-                    "थेट खरेदी रिकॉर्ड कैसे जोड़ें",
-                    "थेट खरेदी नोंद जोड़ने का तरीका",
-                    "Add Direct Purchase Record जोड़ें"
-                ],
-                "mr": [
-                    "खरेदी विक्री नोंद जोडा",
-                    "खरेदी विक्री नोंद कशी जोडा",
-                    "थेट खरेदी नोंद जोडा",
-                    "खरेदी विक्री नोंदी जोडा",
-                    "Add Direct Purchase Record कशी जोडा"
-                ]
-            },
-
-            "edit_proposal_direct_purchase_info_market_value_of_land": {
-                "en": [
-                    "change direct purchase proposal info",
-                    "modify direct purchase proposal details",
-                    "update direct purchase proposal information",
-                    "edit direct purchase in proposal",
-                    "make changes to direct purchase details",
-                    "how to modify direct purchase proposal",
-                    "edit direct purchase proposal record",
-                    "change proposal direct purchase data"
-                ],
-                "hi": [
-                    "प्रस्ताव में थेट खरेदी की जानकारी बदलें",
-                    "थेट खरेदी प्रस्ताव विवरण संपादित करें",
-                    "थेट खरेदी प्रस्ताव की जानकारी अपडेट करें",
-                    "प्रस्ताव में थेट खरेदी संपादित करें",
-                    "थेट खरेदी प्रस्ताव विवरण में बदल करें",
-                    "थेट खरेदी प्रस्ताव कैसे संपादित करें",
-                    "प्रस्ताव के थेट खरेदी डेटा बदलें"
-                ],
-                "mr": [
-                    "प्रस्तावात खरेदी विक्री माहिती बदला",
-                    "खरेदी विक्री प्रस्ताव तपशील संपादित करा",
-                    "खरेदी विक्री प्रस्ताव माहिती अपडेट करा",
-                    "प्रस्तावामध्ये खरेदी विक्री संपादित करा",
-                    "खरेदी विक्री प्रस्ताव तपशील कसा बदला",
-                    "प्रस्तावाच्या खरेदी विक्री डेटा बदला"
-                ]
-            },
-
-            "section_93": {
-                "en": [
-                    "section 93",
-                    "section ninety three",
-                    "view section 93",
-                    "check section 93",
-                    "section 93 details",
-                    "section 93 information",
-                    "section 93 land acquisition",
-                    "section 93 compensation",
-                    "provisions under section 93",
-                    "what is section 93"
-                ],
-                "hi": [
-                    "धारा 93",
-                    "धारा तिरानवे",
-                    "धारा 93 देखें",
-                    "धारा 93 की जानकारी",
-                    "धारा 93 विवरण",
-                    "भूमि अधिग्रहण धारा 93",
-                    "धारा 93 मुआवजा",
-                    "धारा 93 के प्रावधान",
-                    "धारा 93 क्या है"
-                ],
-                "mr": [
-                    "कलम 93",
-                    "कलम त्र्याण्णव",
-                    "कलम 93 पहा",
-                    "कलम 93 माहिती",
-                    "कलम 93 तपशील",
-                    "भूसंपादन कलम 93",
-                    "कलम 93 मोबदला",
-                    "कलम 93 तरतुदी",
-                    "कलम 93 म्हणजे काय"
-                ]
-            },
-
-            "final_award_time_extention": {
-                "en": [
-                    "extend time period for declaration under section final award",
-                    "extension of time for final award declaration",
-                    "extend final award declaration time",
-                    "request extension for final award",
-                    "time extension under section final award",
-                    "extend deadline for final award declaration",
-                    "final award time period extension"
-                ],
-                "hi": [
-                    "अंतिम पुरस्कार घोषणा की समय अवधि बढ़ाना",
-                    "धारा के अंतर्गत अंतिम पुरस्कार की समय सीमा बढ़ाना",
-                    "अंतिम पुरस्कार घोषणा के लिए समय विस्तार",
-                    "फाइनल अवार्ड की समय सीमा बढ़ाएं",
-                    "धारा के अंतर्गत अंतिम पुरस्कार हेतु समय विस्तार",
-                    "अंतिम पुरस्कार घोषणा की अवधि बढ़ाना"
-                ],
-                "mr": [
-                    "अंतिम निवाडा घोषणेसाठी कालावधी वाढवणे",
-                    "कलमानुसार अंतिम निवाड्याचा कालावधी वाढवणे",
-                    "अंतिम निवाडा जाहीर करण्यासाठी मुदतवाढ",
-                    "फायनल अवॉर्डसाठी वेळ वाढवणे",
-                    "अंतिम निवाड्याच्या घोषणेसाठी कालावधी वाढ",
-                    "अंतिम निवाडा मुदत वाढ"
-                ]
-            },
-
-            "final_award_time_extention_test": {
-                "en": [
-                    "how can samanvay officer and lao see proposal details with extend date",
-                    "where can samanvay officer view final award extension details",
-                    "how to access proposal details with extended date in final award",
-                    "can lao see proposal details with extended date",
-                    "how to view extended date in final award proposal",
-                    "samanvay officer and lao viewing proposal with extended date",
-                    "final award proposal with extend date visibility"
-                ],
-                "hi": [
-                    "समन्वय ऑफिसर और एलएओ विस्तारित तारीख के साथ प्रस्ताव विवरण कैसे देख सकते हैं",
-                    "अंतिम पुरस्कार विस्तार विवरण कहां देख सकते हैं",
-                    "विस्तारित तारीख के साथ प्रस्ताव विवरण कैसे प्राप्त करें",
-                    "एलएओ विस्तारित तारीख के साथ प्रस्ताव विवरण देख सकता है",
-                    "अंतिम पुरस्कार में विस्तारित तारीख कैसे देखें",
-                    "समन्वय अधिकारी और लाओ प्रस्ताव देखना विस्तारित तिथि के साथ"
-                ],
-                "mr": [
-                    "समन्वय ऑफिसर आणि एलएओ विस्तारित तारखेसह प्रस्तावाचे तपशील कसे पाहू शकतात",
-                    "अंतिम निवाडा विस्तार तपशील कुठे पाहू शकता",
-                    "विस्तारित तारखेसह प्रस्तावाचे तपशील कसे मिळवायचे",
-                    "एलएओ विस्तारित तारखेसह प्रस्तावाचे तपशील पाहू शकतो",
-                    "अंतिम निवाड्यात विस्तारित तारीख कसे पाहायची",
-                    "समन्वय अधिकारी आणि लाओ प्रस्ताव विस्तारित तारखेसह पाहणे"
-                ]
-            },
-
-            "send_to_collector_for_extend_date": {
-                "en": [
-                    "send to collector for extend date",
-                    "send proposal to collector for date extension",
-                    "forward to collector for extend date approval",
-                    "send file to collector for extension of date",
-                    "submit to collector for extend date",
-                    "send request to collector for date extension"
-                ],
-                "hi": [
-                    "तिथि बढ़ाने के लिए कलेक्टर को भेजें",
-                    "तिथि विस्तार हेतु कलेक्टर को प्रस्ताव भेजें",
-                    "तारीख बढ़ाने के लिए कलेक्टर को फाइल भेजें",
-                    "तिथि विस्तार के लिए कलेक्टर को अग्रेषित करें",
-                    "डेट बढ़ाने हेतु कलेक्टर को भेजें"
-                ],
-                "mr": [
-                    "दिनांक वाढीसाठी कलेक्टरकडे पाठवा",
-                    "दिनांक वाढीसाठी प्रस्ताव कलेक्टरकडे पाठवा",
-                    "मुदतवाढीसाठी कलेक्टरकडे फाईल पाठवा",
-                    "दिनांक वाढ मंजुरीसाठी कलेक्टरकडे पाठवा",
-                    "तारीख वाढीसाठी कलेक्टरकडे पाठवा"
-                ]
-            },
-
-            "send_to_samanvay_for_extend_date": {
-                "en": [
-                    "send to samanvay for extend date",
-                    "send proposal to samanvay for date extension",
-                    "forward to samanvay for extend date approval",
-                    "send file to samanvay for extension of date",
-                    "submit to samanvay for extend date",
-                    "send request to samanvay for date extension"
-                ],
-                "hi": [
-                    "तिथि बढ़ाने के लिए समन्वय को भेजें",
-                    "तिथि विस्तार हेतु समन्वय को प्रस्ताव भेजें",
-                    "तारीख बढ़ाने के लिए समन्वय को फाइल भेजें",
-                    "तिथि विस्तार के लिए समन्वय को अग्रेषित करें",
-                    "डेट बढ़ाने हेतु समन्वय को भेजें"
-                ],
-                "mr": [
-                    "दिनांक वाढीसाठी समन्वयकडे पाठवा",
-                    "दिनांक वाढीसाठी प्रस्ताव समन्वयकडे पाठवा",
-                    "मुदतवाढीसाठी समन्वयकडे फाईल पाठवा",
-                    "दिनांक वाढीसाठी मान्यतेसाठी समन्वयकडे पाठवा",
-                    "तारीख वाढीसाठी समन्वयकडे पाठवा"
-                ]
-            },
-
-            "draft_award_record": {
-                "en": [
-                    "draft award record",
-                    "create draft award record",
-                    "prepare draft award",
-                    "draft final award record",
-                    "how to draft award record",
-                    "create award draft",
-                    "award record draft",
-                    "LAO can download draft award record",
-                    "Samanvay officer can download draft award record",
-                    "can LAO download draft award record",
-                    "can Samanvay officer download draft award record",
-                    "how can LAO download the draft award record",
-                    "how can Samanvay officer download the draft award record",
-                    "where is draft award in sidebar",
-                    "what happens after going to draft award",
-                    "what is the first step to download draft award record",
-                    "is draft award record available for all user roles",
-                    "where is draft award option located in the application",
-                    "what is the file format after downloading draft award",
-                    "can I edit the draft award record after downloading",
-                    "can both samanvay officer and LAO access draft award record"
-                ],
-                "hi": [
-                    "ड्राफ्ट पुरस्कार रिकॉर्ड",
-                    "पुरस्कार का ड्राफ्ट तैयार करें",
-                    "ड्राफ्ट अवॉर्ड रिकॉर्ड बनाएं",
-                    "अंतिम पुरस्कार का ड्राफ्ट",
-                    "पुरस्कार रिकॉर्ड का प्रारूप तैयार करें",
-                    "अवार्ड ड्राफ्ट तैयार करें",
-                    "साइड बार पर प्रारूप निवडा कहाँ है",
-                    "प्रारूप निवडा पर जाने के बाद क्या होता है",
-                    "प्रारूप निवडा को डाउनलोड करने के लिए पहला कदम क्या है",
-                    "क्या प्रारूप निवडा सभी उपयोगकर्ता भूमिकाओं के लिए उपलब्ध है",
-                    "आवेदन में प्रारूप निवडा विकल्प कहाँ स्थित है",
-                    "डाउनलोड करने के बाद प्रारूप निवडा किस प्रारूप में होता है",
-                    "क्या आप डाउनलोड करने के बाद प्रारूप निवडा को संपादित कर सकते हैं",
-                    "समन्वय अधिकारी और LAO दोनों प्रारूप निवडा तक पहुँच सकते हैं",
-                    "प्रारूप निवडा कहाँ है",
-                    "प्रारूप निवडा डाउनलोड कैसे करें",
-                    "प्रारूप निवडा को डाउनलोड करने के लिए",
-                    "प्रारूप निवडा तक कैसे पहुंचें"
-                ],
-                "mr": [
-                    "निवाडा नोंद मसुदा",
-                    "निवाड्याचा मसुदा तयार करा",
-                    "ड्राफ्ट अवॉर्ड रेकॉर्ड",
-                    "अंतिम निवाड्याचा मसुदा",
-                    "निवाडा नोंदीचा मसुदा तयार करा",
-                    "अवार्ड मसुदा तयार करणे",
-                    "साइडबारवरील प्रारूप निवडा कोठे आहे",
-                    "प्रारूप निवडा वर गेल्यानंतर काय होते",
-                    "प्रारूप निवडा डाउनलोड करण्याचे पहिले पाऊल काय आहे",
-                    "क्या प्रारूप निवडा सर्व वापरकर्ता भूमिकांसाठी उपलब्ध आहे",
-                    "अनुप्रयोगात प्रारूप निवडा पर्याय कोठे आहे",
-                    "डाउनलोड केल्यानंतर प्रारूप निवडा कोणत्या प्रारूपात आहे",
-                    "डाउनलोड केल्यानंतर आप प्रारूप निवडा संपादित करू शकता का",
-                    "समन्वय अधिकारी आणि LAO दोघेही प्रारूप निवडा अ्क्सेस करू शकतात का",
-                    "प्रारूप निवडा कहिथे आहे",
-                    "प्रारूप निवडा डाउनलोड कसा करायचा",
-                    "प्रारूप निवडा उघडायचे कसे"
-                ]
-            },
-
-            "draft_award_compensation_amount": {
-                "en": [
-                    "draft award compensation amount",
-                    "enter compensation amount in draft award",
-                    "add compensation amount in award draft",
-                    "draft compensation amount",
-                    "how to draft award compensation",
-                    "prepare compensation amount in award",
-                    "award compensation draft"
-                ],
-                "hi": [
-                    "ड्राफ्ट पुरस्कार मुआवजा राशि",
-                    "पुरस्कार ड्राफ्ट में मुआवजा राशि दर्ज करें",
-                    "ड्राफ्ट अवॉर्ड में मुआवजा जोड़ें",
-                    "मुआवजा राशि का ड्राफ्ट",
-                    "पुरस्कार मुआवजा तैयार करें",
-                    "अवार्ड में मुआवजा राशि दर्ज करें"
-                ],
-                "mr": [
-                    "निवाडा मसुद्यात भरपाई रक्कम",
-                    "निवाडा मसुद्यात भरपाईची रक्कम भरा",
-                    "ड्राफ्ट अवॉर्डमध्ये भरपाई रक्कम",
-                    "भरपाई रकमेचा मसुदा",
-                    "निवाड्यात भरपाई रक्कम तयार करा",
-                    "अवार्डमध्ये भरपाई रक्कम नोंदवा"
-                ]
-            },
-
-            "draft_award_upload_signature": {
-                "en": [
-                    "upload signature in draft award",
-                    "draft award upload signature",
-                    "how to upload signature in award draft",
-                    "sign draft award",
-                    "upload signed draft award",
-                    "add signature to draft award"
-                ],
-                "hi": [
-                    "ड्राफ्ट पुरस्कार में हस्ताक्षर अपलोड करें",
-                    "ड्राफ्ट अवॉर्ड साइन करें",
-                    "पुरस्कार ड्राफ्ट में हस्ताक्षर कैसे अपलोड करें",
-                    "ड्राफ्ट पुरस्कार पर हस्ताक्षर",
-                    "ड्राफ्ट अवॉर्ड हस्ताक्षर अपलोड"
-                ],
-                "mr": [
-                    "निवाडा मसुद्यावर स्वाक्षरी अपलोड करा",
-                    "ड्राफ्ट अवॉर्डवर सही अपलोड करा",
-                    "निवाडा मसुद्यात स्वाक्षरी कशी अपलोड करावी",
-                    "निवाडा मसुदा स्वाक्षरी",
-                    "ड्राफ्ट अवॉर्ड स्वाक्षरी अपलोड"
-                ]
-            },
-
-            "draft_award_section_23": {
-                "en": [
-                    "draft award section 23",
-                    "section 23 draft award",
-                    "prepare draft award under section 23",
-                    "draft section 23 compensation",
-                    "section 23 draft award details",
-                    "select format for draft award section 23",
-                    "draft award under section 23",
-                    "section 23 award draft",
-                    "create draft award section 23",
-                    "prepare award under section 23",
-                    "generate section 23 award",
-                    "land acquisition award section 23",
-                    "section 23 compensation award draft"
-                ],
-                "hi": [
-                    "ड्राफ्ट पुरस्कार धारा 23",
-                    "धारा 23 ड्राफ्ट अवॉर्ड",
-                    "धारा 23 के अंतर्गत ड्राफ्ट पुरस्कार",
-                    "ड्राफ्ट पुरस्कार धारा 23 का प्रारूप",
-                    "धारा 23 ड्राफ्ट पुरस्कार प्रारूप निवडा",
-                    "ड्राफ्ट अवॉर्ड धारा 23 प्रारूप निवडा",
-                    "सेक्शन 23 के लिए अवार्ड ड्राफ्ट कैसे बनाएं",
-                    "भूमि अधिग्रहण धारा 23 अवार्ड तैयार करना",
-                    "धारा 23 का ड्राफ्ट अवार्ड बनाएं",
-                    "सेक्शन 23 अवार्ड दस्तावेज़ तैयार करें",
-                    "भूमि अधिग्रहण अवार्ड धारा 23",
-                    "धारा 23 मुआवजा अवार्ड कैसे तैयार करें",
-                    "सेक्शन 23 के तहत अवार्ड की प्रक्रिया",
-                    "ड्राफ्ट अवार्ड सेक्शन 23 कैसे बनता है",
-                    "धारा 23 के अंतर्गत अवार्ड तैयार करना",
-                    "सेक्शन 23 अवार्ड बनाना"
-                ],
-                "mr": [
-                    "निवाडा मसुदा कलम 23",
-                    "कलम 23 ड्राफ्ट अवॉर्ड",
-                    "कलम 23 अंतर्गत निवाडा मसुदा",
-                    "निवाडा मसुदा कलम 23 प्रारूप",
-                    "कलम 23 ड्राफ्ट निवाडा प्रारूप निवडा",
-                    "निवाडा मसुदा कलम 23 साठी प्रारूप निवडा",
-                    "कलम 23 अंतर्गत ड्राफ्ट अवॉर्ड तयार करणे",
-                    "सेक्शन 23 अवॉर्ड ड्राफ्ट कसा तयार करायचा",
-                    "भूसंपादन कलम 23 अवॉर्ड तयार करणे",
-                    "कलम 23 चा अवॉर्ड तयार करा",
-                    "सेक्शन 23 अवॉर्ड प्रक्रिया",
-                    "कलम 23 भरपाई अवॉर्ड तयार करणे"
-                ]
-            },
-
-            "final_reward_record": {
-                "en": [
-                    "final award record",
-                    "final reward record",
-                    "create final award record",
-                    "prepare final award",
-                    "final award details",
-                    "how to create final award record"
-                ],
-                "hi": [
-                    "अंतिम पुरस्कार रिकॉर्ड",
-                    "फाइनल अवॉर्ड रिकॉर्ड",
-                    "अंतिम पुरस्कार तैयार करें",
-                    "अंतिम पुरस्कार विवरण",
-                    "फाइनल अवॉर्ड रिकॉर्ड बनाएं"
-                ],
-                "mr": [
-                    "अंतिम निवाडा नोंद",
-                    "फायनल अवॉर्ड रेकॉर्ड",
-                    "अंतिम निवाडा तयार करा",
-                    "अंतिम निवाडा तपशील",
-                    "फायनल अवॉर्ड नोंद तयार करा"
-                ]
-            },
-
-            "final_reward_compensation_amount": {
-                "en": [
-                    "final reward compensation amount",
-                    "final award compensation amount",
-                    "check final compensation amount",
-                    "view final reward amount",
-                    "final award amount details",
-                    "how much compensation is given in final award",
-                    "final compensation calculation",
-                    "final award payment amount"
-                ],
-                "hi": [
-                    "अंतिम पुरस्कार मुआवजा राशि",
-                    "अंतिम पुरस्कार की मुआवजा राशि देखें",
-                    "अंतिम मुआवजा कितना है",
-                    "अंतिम पुरस्कार में मुआवजा राशि",
-                    "अंतिम पुरस्कार की भुगतान राशि",
-                    "अंतिम पुरस्कार मुआवजा विवरण",
-                    "अंतिम पुरस्कार में दी गई राशि"
-                ],
-                "mr": [
-                    "अंतिम पुरस्कार मोबदला रक्कम",
-                    "अंतिम मोबदला रक्कम पहा",
-                    "अंतिम पुरस्कारातील मोबदला",
-                    "अंतिम पुरस्कार मोबदला तपशील",
-                    "अंतिम पुरस्कारात दिलेली रक्कम",
-                    "अंतिम मोबदला किती आहे",
-                    "अंतिम पुरस्कार मोबदला माहिती"
-                ]
-            },
-
-            "final_award_upload_signature": {
-                "en": [
-                    "final award upload signature",
-                    "upload signature for final award",
-                    "sign final award",
-                    "final award signature upload",
-                    "how to upload signature in final award",
-                    "upload signed final award"
-                ],
-                "hi": [
-                    "अंतिम पुरस्कार हस्ताक्षर अपलोड",
-                    "अंतिम अवॉर्ड में हस्ताक्षर अपलोड करें",
-                    "फाइनल अवॉर्ड साइन करें",
-                    "अंतिम पुरस्कार पर हस्ताक्षर",
-                    "अंतिम अवॉर्ड हस्ताक्षर अपलोड कैसे करें"
-                ],
-                "mr": [
-                    "अंतिम निवाडा स्वाक्षरी अपलोड",
-                    "अंतिम अवॉर्डवर स्वाक्षरी अपलोड करा",
-                    "फायनल अवॉर्ड साइन करा",
-                    "अंतिम निवाड्यावर स्वाक्षरी",
-                    "अंतिम अवॉर्ड स्वाक्षरी कशी अपलोड करावी"
-                ]
-            },
-
-            "final_award_section_23": {
-                "en": [
-                    "final award section 23",
-                    "section 23 final award",
-                    "final award under section 23",
-                    "view final award section 23",
-                    "section 23 final compensation",
-                    "final section 23 award details"
-                ],
-                "hi": [
-                    "अंतिम पुरस्कार धारा 23",
-                    "धारा 23 अंतिम अवॉर्ड",
-                    "धारा 23 के अंतर्गत अंतिम पुरस्कार",
-                    "धारा 23 अंतिम पुरस्कार विवरण",
-                    "धारा 23 अंतिम मुआवजा",
-                    "अंतिम पुरस्कार धारा 23 देखें"
-                ],
-                "mr": [
-                    "अंतिम निवाडा कलम 23",
-                    "कलम 23 अंतिम अवॉर्ड",
-                    "कलम 23 अंतर्गत अंतिम निवाडा",
-                    "कलम 23 अंतिम निवाडा तपशील",
-                    "कलम 23 अंतिम भरपाई",
-                    "अंतिम निवाडा कलम 23 पहा"
-                ]
-            },
-
-            "final_award_view_kjp_document": {
-                "en": [
-                    "view kjp document in final award",
-                    "open kjp document in final award",
-                    "show final award kjp document",
-                    "where is kjp document in final award",
-                    "display kjp document under final award",
-                    "check kjp document after final award",
-                    "see kjp pdf in final award",
-                    "final award kjp file open"
-                ],
-                "hi": [
-                    "अंतिम अवार्ड में केजेपी दस्तावेज़ देखें",
-                    "अंतिम अवार्ड में केजेपी दस्तावेज़ खोलें",
-                    "अंतिम अवार्ड के अंतर्गत केजेपी फ़ाइल दिखाएँ",
-                    "अंतिम अवार्ड में केजेपी डॉक्यूमेंट कहाँ है",
-                    "अंतिम अवार्ड के बाद केजेपी दस्तावेज़ देखें",
-                    "अंतिम अवार्ड में केजेपी पीडीएफ खोलें"
-                ],
-                "mr": [
-                    "अंतिम निवाड्यात केजेपी दस्तऐवज पहा",
-                    "अंतिम निवाड्यात केजेपी दस्तऐवज उघडा",
-                    "अंतिम निवाडा अंतर्गत केजेपी फाईल दाखवा",
-                    "अंतिम निवाड्यात केजेपी डॉक्युमेंट कुठे आहे",
-                    "अंतिम निवाड्यानंतर केजेपी दस्तऐवज पहा",
-                    "अंतिम निवाड्यात केजेपी पीडीएफ उघडा"
-                ]
-            },
-
-            "after_finalreward_section_37_2": {
-                "en": [
-                    "section 37(2) after final reward",
-                    "section 37 subsection 2 after award",
-                    "what is section 37(2) after final award",
-                    "section 37(2) process after final award",
-                    "section 37(2) land acquisition after award",
-                    "how to do section 37(2) after final reward",
-                    "procedure of section 37(2) after final award"
-                ],
-                "hi": [
-                    "अंतिम पुरस्कार के बाद धारा 37(2) देखें",
-                    "निवाडा पश्यात कामकाज में धारा 37(2) मिलेगी",
-                    "अंतिम पुरस्कार के बाद धारा 37(2) डाउनलोड करें",
-                    "अंतिम पुरस्कार के बाद धारा 37(2) उपलब्ध",
-                    "धारा 37(2) पोस्ट फाइनल अवॉर्ड में देखें",
-                    "धारा 37 उपधारा 2 अंतिम पुरस्कार के बाद",
-                    "अंतिम पुरस्कार के बाद धारा 37(2) की प्रक्रिया",
-                    "धारा 37(2) के अंतर्गत कार्यवाही",
-                    "अंतिम निवाडा के बाद धारा 37(2)",
-                    "धारा 37(2) की प्रक्रिया क्या है"
-                ],
-                "mr": [
-                    "निवाडा पश्यात कामकाज मध्ये कलम 37(2)",
-                    "अंतिम निवाड्यानंतर कलम 37(2)",
-                    "अंतिम निवाड्यानंतर कलम 37(2) डाउनलोड करावे",
-                    "कलम 37(2) विभागात येते",
-                    "कलम 37 उपकलम 2 अंतिम निवाड्यानंतर",
-                    "अंतिम निवाड्यानंतर कलम 37(2) प्रक्रिया",
-                    "कलम 37(2) अंतर्गत कार्यवाही",
-                    "अंतिम निवाड्यानंतर कलम 37(2) काय आहे",
-                    "कलम 37(2) प्रक्रिया कशी करायची"
-                ]
-            },
-
-            "after_finalreward_kabja_pauti": {
-                "en": [
-                    "kabja pauti after final reward",
-                    "possession receipt after final award",
-                    "kabja pauti process after final award",
-                    "how to do kabja pauti after final reward",
-                    "land possession kabja pauti after award",
-                    "kabja pauti in after final reward section"
-                ],
-                "hi": [
-                    "अंतिम पुरस्कार के बाद कब्जा पावती",
-                    "अंतिम पुरस्कार के बाद कब्ज़ा पावती देखें",
-                    "निवाडा पश्यात कामकाज में कब्ज़ा पावती मिलेगी",
-                    "अंतिम पुरस्कार के बाद कब्ज़ा पावती डाउनलोड करें",
-                    "कब्ज़ा पावती देखने की प्रक्रिया",
-                    "अंतिम पुरस्कार के बाद कब्ज़ा पावती उपलब्ध है",
-                    "समन्वय अधिकारी कब्ज़ा पावती चेक करें",
-                    "पोस्ट फाइनल अवॉर्ड में कब्ज़ा पावती देखें",
-                    "निवाडा पश्यात कामकाज में कब्ज़ा पावती डाउनलोड करें",
-                    "अंतिम निवाडा के बाद कब्जा पावती",
-                    "कब्जा पावती की प्रक्रिया",
-                    "अंतिम पुरस्कार के बाद कब्जा कैसे करें",
-                    "भूमि कब्जा पावती",
-                    "कब्जा पावती after final reward"
-                ],
-                "mr": [
-                    "अंतिम निवाड्यानंतर कब्जा पावती",
-                    "निवाडा पश्यात कामकाज मध्ये कबजा पावती आहे",
-                    "अंतिम निवाड्यानंतर कबजा पावती डाउनलोड करावी",
-                    "कबजा पावती पाहण्याची प्रक्रिया आहे",
-                    "समन्वय अधिकारी कबजा पावती तपासू शकतात",
-                    "निवाडा पश्यात कामकाज मधील कबजा पावती उघडावी",
-                    "पोस्ट फायनल अवॉर्ड मध्ये कबजा पावती पाहावी",
-                    "कबजा पावती विभागात येते",
-                    "अंतिम निवाड्यानंतर कबजा पावती तपासायची",
-                    "कब्जा पावती अंतिम निवाड्यानंतर",
-                    "कब्जा पावती प्रक्रिया",
-                    "अंतिम निवाड्यानंतर जमीन कब्जा",
-                    "कब्जा पावती कशी करायची",
-                    "after final reward कब्जा पावती"
-                ]
-            },
-
-            "after_finalreward_form_C": {
-                "en": [
-                    "form C after final reward",
-                    "form C after final award",
-                    "after final reward form C",
-                    "how to generate form C after final reward",
-                    "form C process after final award",
-                    "land acquisition form C"
-                ],
-                "hi": [
-                    "अंतिम पुरस्कार के बाद फॉर्म C",
-                    "अंतिम निवाडा के बाद फॉर्म C",
-                    "फॉर्म C की प्रक्रिया",
-                    "अंतिम पुरस्कार के बाद फॉर्म C कैसे बनाएं",
-                    "after final reward फॉर्म C"
-                ],
-                "mr": [
-                    "अंतिम निवाड्यानंतर फॉर्म C",
-                    "फॉर्म C अंतिम निवाड्यानंतर",
-                    "फॉर्म C प्रक्रिया",
-                    "अंतिम निवाड्यानंतर फॉर्म C कसा करायचा",
-                    "after final reward फॉर्म C"
-                ]
-            },
-
-            "after_finalreward_land_acquisition_certificate": {
-                "en": [
-                    "land acquisition certificate after final reward",
-                    "land acquisition certificate after final award",
-                    "after final reward land acquisition certificate",
-                    "how to get land acquisition certificate after award",
-                    "land acquisition certificate process",
-                    "final award land acquisition certificate"
-                ],
-                "hi": [
-                    "अंतिम पुरस्कार के बाद भूमि अधिग्रहण प्रमाणपत्र",
-                    "अंतिम निवाडा के बाद भूमि अधिग्रहण प्रमाणपत्र",
-                    "भूमि अधिग्रहण प्रमाणपत्र की प्रक्रिया",
-                    "अंतिम पुरस्कार के बाद भूमि अधिग्रहण सर्टिफिकेट",
-                    "after final reward भूमि अधिग्रहण प्रमाणपत्र"
-                ],
-                "mr": [
-                    "अंतिम निवाड्यानंतर भूसंपादन प्रमाणपत्र",
-                    "भूसंपादन प्रमाणपत्र अंतिम निवाड्यानंतर",
-                    "भूसंपादन प्रमाणपत्र प्रक्रिया",
-                    "अंतिम निवाड्यानंतर भूसंपादन सर्टिफिकेट",
-                    "after final reward भूसंपादन प्रमाणपत्र"
-                ]
-            },
-
-            "payment_download_bank_reciept": {
-                "en": [
-                    "download bank receipt",
-                    "payment bank receipt",
-                    "download payment receipt",
-                    "bank receipt download",
-                    "advance payment bank receipt",
-                    "final payment bank receipt",
-                    "how to download bank receipt",
-                    "bank payment receipt"
-                ],
-                "hi": [
-                    "बैंक रसीद डाउनलोड",
-                    "भुगतान बैंक रसीद",
-                    "पेमेंट रसीद डाउनलोड",
-                    "बैंक भुगतान रसीद",
-                    "अग्रिम भुगतान बैंक रसीद",
-                    "अंतिम भुगतान बैंक रसीद",
-                    "बैंक रसीद कैसे डाउनलोड करें"
-                ],
-                "mr": [
-                    "बँक पावती डाउनलोड",
-                    "पेमेंट बँक पावती",
-                    "भरणा पावती डाउनलोड",
-                    "बँक पेमेंट पावती",
-                    "अग्रिम भरणा बँक पावती",
-                    "अंतिम भरणा बँक पावती",
-                    "बँक पावती कशी डाउनलोड करावी"
-                ]
-            },
-
-            "project_affected_person": {
-                "en": [
-                    "project affected person",
-                    "who is project affected person",
-                    "definition of project affected person",
-                    "project affected people",
-                    "affected person in land acquisition",
-                    "who comes under project affected person"
-                ],
-                "hi": [
-                    "परियोजना प्रभावित व्यक्ति",
-                    "परियोजना प्रभावित व्यक्ति कौन है",
-                    "परियोजना प्रभावित व्यक्ति की परिभाषा",
-                    "भूमि अधिग्रहण में प्रभावित व्यक्ति",
-                    "प्रोजेक्ट से प्रभावित व्यक्ति"
-                ],
-                "mr": [
-                    "प्रकल्प बाधित व्यक्ती",
-                    "प्रकल्पात प्रकल्पग्रस्त व्यक्ती",
-                    "प्रकल्पग्रस्त व्यक्ती ओळखावी",
-                    "प्रकल्पग्रस्त व्यक्ती लाभ मिळतात",
-                    "प्रकल्पग्रस्त व्यक्तीची माहिती पाहावी",
-                    "प्रकल्पग्रस्त व्यक्तीसाठी कागदपत्रे आवश्यक",
-                    "प्रकल्पग्रस्त व्यक्तीची माहिती पडताळावी",
-                    "प्रकल्पग्रस्त व्यक्तींची यादी उपलब्ध",
-                    "प्रकल्पग्रस्त व्यक्ती मोबदला मिळवू",
-                    "जमीन संपादनामध्ये प्रकल्पग्रस्त व्यक्ती",
-                    "प्रकल्प बाधित व्यक्ती म्हणजे कोण",
-                    "प्रकल्प बाधित व्यक्तीची व्याख्या",
-                    "भूसंपादनातील बाधित व्यक्ती",
-                    "प्रकल्पामुळे बाधित व्यक्ती"
-                ]
-            },
-
-            "search_records": {
-                "en": [
-                    "search records",
-                    "search land records",
-                    "find records",
-                    "search project records",
-                    "search land holding records",
-                    "how to search records",
-                    "record search"
-                ],
-                "hi": [
-                    "रिकॉर्ड खोजें",
-                    "भूमि रिकॉर्ड खोजें",
-                    "रिकॉर्ड सर्च करें",
-                    "प्रोजेक्ट रिकॉर्ड खोजें",
-                    "जमीन रिकॉर्ड खोजें",
-                    "रिकॉर्ड कैसे खोजें"
-                ],
-                "mr": [
-                    "नोंदी शोधा",
-                    "जमीन नोंदी शोधा",
-                    "रेकॉर्ड शोध",
-                    "प्रकल्प नोंदी शोधा",
-                    "जमीनधारक नोंदी शोधा",
-                    "नोंदी कशा शोधायच्या"
-                ]
-            },
-
-            "namuna_a": {
-                "en": [
-                    "namuna a",
-                    "form a",
-                    "namuna a form",
-                    "what is namuna a",
-                    "view namuna a",
-                    "download namuna a",
-                    "namuna a land acquisition"
-                ],
-                "hi": [
-                    "नमुना अ",
-                    "नमुना अ फॉर्म",
-                    "नमुना अ क्या है",
-                    "नमुना अ देखें",
-                    "नमुना अ डाउनलोड",
-                    "नमूना A डाउनलोड",
-                    "नमूना A ऑनलाइन उपलब्ध",
-                    "नमूना A रिकॉर्ड चेक",
-                    "नमूना A से भूमि विवरण देख",
-                    "नमूना A की कॉपी  प्राप्त",
-                    "भूमि अधिग्रहण के लिए नमूना A आवश्यक",
-                    "भूमि अधिग्रहण नमुना अ"
-                ],
-                "mr": [
-                    "नमुना अ",
-                    "नमुना A ऑनलाइन उपलब्ध आहे",
-                    "नमुना A नोंद तपासावी",
-                    "नमुना A मध्ये माहिती",
-                    "नमुना A वापरून जमिनीचा तपशील पाहता",
-                    "जमीन संपादनासाठी नमुना A आवश्यक आहे",
-                    "नमुना अ फॉर्म",
-                    "नमुना अ म्हणजे काय",
-                    "नमुना अ पाहा",
-                    "नमुना अ डाउनलोड",
-                    "भूसंपादन नमुना अ"
-                ]
-            },
-
-            # "summary_check": {   
-            #     "en": [
-            #         "view proposal summary details",
-            #         "check project summary",
-            #         "see summary report",
-            #         "download summary information"
-            #     ],
-            #     "hi": [
-            #         "प्रस्ताव का सारांश देखना",
-            #         "प्रोजेक्ट सारांश जांचना",
-            #         "सारांश रिपोर्ट देखना",
-            #         "सारांश जानकारी डाउनलोड करना"
-            #     ],
-            #     "mr": [
-            #         "प्रस्तावाचा सारांश पाहणे",
-            #         "प्रकल्प सारांश तपासणे",
-            #         "सारांश अहवाल पाहणे",
-            #         "सारांश माहिती डाउनलोड करणे"
-            #     ]
-            # },
-            
-            # "land_acquisition_status": {
-            #     "en": [
-            #         "check land acquisition status for project",
-            #         "view land acquisition progress",
-            #         "see land procurement status",
-            #         "land acquisition completion status"
-            #     ],
-            #     "hi": [
-            #         "प्रोजेक्ट के लिए भूमि अधिग्रहण की स्थिति देखना",
-            #         "भूमि अधिग्रहण की प्रगति देखना",
-            #         "भूमि अधिग्रहण स्थिति जांचना",
-            #         "भूमि अधिग्रहण पूर्णता स्थिति"
-            #     ],
-            #     "mr": [
-            #         "प्रकल्पासाठी जमीन अधिग्रहणाची स्थिती तपासणे",
-            #         "जमीन अधिग्रहणाची प्रगती पाहणे",
-            #         "जमीन संपादन स्थिती पाहणे",
-            #         "जमीन अधिग्रहण पूर्णता स्थिती"
-            #     ]
-            # },
-            
-            # "advance_payment_status": {
-            #     "en": [
-            #         "check advance payment status for project",
-            #         "view advance payment progress",
-            #         "see payment advance status",
-            #         "advance payment completion check"
-            #     ],
-            #     "hi": [
-            #         "प्रोजेक्ट के लिए अग्रिम भुगतान की स्थिति देखना",
-            #         "अग्रिम भुगतान की प्रगति देखना",
-            #         "एडवांस पेमेंट स्थिति जांचना",
-            #         "अग्रिम भुगतान पूर्णता जांच"
-            #     ],
-            #     "mr": [
-            #         "प्रकल्पासाठी अॅडव्हान्स पेमेंटची स्थिती तपासणे",
-            #         "अॅडव्हान्स पेमेंटची प्रगती पाहणे",
-            #         "आगाऊ पेमेंट स्थिती पाहणे",
-            #         "अॅडव्हान्स पेमेंट पूर्णता तपासणे"
-            #     ]
-            # }
         }
 
         all_texts = []
@@ -2755,7 +981,7 @@ class BhusampadanChatbot:
             text = text.replace(w, "")
         return re.sub(r"\s+", " ", text).strip()
 
-    def detect_intent(self, cleaned: str, lang: str):
+    def detect_intent(self, cleaned: str, lang: str, allowed_keys=None):
         # q_emb = self.embedder.encode(cleaned, convert_to_tensor=True)
         q_emb = self.embedder.encode(cleaned)
         best_key = None
@@ -2763,6 +989,9 @@ class BhusampadanChatbot:
         score_details = {}
 
         for key, langs in self.intent_profile_embeddings.items():
+            # Skip keys not allowed for this role
+            if allowed_keys is not None and key not in allowed_keys:
+                continue
             intent_embs = langs.get(lang)
             if intent_embs is None:
                 continue
@@ -2803,17 +1032,28 @@ class BhusampadanChatbot:
         ]
         return any(m in text for m in markers)
 
-    def semantic_match(self, question: str, lang: str):
+    def get_fallback(self, language: str, role: str = None) -> str:
+        """Return a role-aware fallback message."""
+        role_label = self._role_labels.get(role, "Punarbhu") if role else "Punarbhu"
+        template = self._fallback_templates.get(language, self._fallback_templates["en"])
+        return template.format(role=role_label)
+
+    def semantic_match(self, question: str, lang: str, role: str = None):
         if not question:
             return None
 
+        # Determine which intent keys and response map to use for this role
+        allowed_keys = self.role_allowed_keys.get(role) if role else None
+        response_map = ROLE_RESPONSE_MAPS.get(role) if role else None
+
         cleaned = self.remove_ui_noise(self.normalize(question))
-        intent_key, intent_score, threshold_adj = self.detect_intent(cleaned, lang)
+        intent_key, intent_score, threshold_adj = self.detect_intent(cleaned, lang, allowed_keys)
 
         # Priority boost for Section 21(1),(4)
         if intent_key == "check_and_download_section_21_1":
             if self.has_section_21_1_4_marker(cleaned):
-                intent_key = "check_and_download_section_21_1_4"
+                if allowed_keys is None or "check_and_download_section_21_1_4" in allowed_keys:
+                    intent_key = "check_and_download_section_21_1_4"
 
         # Base thresholds
         threshold = 0.45
@@ -2826,20 +1066,32 @@ class BhusampadanChatbot:
         if not intent_key or intent_score < threshold:
             return None
 
+        # Get answer from role-specific map, fall back to any available map
+        answer = ""
+        if response_map:
+            answer = response_map.get(intent_key, {}).get(lang) or response_map.get(intent_key, {}).get("en", "")
+        if not answer:
+            for rmap in ROLE_RESPONSE_MAPS.values():
+                answer = rmap.get(intent_key, {}).get(lang) or rmap.get(intent_key, {}).get("en", "")
+                if answer:
+                    break
+
+        
+
         return {
             "key": intent_key,
-            "answer": RESPONSE_KEYS_MAP.get(intent_key, {}).get(lang) or RESPONSE_KEYS_MAP.get(intent_key, {}).get("en", ""),
+            "answer": answer,
             "score": round(intent_score, 2)
         }
 
-    def process_chat(self, messages, language="en"):
+    def process_chat(self, messages, language="en", role=None):
         """Process chat request - REQUIRED METHOD"""
         question = next(
             (m["content"] for m in reversed(messages) if m.get("role") == "user"),
             ""
         )
 
-        result = self.semantic_match(question, language)
+        result = self.semantic_match(question, language, role)
 
         if result:
             return {
@@ -2854,7 +1106,7 @@ class BhusampadanChatbot:
         return {
             "message": {
                 "role": "assistant",
-                "content": self.fallback.get(language, self.fallback["en"])
+                "content": self.get_fallback(language, role)
             },
             "answer_key": None,
             "language": language
@@ -2895,7 +1147,8 @@ def main():
             if action == "chat":
                 result = chatbot.process_chat(
                     request.get("messages", []),
-                    request.get("language", "en")
+                    request.get("language", "en"),
+                    request.get("role", None)
                 )
                 response = {"success": True, "data": result, "_requestId": req_id}
                 print(json.dumps(response))

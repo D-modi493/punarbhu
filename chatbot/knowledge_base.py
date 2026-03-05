@@ -202,6 +202,24 @@ RESPONSE_KEYS_MAP_SAMANVAY_OFFICER = {
         'mr' : 'प्रारंभिक अधिसूचना वर जा आणि तपशील पाहा वर क्लिक करा जेणेकरून तुम्हाला सर्व प्रस्तावाची माहिती पाहायला मिळेल.'
     },
 
+    'funds_required_for_the_proclamation_of_section_19' : {
+        'en' : 'Go to Fund Request/Recieved so you can see details of कलम 19 ची घोषणा करिता आवश्यक निधी मागणी.',
+        'hi' : 'Fund Request/Recieved पर जाएं ताकि आप कलम 19 ची घोषणा करिता आवश्यक निधी मागणी का विवरण देख सकें।',
+        'mr' : 'निधीची विनंती वर जा म्हणजे तुम्ही कलम 19 ची घोषणा करिता आवश्यक निधी मागणी तपशील पाहू शकता.'
+    },
+
+    'funds_required_for_final_award' : {
+        'en' : 'Go to Fund Request/Recieved so you can see details of अंतिमनिवाडा करिता आवश्यक निधी मागणी',
+        'hi' : 'Fund Request/Recieved पर जाएं ताकि आप अंतिमनिवाडा करिता आवश्यक निधी मागणी का विवरण देख सकें।',
+        'mr' : 'निधीची विनंती वर जा म्हणजे तुम्ही अंतिमनिवाडा करिता आवश्यक निधी मागणी तपशील पाहू शकता.'
+    },
+
+    'JMR' : {
+        'en' : 'Go to JMR so joint measurment list will open.',
+        'hi' : 'संयुक्त मापन विवरण पर जाएं ताकि संयुक्त मापन सूची खुल जाए।',
+        'mr' : 'संयुक्त मोजणी तपशील वर जा म्हणजे संयुक्त मापन सूची उघडेल.'
+    },
+
 }
 
 # ====================================================================
@@ -274,6 +292,36 @@ RESPONSE_KEYS_MAP_LAO = {
         'hi' : 'प्राथमिक अधिसूचना पर जाएं और विवरण देखे पर क्लिक करें ताकि आप सभी प्रस्ताव के विवरण देख सकें।',
         'mr' : 'प्रारंभिक अधिसूचना वर जा आणि तपशील पाहा वर क्लिक करा जेणेकरून तुम्हाला सर्व प्रस्तावाची माहिती पाहायला मिळेल.'
     },
+
+    'funds_required_for_the_proclamation_of_section_19' : {
+        'en' : 'Go to Fund Request/Recieved so you can see details of कलम 19 ची घोषणा करिता आवश्यक निधी मागणी.',
+        'hi' : 'Fund Request/Recieved पर जाएं ताकि आप कलम 19 ची घोषणा करिता आवश्यक निधी मागणी का विवरण देख सकें।',
+        'mr' : 'निधीची विनंती वर जा म्हणजे तुम्ही कलम 19 ची घोषणा करिता आवश्यक निधी मागणी तपशील पाहू शकता.'
+    },
+
+    'send_funds_required_for_the_proclamation_of_section_19_to_project_incharge' : {
+        'en' : 'Go to Fund Request/Recieved and click on Send to Project Inchrge button in कलम 19 ची घोषणा करिता आवश्यक निधी मागणी.',
+        'hi' : 'Fund Request/Recieved पर जाएं और कलम 19 ची घोषणा करिता आवश्यक निधी मागणी में प्रोजेक्ट इंचार्ज को भेजें बटन पर क्लिक करें।',
+        'mr' : 'निधीची विनंती वर जा आणि कलम 19 ची घोषणा करिता आवश्यक निधी मागणी मधील प्रोजेक्ट इंचार्ज पाठवा बटणावर क्लिक करा.'
+    },
+
+    'funds_required_for_final_award' : {
+        'en' : 'Go to Fund Request/Recieved so you can see details of अंतिमनिवाडा करिता आवश्यक निधी मागणी',
+        'hi' : 'Fund Request/Recieved पर जाएं ताकि आप अंतिमनिवाडा करिता आवश्यक निधी मागणी का विवरण देख सकें।',
+        'mr' : 'निधीची विनंती वर जा म्हणजे तुम्ही अंतिमनिवाडा करिता आवश्यक निधी मागणी तपशील पाहू शकता.'
+    },
+
+    'send_funds_required_for_final_award_to_project_incharge' : {
+        'en' : 'Go to Fund Request/Recieved and click on Send to Project Inchrge button in अंतिमनिवाडा करिता आवश्यक निधी मागणी.',
+        'hi' : 'Fund Request/Recieved पर जाएं और अंतिमनिवाडा करिता आवश्यक निधी मागणी में प्रोजेक्ट इंचार्ज को भेजें बटन पर क्लिक करें।',
+        'mr' : 'निधीची विनंती वर जा आणि अंतिमनिवाडा करिता आवश्यक निधी मागणी मधील प्रोजेक्ट इंचार्ज पाठवा बटणावर क्लिक करा.'
+    },
+
+    'JMR' : {
+        'en' : 'Go to JMR so joint measurment list will open.',
+        'hi' : 'संयुक्त मापन विवरण पर जाएं ताकि संयुक्त मापन सूची खुल जाए।',
+        'mr' : 'संयुक्त मोजणी तपशील वर जा म्हणजे संयुक्त मापन सूची उघडेल.'
+    },
 }
 
 # ====================================================================
@@ -322,6 +370,30 @@ RESPONSE_KEYS_MAP_PROJECT_INCHARGE = {
         'hi' : 'प्रस्ताव में जाएं और संपादित बटन पर क्लिक करें।',
         'mr' : 'प्रस्ताव मध्ये जा आणि संपादित करा बटणावर क्लिक करा.'
     },
+
+    'funds_required_for_the_proclamation_of_section_19' : {
+        'en' : 'Go to Fund Request/Recieved so you can see details of कलम 19 ची घोषणा करिता आवश्यक निधी मागणी.',
+        'hi' : 'Fund Request/Recieved पर जाएं ताकि आप कलम 19 ची घोषणा करिता आवश्यक निधी मागणी का विवरण देख सकें।',
+        'mr' : 'निधीची विनंती वर जा म्हणजे तुम्ही कलम 19 ची घोषणा करिता आवश्यक निधी मागणी तपशील पाहू शकता.'
+    },
+
+    'funds_required_for_final_award' : {
+        'en' : 'Go to Fund Request/Recieved so you can see details of अंतिमनिवाडा करिता आवश्यक निधी मागणी',
+        'hi' : 'Fund Request/Recieved पर जाएं ताकि आप अंतिमनिवाडा करिता आवश्यक निधी मागणी का विवरण देख सकें।',
+        'mr' : 'निधीची विनंती वर जा म्हणजे तुम्ही अंतिमनिवाडा करिता आवश्यक निधी मागणी तपशील पाहू शकता.'
+    },
+
+    'JMR' : {
+        'en' : 'Go to JMR so joint measurment list will open.',
+        'hi' : 'संयुक्त मापन विवरण पर जाएं ताकि संयुक्त मापन सूची खुल जाए।',
+        'mr' : 'संयुक्त मोजणी तपशील वर जा म्हणजे संयुक्त मापन सूची उघडेल.'
+    },
+
+    'Namuna_A' : {
+        'en' : 'Go to Namuna A for add rehabilitation record,for see Plot Allotment Letter and for send to DRO.',
+        'hi' : 'नमुना ए पर जाएं ताकि आप पुनर्विकास रिकॉर्ड जोड़ सकें, भूखंड आवंटन पत्र देख सकें और DRO को भेज सकें।',
+        'mr' : 'नमुना अ मध्ये जा म्हणजे तुम्ही पुनर्विकास नोंदी जोडू शकता, भूखंडवाटपाची चिट्ठी पाहू शकता आणि DRO कडे पाठवू शकता.'
+    },
 }
 
 # ====================================================================
@@ -347,6 +419,17 @@ RESPONSE_KEYS_MAP_SURVEYOR = {
         'mr' : 'साइडबारवरील प्रशासन -> उप-वापरकर्ता व्यवस्थापन विभागात जा -> उप-वापरकर्ता जोडा बटणावर क्लिक करा, फॉर्म भरा आणि जोड़ा बटणावर क्लिक करा.'
     },
 
+    'JMR' : {
+        'en' : 'Go to JMR so joint measurment list will open.',
+        'hi' : 'संयुक्त मापन विवरण पर जाएं ताकि संयुक्त मापन सूची खुल जाए।',
+        'mr' : 'संयुक्त मोजणी तपशील वर जा म्हणजे संयुक्त मापन सूची उघडेल.'
+    },
+
+    're_send_back_to_dslr' : {
+        'en' : 'Go to JMR and click on Re-send back to DSLR button for re-send back to DSLR.',
+        'hi' : 'DSLR को वापस भेजने के लिए संयुक्त मापन विवरण पर जाएं और Re-send back to DSLR बटन पर क्लिक करें।',
+        'mr' : 'DSLR ला परत पाठवण्यासाठी संयुक्त मोजणी तपशील वर जा आणि Re-send back to DSLR बटणावर क्लिक करा.'
+    },
 }
 
 # ====================================================================
@@ -376,6 +459,18 @@ RESPONSE_KEYS_MAP_DSLR = {
         'en' : 'On sidebar Administration -> go to Sub-User Management -> Click on Add Sub-User button fill the form and click on Add Sub-User button',
         'hi' : 'साइडबार में जाकर प्रशासन -> उप-वापरकर्ता व्यवस्थापन पर जाएं -> उप-वापरकर्ता जोड़ा बटन पर क्लिक करें, फॉर्म भरें और जोड़े पर क्लिक करें।',
         'mr' : 'साइडबारवरील प्रशासन -> उप-वापरकर्ता व्यवस्थापन विभागात जा -> उप-वापरकर्ता जोडा बटणावर क्लिक करा, फॉर्म भरा आणि जोड़ा बटणावर क्लिक करा.'
+    },
+
+    'JMR' : {
+        'en' : 'Go to JMR so joint measurment list will open.',
+        'hi' : 'संयुक्त मापन विवरण पर जाएं ताकि संयुक्त मापन सूची खुल जाए।',
+        'mr' : 'संयुक्त मोजणी तपशील वर जा म्हणजे संयुक्त मापन सूची उघडेल.'
+    },
+
+    'JMR_assign_to_surveyor' : {
+        'en' : 'Go to JMR and click on Assign to Surveyor button for assign to surveyor.',
+        'hi' : 'सर्वेक्षक को नियुक्त करने के लिए संयुक्त मापन विवरण पर जाएं और सर्वेक्षक को नियुक्त करें बटन पर क्लिक करें।',
+        'mr' : 'सर्वेक्षक नियुक्त करण्यासाठी, संयुक्त मोजणी तपशील वर जा आणि भूकरमापक नियुक्त करा बटणावर क्लिक करा.'
     },
     
 }
@@ -431,6 +526,12 @@ RESPONSE_KEYS_MAP_DRO = {
         'en' : 'On sidebar Administration -> go to Sub-User Management -> Click on Add Sub-User button fill the form and click on Add Sub-User button',
         'hi' : 'साइडबार में जाकर प्रशासन -> उप-वापरकर्ता व्यवस्थापन पर जाएं -> उप-वापरकर्ता जोड़ा बटन पर क्लिक करें, फॉर्म भरें और जोड़े पर क्लिक करें।',
         'mr' : 'साइडबारवरील प्रशासन -> उप-वापरकर्ता व्यवस्थापन विभागात जा -> उप-वापरकर्ता जोडा बटणावर क्लिक करा, फॉर्म भरा आणि जोड़ा बटणावर क्लिक करा.'
+    },
+
+    'JMR' : {
+        'en' : 'Go to JMR so joint measurment list will open.',
+        'hi' : 'संयुक्त मापन विवरण पर जाएं ताकि संयुक्त मापन सूची खुल जाए।',
+        'mr' : 'संयुक्त मोजणी तपशील वर जा म्हणजे संयुक्त मापन सूची उघडेल.'
     },
     
 }
@@ -540,6 +641,54 @@ RESPONSE_KEYS_MAP_COLLECTOR = {
         'en' : 'Go to Publication Preliminary Notification and click on View Detail so you can see all details of the proposal.',
         'hi' : 'प्राथमिक अधिसूचना पर जाएं और विवरण देखे पर क्लिक करें ताकि आप सभी प्रस्ताव के विवरण देख सकें।',
         'mr' : 'प्रारंभिक अधिसूचना वर जा आणि तपशील पाहा वर क्लिक करा जेणेकरून तुम्हाला सर्व प्रस्तावाची माहिती पाहायला मिळेल.'
+    },
+
+    'funds_required_for_the_proclamation_of_section_19' : {
+        'en' : 'Go to Fund Request/Recieved so you can see details of कलम 19 ची घोषणा करिता आवश्यक निधी मागणी.',
+        'hi' : 'Fund Request/Recieved पर जाएं ताकि आप कलम 19 ची घोषणा करिता आवश्यक निधी मागणी का विवरण देख सकें।',
+        'mr' : 'निधीची विनंती वर जा म्हणजे तुम्ही कलम 19 ची घोषणा करिता आवश्यक निधी मागणी तपशील पाहू शकता.'
+    },
+
+    'send_funds_required_for_the_proclamation_of_section_19_to_project_incharge' : {
+        'en' : 'Go to Fund Request/Recieved and click on Send to Project Inchrge button in कलम 19 ची घोषणा करिता आवश्यक निधी मागणी.',
+        'hi' : 'Fund Request/Recieved पर जाएं और कलम 19 ची घोषणा करिता आवश्यक निधी मागणी में प्रोजेक्ट इंचार्ज को भेजें बटन पर क्लिक करें।',
+        'mr' : 'निधीची विनंती वर जा आणि कलम 19 ची घोषणा करिता आवश्यक निधी मागणी मधील प्रोजेक्ट इंचार्ज पाठवा बटणावर क्लिक करा.'
+    },
+
+    'funds_required_for_final_award' : {
+        'en' : 'Go to Fund Request/Recieved so you can see details of अंतिमनिवाडा करिता आवश्यक निधी मागणी',
+        'hi' : 'Fund Request/Recieved पर जाएं ताकि आप अंतिमनिवाडा करिता आवश्यक निधी मागणी का विवरण देख सकें।',
+        'mr' : 'निधीची विनंती वर जा म्हणजे तुम्ही अंतिमनिवाडा करिता आवश्यक निधी मागणी तपशील पाहू शकता.'
+    },
+
+    'send_funds_required_for_final_award_to_project_incharge' : {
+        'en' : 'Go to Fund Request/Recieved and click on Send to Project Inchrge button in अंतिमनिवाडा करिता आवश्यक निधी मागणी.',
+        'hi' : 'Fund Request/Recieved पर जाएं और अंतिमनिवाडा करिता आवश्यक निधी मागणी में प्रोजेक्ट इंचार्ज को भेजें बटन पर क्लिक करें।',
+        'mr' : 'निधीची विनंती वर जा आणि अंतिमनिवाडा करिता आवश्यक निधी मागणी मधील प्रोजेक्ट इंचार्ज पाठवा बटणावर क्लिक करा.'
+    },
+
+    'JMR' : {
+        'en' : 'Go to JMR so joint measurment list will open.',
+        'hi' : 'संयुक्त मापन विवरण पर जाएं ताकि संयुक्त मापन सूची खुल जाए।',
+        'mr' : 'संयुक्त मोजणी तपशील वर जा म्हणजे संयुक्त मापन सूची उघडेल.'
+    },
+
+    'JMR_assign_to_surveyor' : {
+        'en' : 'Go to JMR and click on Assign to Surveyor button for assign to surveyor.',
+        'hi' : 'सर्वेक्षक को नियुक्त करने के लिए संयुक्त मापन विवरण पर जाएं और सर्वेक्षक को नियुक्त करें बटन पर क्लिक करें।',
+        'mr' : 'सर्वेक्षक नियुक्त करण्यासाठी, संयुक्त मोजणी तपशील वर जा आणि भूकरमापक नियुक्त करा बटणावर क्लिक करा.'
+    },
+
+    're_send_back_to_dslr' : {
+        'en' : 'Go to JMR and click on Re-send back to DSLR button for re-send back to DSLR.',
+        'hi' : 'DSLR को वापस भेजने के लिए संयुक्त मापन विवरण पर जाएं और Re-send back to DSLR बटन पर क्लिक करें।',
+        'mr' : 'DSLR ला परत पाठवण्यासाठी संयुक्त मोजणी तपशील वर जा आणि Re-send back to DSLR बटणावर क्लिक करा.'
+    },
+
+    'Namuna_A' : {
+        'en' : 'Go to Namuna A for add rehabilitation record,for see Plot Allotment Letter and for send to DRO.',
+        'hi' : 'नमुना ए पर जाएं ताकि आप पुनर्विकास रिकॉर्ड जोड़ सकें, भूखंड आवंटन पत्र देख सकें और DRO को भेज सकें।',
+        'mr' : 'नमुना ए मध्ये जा म्हणजे तुम्ही पुनर्विकास नोंदी जोडू शकता, भूखंडवाटपाची चिट्ठी पाहू शकता आणि DRO कडे पाठवू शकता.'
     },
 }
 

@@ -783,6 +783,343 @@ class BhusampadanChatbot:
                     "प्रस्ताव माहिती पहा"
                 ]
             },
+
+            "funds_required_for_the_proclamation_of_section_19": {
+                "en": [
+                    "funds required for section 19",
+                    "section 19 fund requirement",
+                    "fund request for section 19",
+                    "required funds for proclamation of section 19",
+                    "section 19 fund details",
+                    "view section 19 fund demand",
+                    "section 19 fund information",
+                    "check funds for section 19",
+                    "section 19 proclamation fund",
+                    "funds needed for section 19"
+                ],
+                "hi": [
+                    "धारा 19 के लिए आवश्यक निधि",
+                    "धारा 19 निधि मांग",
+                    "धारा 19 के लिए फंड अनुरोध",
+                    "धारा 19 घोषणा हेतु निधि",
+                    "धारा 19 फंड विवरण",
+                    "धारा 19 के लिए आवश्यक राशि देखें",
+                    "धारा 19 निधि जानकारी",
+                    "धारा 19 निधि आवश्यकता",
+                    "धारा 19 के लिए फंड देखें",
+                    "धारा 19 निधि मांग विवरण"
+                ],
+                "mr": [
+                    "कलम 19 साठी आवश्यक निधी",
+                    "कलम 19 निधी मागणी",
+                    "कलम 19 साठी निधी विनंती",
+                    "कलम 19 घोषणा निधी",
+                    "कलम 19 निधी तपशील",
+                    "कलम 19 साठी लागणारा निधी",
+                    "कलम 19 निधी माहिती",
+                    "कलम 19 साठी निधी आवश्यकता",
+                    "कलम 19 निधी मागणी तपशील",
+                    "कलम 19 साठी निधी पहा"
+                ]
+            },
+
+            "send_funds_required_for_the_proclamation_of_section_19_to_project_incharge": {
+                "en": [
+                    "send section 19 fund to project incharge",
+                    "send section 19 fund request",
+                    "forward section 19 fund demand",
+                    "send funds required for section 19",
+                    "send section 19 proclamation fund",
+                    "send section 19 fund details to project incharge",
+                    "submit section 19 fund request",
+                    "send fund requirement to project incharge",
+                    "forward fund request for section 19",
+                    "send section 19 funds"
+                ],
+                "hi": [
+                    "धारा 19 निधि प्रोजेक्ट इंचार्ज को भेजें",
+                    "धारा 19 फंड अनुरोध भेजें",
+                    "धारा 19 निधि मांग अग्रेषित करें",
+                    "धारा 19 घोषणा निधि भेजें",
+                    "धारा 19 के लिए निधि प्रोजेक्ट इंचार्ज को भेजें",
+                    "धारा 19 निधि विवरण भेजें",
+                    "धारा 19 फंड सबमिट करें",
+                    "धारा 19 निधि आगे भेजें",
+                    "धारा 19 निधि अनुरोध भेजना है",
+                    "धारा 19 निधि प्रोजेक्ट इंचार्ज को अग्रेषित करें"
+                ],
+                "mr": [
+                    "कलम 19 निधी प्रोजेक्ट इंचार्ज ला पाठवा",
+                    "कलम 19 निधी मागणी पाठवा",
+                    "कलम 19 निधी पुढे पाठवा",
+                    "कलम 19 घोषणा निधी पाठवा",
+                    "कलम 19 साठी निधी प्रोजेक्ट इंचार्ज कडे पाठवा",
+                    "कलम 19 निधी तपशील पाठवा",
+                    "कलम 19 निधी सबमिट करा",
+                    "कलम 19 निधी विनंती पाठवा",
+                    "कलम 19 निधी प्रोजेक्ट इंचार्ज ला अग्रेषित करा",
+                    "कलम 19 निधी पुढे पाठवायचा आहे"
+                ]
+            },
+
+            "funds_required_for_final_award": {
+                "en": [
+                    "funds required for final award",
+                    "final award fund requirement",
+                    "fund request for final award",
+                    "final award fund details",
+                    "view final award fund demand",
+                    "final award fund information",
+                    "check funds for final award",
+                    "final award proclamation fund",
+                    "funds needed for final award",
+                    "final award fund status"
+                ],
+                "hi": [
+                    "अंतिम पुरस्कार के लिए आवश्यक निधि",
+                    "अंतिम पुरस्कार निधि मांग",
+                    "अंतिम पुरस्कार के लिए फंड अनुरोध",
+                    "अंतिम पुरस्कार निधि विवरण",
+                    "अंतिम पुरस्कार के लिए आवश्यक राशि देखें",
+                    "अंतिम पुरस्कार निधि जानकारी",
+                    "अंतिम पुरस्कार निधि आवश्यकता",
+                    "अंतिम पुरस्कार फंड देखें",
+                    "अंतिम पुरस्कार निधि मांग विवरण",
+                    "अंतिम पुरस्कार के लिए निधि स्थिति"
+                ],
+                "mr": [
+                    "अंतिम निवाडा साठी आवश्यक निधी",
+                    "अंतिम निवाडा निधी मागणी",
+                    "अंतिम निवाडा साठी निधी विनंती",
+                    "अंतिम निवाडा निधी तपशील",
+                    "अंतिम निवाडा साठी लागणारा निधी",
+                    "अंतिम निवाडा निधी माहिती",
+                    "अंतिम निवाडा साठी निधी आवश्यकता",
+                    "अंतिम निवाडा निधी मागणी तपशील",
+                    "अंतिम निवाडा साठी निधी पहा",
+                    "अंतिम निवाडा निधी स्थिती"
+                ]
+            },
+
+            "send_funds_required_for_final_award_to_project_incharge": {
+                "en": [
+                    "send final award fund to project incharge",
+                    "send final award fund request",
+                    "forward final award fund demand",
+                    "send funds required for final award",
+                    "send final award fund details",
+                    "submit final award fund request",
+                    "forward fund request for final award",
+                    "send final award funds",
+                    "send final award fund requirement",
+                    "transfer final award fund to project incharge"
+                ],
+                "hi": [
+                    "अंतिम पुरस्कार निधि प्रोजेक्ट इंचार्ज को भेजें",
+                    "अंतिम पुरस्कार फंड अनुरोध भेजें",
+                    "अंतिम पुरस्कार निधि मांग अग्रेषित करें",
+                    "अंतिम पुरस्कार निधि भेजें",
+                    "अंतिम पुरस्कार के लिए निधि प्रोजेक्ट इंचार्ज को भेजें",
+                    "अंतिम पुरस्कार निधि विवरण भेजें",
+                    "अंतिम पुरस्कार फंड सबमिट करें",
+                    "अंतिम पुरस्कार निधि आगे भेजें",
+                    "अंतिम पुरस्कार निधि अनुरोध भेजना है",
+                    "अंतिम पुरस्कार निधि प्रोजेक्ट इंचार्ज को अग्रेषित करें"
+                ],
+                "mr": [
+                    "अंतिम निवाडा निधी प्रोजेक्ट इंचार्ज ला पाठवा",
+                    "अंतिम निवाडा निधी मागणी पाठवा",
+                    "अंतिम निवाडा निधी पुढे पाठवा",
+                    "अंतिम निवाडा निधी पाठवा",
+                    "अंतिम निवाडा साठी निधी प्रोजेक्ट इंचार्ज कडे पाठवा",
+                    "अंतिम निवाडा निधी तपशील पाठवा",
+                    "अंतिम निवाडा निधी सबमिट करा",
+                    "अंतिम निवाडा निधी विनंती पाठवा",
+                    "अंतिम निवाडा निधी प्रोजेक्ट इंचार्ज ला अग्रेषित करा",
+                    "अंतिम निवाडा निधी पुढे पाठवायचा आहे"
+                ]
+            },
+
+            "JMR": {
+                "en": [
+                    "open jmr",
+                    "view jmr",
+                    "show jmr",
+                    "joint measurement list",
+                    "open joint measurement",
+                    "view joint measurement details",
+                    "jmr details",
+                    "jmr list",
+                    "check jmr",
+                    "joint measurement register",
+                    "jmr records",
+                    "joint measurement data"
+                    "review the measurement",
+                    "measurement information",
+                    "measurement details",
+                    "measurement-related details",
+                    "assign someone to handle joint measurement",
+                    "send measurement task to surveyor"
+                ],
+                "hi": [
+                    "जेएमआर खोलें",
+                    "जेएमआर देखें",
+                    "संयुक्त मापन सूची देखें",
+                    "संयुक्त मापन विवरण खोलें",
+                    "जेएमआर विवरण",
+                    "संयुक्त मापन रजिस्टर",
+                    "जेएमआर सूची",
+                    "संयुक्त मापन देखें",
+                    "जेएमआर जानकारी",
+                    "संयुक्त मापन विवरण देखें",
+                    "संयुक्त मापन जानकारी",
+                    "मापन विवरण जांच",
+                    "संयुक्त मापन रिकॉर्ड"
+                ],
+                "mr": [
+                    "जेएमआर उघडा",
+                    "जेएमआर पहा",
+                    "संयुक्त मोजणी सूची पहा",
+                    "संयुक्त मोजणी तपशील उघडा",
+                    "जेएमआर तपशील",
+                    "संयुक्त मोजणी नोंदवही",
+                    "जेएमआर सूची",
+                    "संयुक्त मोजणी पहा",
+                    "जेएमआर माहिती",
+                    "संयुक्त मोजणी तपशील पहा",
+                    "मोजणीची यादी",
+                    "मोजणी तपशील पाहायचे",
+                    "मोजणी संबंधित नोंदी",
+                    "संयुक्त मोजणी डेटा",
+                    "मोजणी नोंद"
+                ]
+            },
+
+            "JMR_assign_to_surveyor": {
+                "en": [
+                    "assign jmr to surveyor",
+                    "assign surveyor for jmr",
+                    "allocate surveyor for joint measurement",
+                    "send jmr to surveyor",
+                    "set surveyor for jmr",
+                    "jmr surveyor assignment",
+                    "choose surveyor for joint measurement",
+                    "appoint surveyor for jmr",
+                    "add surveyor to jmr",
+                    "forward jmr to surveyor"
+                ],
+                "hi": [
+                    "जेएमआर सर्वेक्षक को असाइन करें",
+                    "संयुक्त मापन के लिए सर्वेक्षक नियुक्त करें",
+                    "जेएमआर सर्वेक्षक को भेजें",
+                    "संयुक्त मापन हेतु सर्वेक्षक चुनें",
+                    "जेएमआर के लिए सर्वेक्षक सेट करें",
+                    "सर्वेक्षक आवंटित करें",
+                    "जेएमआर सर्वेक्षक नियुक्ति",
+                    "संयुक्त मापन के लिए सर्वेक्षक जोड़ें",
+                    "सर्वेक्षक को जेएमआर दें",
+                    "जेएमआर सर्वेक्षक को अग्रेषित करें"
+                ],
+                "mr": [
+                    "जेएमआर सर्वेक्षकाला असाइन करा",
+                    "संयुक्त मोजणीसाठी सर्वेक्षक नियुक्त करा",
+                    "जेएमआर सर्वेक्षकाला पाठवा",
+                    "संयुक्त मोजणीसाठी सर्वेक्षक निवडा",
+                    "जेएमआर साठी सर्वेक्षक सेट करा",
+                    "सर्वेक्षक वाटप करा",
+                    "जेएमआर सर्वेक्षक नियुक्ती",
+                    "संयुक्त मोजणीसाठी सर्वेक्षक जोडा",
+                    "सर्वेक्षकाला जेएमआर द्या",
+                    "जेएमआर सर्वेक्षकाकडे अग्रेषित करा"
+                ]
+            },
+
+            "re_send_back_to_dslr": {
+                "en": [
+                    "resend to dslr",
+                    "re send back to dslr",
+                    "send back to dslr",
+                    "return jmr to dslr",
+                    "send measurement back to dslr",
+                    "forward back to dslr",
+                    "submit again to dslr",
+                    "resubmit to dslr",
+                    "send back joint measurement to dslr",
+                    "return to dslr officer"
+                ],
+                "hi": [
+                    "डीएसएलआर को वापस भेजें",
+                    "डीएसएलआर को पुनः भेजें",
+                    "संयुक्त मापन डीएसएलआर को वापस भेजें",
+                    "डीएसएलआर को फिर से भेजें",
+                    "डीएसएलआर को लौटाएं",
+                    "मापन विवरण डीएसएलआर को वापस करें",
+                    "डीएसएलआर को दोबारा सबमिट करें",
+                    "डीएसएलआर अधिकारी को वापस भेजें",
+                    "संयुक्त मापन पुनः डीएसएलआर को भेजें",
+                    "डीएसएलआर को पुनः अग्रेषित करें"
+                ],
+                "mr": [
+                    "डीएसएलआर ला परत पाठवा",
+                    "डीएसएलआर ला पुन्हा पाठवा",
+                    "संयुक्त मोजणी डीएसएलआर ला परत पाठवा",
+                    "डीएसएलआर कडे परत पाठवा",
+                    "मोजणी तपशील डीएसएलआर ला परत करा",
+                    "डीएसएलआर ला पुन्हा सबमिट करा",
+                    "डीएसएलआर अधिकाऱ्याला परत पाठवा",
+                    "संयुक्त मोजणी पुन्हा डीएसएलआर ला पाठवा",
+                    "डीएसएलआर कडे पुनः अग्रेषित करा",
+                    "डीएसएलआर ला परत पाठवायचे आहे"
+                ]
+            },
+
+            "Namuna_A": {
+                "en": [
+                    "open namuna a",
+                    "go to namuna a",
+                    "access namuna a module",
+                    "navigate to namuna a section",
+                    "open rehabilitation section",
+                    "go to rehabilitation module",
+                    "show namuna a page",
+                    "take me to rehabilitation records",
+                    "open rehabilitation management page",
+                    "namuna a section access",
+                    "rehabilitation page access",
+                    "work in rehabilitation section.",
+                    "reach rehabilitation module",
+                    "rehabilitation management page",
+                    "manage rehabilitation details"
+                ],
+                "hi": [
+                    "नमुना ए खोलें",
+                    "नमुना ए में जाएं",
+                    "नमुना ए मॉड्यूल खोलें",
+                    "पुनर्वास सेक्शन खोलें",
+                    "पुनर्वास मॉड्यूल में जाएं",
+                    "नमुना ए पेज पर जाएं",
+                    "पुनर्वास विभाग दिखाएं",
+                    "नमुना ए सेक्शन एक्सेस करें",
+                    "पुनर्वास प्रबंधन पेज खोलें",
+                    "नमुना ए विभाग खोलें"
+                ],
+                "mr": [
+                    "नमुना अ उघडा",
+                    "नमुना अ मध्ये जा",
+                    "नमुना अ मॉड्यूल उघडा",
+                    "पुनर्वसन विभाग उघडा",
+                    "पुनर्वसन मॉड्यूलमध्ये जा",
+                    "नमुना अ पृष्ठावर जा",
+                    "पुनर्वसन विभाग दाखवा",
+                    "नमुना अ विभागात प्रवेश करा",
+                    "पुनर्वसन व्यवस्थापन पृष्ठ उघडा",
+                    "नमुना अ सेक्शन उघडा",
+                    "पुनर्वसन संबंधित पृष्ठ",
+                    "पुनर्वसन संबंधित पृष्ठावर",
+                    "पुनर्वसन नोंदी",
+                    "पुनर्वसन माहिती असलेले पृष्ठ"
+                ]
+            },
         }
 
         all_texts = []
@@ -882,6 +1219,50 @@ class BhusampadanChatbot:
         template = self._fallback_templates.get(language, self._fallback_templates["en"])
         return template.format(role=role_label)
 
+    # ---------------------------------------------------------------------------
+    # Keyword signals for intents that are NOT available to certain roles.
+    # If a question matches these keywords AND the intent key is not in the
+    # role's allowed keys, we short-circuit and return None (→ fallback).
+    # This is necessary because SimpleEmbedder is bag-of-words: "create project"
+    # and "change project" share the word "project" and score similarly.
+    # ---------------------------------------------------------------------------
+    INTENT_KEYWORD_SIGNALS = {
+        # intent_key : { lang: [keywords that strongly signal this intent] }
+        "create_project": {
+            "en": ["create project", "new project", "add project", "make project", "start project"],
+            "hi": ["प्रोजेक्ट बनाएं", "नया प्रोजेक्ट", "प्रोजेक्ट जोड़ें", "प्रोजेक्ट बनाना", "प्रोजेक्ट शुरू"],
+            "mr": ["प्रकल्प तयार करा", "नवीन प्रकल्प", "प्रकल्प जोडा", "प्रकल्प बनवा", "प्रकल्प सुरू"],
+        },
+        "add_user": {
+            "en": ["add user", "create user", "new user", "register user"],
+            "hi": ["उपयोगकर्ता जोड़ें", "नया उपयोगकर्ता", "यूजर जोड़ें"],
+            "mr": ["वापरकर्ता जोडा", "नवीन वापरकर्ता"],
+        },
+        "add_sub_user": {
+            "en": ["add sub user", "add subuser", "create sub user", "new sub user"],
+            "hi": ["उप उपयोगकर्ता जोड़ें", "सब यूजर"],
+            "mr": ["उप वापरकर्ता जोडा"],
+        },
+    }
+
+    def _keyword_signals_forbidden_intent(self, cleaned: str, lang: str, allowed_keys) -> bool:
+        """
+        Returns True if the question contains strong keyword signals for an intent
+        that is NOT allowed for the current role. This prevents the bag-of-words
+        embedder from matching a similar-but-forbidden intent (e.g. 'create project'
+        matching 'change project' just because they share the word 'project').
+        """
+        if allowed_keys is None:
+            return False  # No role restriction, nothing to block
+        for intent_key, lang_keywords in self.INTENT_KEYWORD_SIGNALS.items():
+            if intent_key in allowed_keys:
+                continue  # This intent IS allowed for this role, skip
+            keywords = lang_keywords.get(lang, []) + lang_keywords.get("en", [])
+            for kw in keywords:
+                if kw.lower() in cleaned:
+                    return True  # Forbidden intent detected
+        return False
+
     def semantic_match(self, question: str, lang: str, role: str = None):
         if not question:
             return None
@@ -891,6 +1272,12 @@ class BhusampadanChatbot:
         response_map = ROLE_RESPONSE_MAPS.get(role) if role else None
 
         cleaned = self.remove_ui_noise(self.normalize(question))
+
+        # Guard: if the question contains keywords that strongly signal a forbidden
+        # intent, return None immediately so the caller shows the fallback message.
+        if self._keyword_signals_forbidden_intent(cleaned, lang, allowed_keys):
+            return None
+
         intent_key, intent_score, threshold_adj = self.detect_intent(cleaned, lang, allowed_keys)
 
         # Priority boost for Section 21(1),(4)
@@ -910,15 +1297,18 @@ class BhusampadanChatbot:
         if not intent_key or intent_score < threshold:
             return None
 
-        # Get answer from role-specific map, fall back to any available map
+        # Get answer ONLY from the role-specific map
+        # Do NOT fall back to other roles' maps — that would return answers
+        # for intents the current role is not allowed to access (e.g. LAO
+        # asking about create_project should get the fallback, not Samanvay's answer).
         answer = ""
         if response_map:
             answer = response_map.get(intent_key, {}).get(lang) or response_map.get(intent_key, {}).get("en", "")
+
+        # If the intent key is not in this role's map, treat it as no match
+        # so the caller returns the role-specific fallback message.
         if not answer:
-            for rmap in ROLE_RESPONSE_MAPS.values():
-                answer = rmap.get(intent_key, {}).get(lang) or rmap.get(intent_key, {}).get("en", "")
-                if answer:
-                    break
+            return None
 
         return {
             "key": intent_key,
