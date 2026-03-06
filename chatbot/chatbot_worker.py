@@ -1034,6 +1034,164 @@ class BhusampadanChatbot:
                 ]
             },
 
+            "advance_payment_distribution": {
+                "en": [
+                    "open advance payment distribution",
+                    "go to advance payment distribution",
+                    "show advance payment distribution",
+                    "navigate to advance payment distribution section",
+                    "access advance payment distribution module",
+                    "advance payment distribution page",
+                    "where can I see advance payment distribution",
+                    "take me to advance payment distribution",
+                    "open advance payment details",
+                    "show advance payment distribution details"
+                ],
+                "hi": [
+                    "उधार भुगतान वितरण खोलें",
+                    "उधार भुगतान वितरण में जाएं",
+                    "उधार भुगतान वितरण सेक्शन दिखाएं",
+                    "उधार भुगतान वितरण पेज खोलें",
+                    "उधार भुगतान वितरण मॉड्यूल में जाएं",
+                    "उधार भुगतान विवरण दिखाएं",
+                    "उधार भुगतान वितरण कहाँ देख सकते हैं",
+                    "उधार भुगतान वितरण पेज पर ले जाएं",
+                    "उधार भुगतान वितरण जानकारी खोलें",
+                    "उधार भुगतान वितरण सेक्शन एक्सेस करें"
+                ],
+                "mr": [
+                    "आगाऊ मोबदला वाटप उघडा",
+                    "आगाऊ मोबदला वाटप मध्ये जा",
+                    "आगाऊ मोबदला वाटप विभाग दाखवा",
+                    "आगाऊ मोबदला वाटप पृष्ठ उघडा",
+                    "आगाऊ मोबदला वाटप मॉड्यूलमध्ये जा",
+                    "आगाऊ मोबदला वाटप माहिती दाखवा",
+                    "आगाऊ मोबदला वाटप कुठे पाहता येईल",
+                    "आगाऊ मोबदला वाटप पृष्ठावर घ्या",
+                    "आगाऊ मोबदला वाटप तपशील उघडा",
+                    "आगाऊ मोबदला वाटप विभागात प्रवेश करा"
+                ]
+            },
+
+            "objection_list": {
+                "en": [
+                    "how to view objection list",
+                    "show objection list",
+                    "where can I see objections",
+                    "open objection list",
+                    "check objection list",
+                    "how to check objections",
+                    "view objections in system",
+                    "where are objections listed",
+                    "show me objections",
+                    "see the objection list",
+                    "show the list of objections",
+                    "how to open objection list page"
+                ],
+                "hi": [
+                    "आपत्ति सूची कैसे देखें",
+                    "आपत्ति सूची दिखाएं",
+                    "आपत्तियां कहां देखें",
+                    "ऑब्जेक्शन लिस्ट खोलें",
+                    "आपत्तियां कैसे जांचें",
+                    "सिस्टम में आपत्तियां कैसे देखें",
+                    "आपत्ति सूची कहां मिलेगी",
+                    "मुझे आपत्तियां दिखाएं",
+                    "ऑब्जेक्शन लिस्ट कैसे खोलें",
+                    "आपत्तियों की सूची कैसे देखें"
+                ],
+                "mr": [
+                    "हरकतींची यादी कशी पाहावी",
+                    "हरकतींची यादी दाखवा",
+                    "हरकती कुठे पाहू शकतो",
+                    "ऑब्जेक्शन लिस्ट उघडा",
+                    "हरकती कशा तपासायच्या",
+                    "सिस्टममध्ये हरकती कशा पाहायच्या",
+                    "हरकतींची यादी कुठे आहे",
+                    "मला हरकती दाखवा",
+                    "ऑब्जेक्शन लिस्ट कशी उघडायची",
+                    "हरकतींची यादी कशी तपासावी"
+                ]
+            },
+
+            "section_15": {
+                "en": [
+                    "how to check section 15",
+                    "how to view section 15 details",
+                    "open section 15 notice",
+                    "how to edit section 15 covering letter",
+                    "where can I find section 15",
+                    "show section 15 notice",
+                    "how to open section 15 page",
+                    "where is section 15 option",
+                    "how to check section 15 notice",
+                    "how to edit section 15"
+                ],
+                "hi": [
+                    "धारा 15 कैसे देखें",
+                    "धारा 15 की जानकारी कैसे देखें",
+                    "धारा 15 नोटिस कैसे खोलें",
+                    "धारा 15 कवरिंग लेटर कैसे संपादित करें",
+                    "धारा 15 कहां मिलेगी",
+                    "धारा 15 नोटिस दिखाएं",
+                    "धारा 15 पेज कैसे खोलें",
+                    "धारा 15 विकल्प कहां है",
+                    "धारा 15 नोटिस कैसे देखें",
+                    "धारा 15 कैसे संपादित करें"
+                ],
+                "mr": [
+                    "कलम 15 कसे पाहावे",
+                    "कलम 15 ची माहिती कशी पाहावी",
+                    "कलम 15 नोटीस कशी उघडायची",
+                    "कलम 15 कव्हरिंग लेटर कसे संपादित करावे",
+                    "कलम 15 कुठे आहे",
+                    "कलम 15 नोटीस दाखवा",
+                    "कलम 15 पेज कसे उघडायचे",
+                    "कलम 15 पर्याय कुठे आहे",
+                    "कलम 15 नोटीस कशी पाहावी",
+                    "कलम 15 कसे संपादित करावे"
+                ]
+            },
+
+            "section_19_time_extention_proposal_details": {
+                "en": [
+                    "how to check section 19 time extension proposal details",
+                    "show section 19 time extension proposal",
+                    "where can I see section 19 proposal details",
+                    "open section 19 time extension proposal",
+                    "how to view section 19 extended date proposal",
+                    "show proposal details for section 19 time extension",
+                    "how to check proposal details in section 19 time extension",
+                    "where is section 19 time extension proposal",
+                    "how to open section 19 proposal details",
+                    "view section 19 time extension details"
+                ],
+                "hi": [
+                    "धारा 19 समय विस्तार प्रस्ताव विवरण कैसे देखें",
+                    "धारा 19 समय विस्तार प्रस्ताव दिखाएं",
+                    "धारा 19 प्रस्ताव विवरण कहां देखें",
+                    "धारा 19 समय विस्तार प्रस्ताव कैसे खोलें",
+                    "धारा 19 विस्तारित तारीख के साथ प्रस्ताव कैसे देखें",
+                    "धारा 19 समय विस्तार का प्रस्ताव विवरण दिखाएं",
+                    "धारा 19 समय विस्तार में प्रस्ताव विवरण कैसे देखें",
+                    "धारा 19 समय विस्तार प्रस्ताव कहां है",
+                    "धारा 19 प्रस्ताव विवरण कैसे खोलें",
+                    "धारा 19 समय विस्तार विवरण कैसे देखें"
+                ],
+                "mr": [
+                    "कलम 19 मुदतवाढ प्रस्तावाची माहिती कशी पाहावी",
+                    "कलम 19 मुदतवाढ प्रस्ताव दाखवा",
+                    "कलम 19 प्रस्तावाची माहिती कुठे पाहू शकतो",
+                    "कलम 19 मुदतवाढ प्रस्ताव कसा उघडायचा",
+                    "कलम 19 विस्तारित तारखेसह प्रस्ताव कसा पाहायचा",
+                    "कलम 19 मुदतवाढ प्रस्तावाची माहिती दाखवा",
+                    "कलम 19 मुदतवाढ मध्ये प्रस्तावाची माहिती कशी पाहावी",
+                    "कलम 19 मुदतवाढ प्रस्ताव कुठे आहे",
+                    "कलम 19 प्रस्तावाची माहिती कशी उघडायची",
+                    "कलम 19 मुदतवाढ तपशील कसे पाहायचे"
+                ]
+            },
+
             "re_send_back_to_dslr": {
                 "en": [
                     "resend to dslr",

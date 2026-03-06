@@ -220,6 +220,29 @@ RESPONSE_KEYS_MAP_SAMANVAY_OFFICER = {
         'mr' : 'संयुक्त मोजणी तपशील वर जा म्हणजे संयुक्त मापन सूची उघडेल.'
     },
 
+    'advance_payment_distribution' :  {
+        'en' : 'Go to Advance Payment Distribution so you can see details of advance payment distribution.',
+        'hi' : 'उधार भुगतान वितरण पर जाएं ताकि आप उधार भुगतान वितरण का विवरण देख सकें।',
+        'mr' : 'आगाऊ मोबदला वाटप वर जा म्हणजे तुम्ही आगाऊ मोबदला वाटपाची माहिती पाहू शकता.'
+    },
+
+    'objection_list' : {
+        'en' : 'Go to Objection list so you can see details of all objections and also you can send it to collector.',
+        'hi' : 'हरकती यादी पर जाएं ताकि आप सभी अपनी निर्णयों का विवरण देख सकें और आप उन्हें कलेक्टर को भेज सकें।',
+        'mr' : 'कलम 15 कार्यवाही वर जा म्हणजे तुम्ही सर्व अपनी निर्णयांचा तपशील पाहू शकता आणि तुम्ही ते कलेक्टर कडे पाठवू शकता.'
+    },
+
+    'section_15' : {
+        'en' : 'Go to Objection list and click on कलम 15 मान्यता for edit Section 15 Covering Letter,click on Section 15 Notice for check Section 15 Notice and click on Section 15 for check section 15 details.',
+        'hi' : 'हरकती यादी पर जाएं और कलम 15 मान्यता पर क्लिक करें ताकि आप धारा 15 आवरण पत्र को संपादित कर सकें, धारा 15 नोटीस पर क्लिक करें ताकि आप धारा 15 नोटीस को देख सकें और धारा 15 पर क्लिक करें ताकि आप धारा 15 के विवरण को देख सकें।',
+        'mr' : 'कलम 15 कार्यवाही वर जा म्हणजे तुम्ही कलम 15 मान्यता पर क्लिक करून कलम 15 मान्यता संपादित करू शकता, कलम 15 नोटीस वर क्लिक करून कलम 15 नोटीस पाहू शकता आणि कलम 15 वर क्लिक करून कलम 15ची माहिती पाहू शकता.'
+    },
+
+    'section_19_time_extention_proposal_details' : {
+        'en' : 'Go to section 19 time extension so you can see proposal details with extend date.',
+        'hi' : 'धारा 19 की घोषणा के लिए अवधि बढ़ाना पर जाएं ताकि आप प्रस्ताव के विवरण को विस्तारित तारीख के साथ देख सकें।',
+        'mr' : 'कलम 19 ची घोषणा करीता मुदत वाढवणे वर जा म्हणजे तुम्ही प्रस्तावाची माहिती विस्तारित तारीख सहित पाहू शकता.'
+    },
 }
 
 # ====================================================================
