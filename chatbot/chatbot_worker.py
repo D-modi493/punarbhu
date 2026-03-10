@@ -1192,6 +1192,123 @@ class BhusampadanChatbot:
                 ]
             },
 
+            "send_proposal_document_to_collector_for_extend_date": {
+                "en": [
+                    "how to send proposal to collector for extend date",
+                    "send proposal document to collector for extend date",
+                    "how to send section 19 proposal to collector",
+                    "where is send to collector for extend date button",
+                    "how to send extend date proposal to collector",
+                    "send proposal for date extension to collector",
+                    "how to forward proposal to collector for extend date",
+                    "how to submit proposal to collector for date extension",
+                    "open send to collector for extend date option",
+                    "how to send proposal document for extend date"
+                ],
+                "hi": [
+                    "तारीख बढ़ाने के लिए प्रस्ताव कलेक्टर को कैसे भेजें",
+                    "धारा 19 प्रस्ताव कलेक्टर को कैसे भेजें",
+                    "तारीख बढ़ाने के लिए कलेक्टर विभाग को प्रस्ताव कैसे भेजें",
+                    "कलेक्टर को प्रस्ताव भेजने का विकल्प कहां है",
+                    "तारीख बढ़ाने के लिए प्रस्ताव कैसे भेजें",
+                    "कलेक्टर को प्रस्ताव भेजें",
+                    "धारा 19 प्रस्ताव कलेक्टर विभाग को कैसे भेजें",
+                    "कलेक्टर को प्रस्ताव भेजने का बटन कहां है",
+                    "प्रस्ताव को कलेक्टर को कैसे भेजें",
+                    "तारीख विस्तार प्रस्ताव कलेक्टर को कैसे भेजें"
+                ],
+                "mr": [
+                    "दिनांक वाढवण्यासाठी प्रस्ताव जिल्हाधिकारीकडे कसा पाठवावा",
+                    "कलम 19 प्रस्ताव जिल्हाधिकारीकडे कसा पाठवायचा",
+                    "दिनांक वाढवण्यासाठी प्रस्ताव कलेक्टरकडे कसा पाठवावा",
+                    "जिल्हाधिकारीकडे प्रस्ताव पाठवण्याचा पर्याय कुठे आहे",
+                    "मुदत वाढवण्यासाठी प्रस्ताव कसा पाठवावा",
+                    "जिल्हाधिकारीकडे प्रस्ताव पाठवा",
+                    "कलम 19 प्रस्ताव जिल्हाधिकारी विभागाकडे कसा पाठवावा",
+                    "जिल्हाधिकारीकडे प्रस्ताव पाठवण्याचे बटण कुठे आहे",
+                    "प्रस्ताव जिल्हाधिकारीकडे कसा पाठवायचा",
+                    "मुदतवाढ प्रस्ताव जिल्हाधिकारीकडे कसा पाठवावा"
+                ]
+            },
+
+            "section_19": {
+                "en": [
+                    "how to open section 19",
+                    "go to declaration of section 19",
+                    "where can I find section 19",
+                    "open section 19 page",
+                    "show section 19 declaration",
+                    "how to access section 19",
+                    "section 19 option where is it",
+                    "how to view section 19",
+                    "open declaration of article 19",
+                    "how to send section 19 to collector"
+                ],
+                "hi": [
+                    "धारा 19 कैसे खोलें",
+                    "धारा 19 की घोषणा कैसे देखें",
+                    "धारा 19 कहां मिलेगी",
+                    "धारा 19 पेज कैसे खोलें",
+                    "धारा 19 घोषणा दिखाएं",
+                    "धारा 19 विकल्प कहां है",
+                    "धारा 19 कैसे देखें",
+                    "धारा 19 घोषणा पेज कैसे खोलें",
+                    "धारा 19 कलेक्टर को कैसे भेजें",
+                    "धारा 19 जानकारी कैसे देखें"
+                ],
+                "mr": [
+                    "कलम 19 कसे उघडायचे",
+                    "कलम 19 ची घोषणा कशी पाहावी",
+                    "कलम 19 कुठे आहे",
+                    "कलम 19 पेज कसे उघडायचे",
+                    "कलम 19 घोषणा दाखवा",
+                    "कलम 19 पर्याय कुठे आहे",
+                    "कलम 19 कसे पाहायचे",
+                    "कलम 19 घोषणा पेज कसे उघडायचे",
+                    "कलम 19 जिल्हाधिकारीकडे कसे पाठवायचे",
+                    "कलम 19 माहिती कशी पाहायची"
+                ]
+            },
+
+            "section_19_covering_letter": {
+                "en": [
+                    "how to open section 19 covering letter",
+                    "show section 19 covering letter",
+                    "where can I see section 19 covering letter",
+                    "open section 19 covering letter page",
+                    "how to check section 19 covering letter",
+                    "how to view section 19 covering letter",
+                    "open kalam 19 manyata covering letter",
+                    "how to access section 19 covering letter",
+                    "where is section 19 covering letter option",
+                    "show me section 19 covering letter"
+                ],
+                "hi": [
+                    "धारा 19 आवरण पत्र कैसे देखें",
+                    "धारा 19 कवरिंग लेटर कैसे खोलें",
+                    "धारा 19 आवरण पत्र कहां मिलेगा",
+                    "कलम 19 मान्यता कवरिंग लेटर कैसे देखें",
+                    "धारा 19 कवरिंग लेटर पेज कैसे खोलें",
+                    "धारा 19 आवरण पत्र दिखाएं",
+                    "धारा 19 कवरिंग लेटर विकल्प कहां है",
+                    "धारा 19 कवरिंग लेटर कैसे चेक करें",
+                    "धारा 19 कवरिंग लेटर कैसे देखें",
+                    "कलम 19 मान्यता कैसे खोलें"
+                ],
+                "mr": [
+                    "कलम 19 कव्हरिंग लेटर कसे पाहावे",
+                    "कलम 19 कव्हरिंग लेटर कसे उघडायचे",
+                    "कलम 19 कव्हरिंग लेटर कुठे आहे",
+                    "कलम 19 मान्यता कव्हरिंग लेटर कसे पाहावे",
+                    "कलम 19 कव्हरिंग लेटर पेज कसे उघडायचे",
+                    "कलम 19 कव्हरिंग लेटर दाखवा",
+                    "कलम 19 कव्हरिंग लेटर पर्याय कुठे आहे",
+                    "कलम 19 कव्हरिंग लेटर कसे तपासायचे",
+                    "कलम 19 कव्हरिंग लेटर कसे पाहायचे",
+                    "कलम 19 मान्यता कशी उघडायची"
+                ]
+            },
+
             "re_send_back_to_dslr": {
                 "en": [
                     "resend to dslr",
